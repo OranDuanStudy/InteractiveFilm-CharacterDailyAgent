@@ -1,0 +1,21 @@
+__pycache__/
+.vscode/
+.claude/
+docs/
+tests/
+performance/
+data/
+output/
+tex/
+
+# *.json
+*.pyc
+*.pdf
+*.docx
+*.txt
+*.zip
+
+# Claude Code CLI temporary files
+tmpclaude-*
+
+!/requriments.txt

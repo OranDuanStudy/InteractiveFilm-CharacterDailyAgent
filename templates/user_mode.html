@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zooo Daily Agent - 用户交互模式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* 黑色全屏容器 */
+        .fullscreen-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #000;
+        }
+
+        /* 左上角选择器按钮 */
+        .selector-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .selector-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 选择器面板 - 左上角 */
+        .selector-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 340px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #1d1d1f;
+            padding: 20px;
+            border-radius: 0 0 16px 16px 0;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .selector-panel.active {
+            display: block;
+        }
+
+        .selector-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .selector-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 8px;
+        }
+
+        .selector-close:hover {
+            color: #f5f5f7;
+        }
+
+        .selector-section {
+            margin-bottom: 24px;
+        }
+
+        .selector-section-title {
+            font-size: 14px;
+            color: #c7c7cc;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .selector-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+        }
+
+        .selector-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .selector-item.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .selector-item.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .selector-item-name {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .selector-item-date {
+            font-size: 12px;
+            color: #c7c7cc;
+        }
+
+        .selector-item.selected .selector-item-date {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .selector-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: #fff;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .selector-btn:hover {
+            background: #e5e5e7;
+        }
+
+        .selector-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 切换按钮 - 右上角 */
+        .mode-switch-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .mode-switch-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 手机框架 - 竖屏 9:16 */
+        .phone-frame {
+            width: 360px;
+            height: 640px;
+            max-height: 95vh;
+            aspect-ratio: 9 / 16;
+            background: #1c1c1e;
+            border-radius: 24px;
+            border: 6px solid #2c2c2e;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.8),
+                        inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* 手机尺寸选择菜单 - 右下角 */
+        .size-menu-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .size-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 尺寸选择面板 */
+        .size-menu-panel {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            z-index: 998;
+            background: #1d1d1f;
+            border-radius: 12px;
+            padding: 12px;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .size-menu-panel.active {
+            display: block;
+        }
+
+        .size-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            margin-bottom: 4px;
+        }
+
+        .size-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .size-option.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .size-option-name {
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .size-option-dims {
+            font-size: 11px;
+            color: #8e8e93;
+        }
+
+        .size-option.selected .size-option-dims {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 手机框架尺寸变体 */
+        .phone-frame.size-iphone4 {
+            width: 320px;
+            height: 480px;
+        }
+
+        .phone-frame.size-iphone5 {
+            width: 320px;
+            height: 568px;
+        }
+
+        .phone-frame.size-iphone6 {
+            width: 375px;
+            height: 667px;
+        }
+
+        .phone-frame.size-iphone6plus {
+            width: 414px;
+            height: 736px;
+        }
+
+        .phone-frame.size-iphonex {
+            width: 375px;
+            height: 812px;
+        }
+
+        .phone-frame.size-iphonexr {
+            width: 414px;
+            height: 896px;
+        }
+
+        .phone-frame.size-iphone12 {
+            width: 390px;
+            height: 844px;
+        }
+
+        .phone-frame.size-iphone12pm {
+            width: 428px;
+            height: 926px;
+        }
+
+        .phone-frame.size-iphone14pro {
+            width: 393px;
+            height: 852px;
+        }
+
+        .phone-frame.size-iphone15pm {
+            width: 430px;
+            height: 932px;
+        }
+
+        .phone-frame.size-android {
+            width: 360px;
+            height: 640px;
+        }
+
+        /* 视频优先尺寸 - 自适应高度，无需滚动 */
+        .phone-frame.size-video {
+            width: 360px;
+            height: auto;
+            max-height: 95vh;
+            max-width: 95vw;
+        }
+
+        .phone-frame.size-full {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            border-radius: 0;
+            border: none;
+        }
+
+        /* 状态栏 - 悬浮透明，在视频上方 */
+        .status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            padding: 12px 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 500;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%);
+            z-index: 100;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .character-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .mood-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .status-label {
+            color: #8e8e93;
+            font-size: 11px;
+        }
+
+        /* 内容区域 */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 隐藏滚动条但保持可滚动 */
+        .content-area::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        /* 开始页面 */
+        .start-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 54px 24px 40px 24px;  /* 顶部留出空间给悬浮状态栏 */
+            text-align: center;
+        }
+
+        .start-screen h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .start-screen .subtitle {
+            font-size: 14px;
+            color: #8e8e93;
+            margin-bottom: 32px;
+        }
+
+        .character-info {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .character-info .label {
+            font-size: 12px;
+            color: #8e8e93;
+            margin-bottom: 4px;
+        }
+
+        .character-info .value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px -10px rgba(102, 126, 234, 0.5);
+        }
+
+        .start-btn:disabled {
+            background: #3a3a3c;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 视频播放区域 */
+        .video-container {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: #000;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 选项区域 - 在上面，避开状态栏 */
+        .choices-section {
+            padding: 16px;
+            padding-top: 60px;  /* 避开悬浮的状态栏 (44px + 16px) */
+            background: #000;
+            flex-shrink: 0;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 10px;
+            background: #2c2c2e;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .choice-btn:hover {
+            background: #3a3a3c;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .choice-btn .choice-id {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .choice-btn .choice-tag {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            color: #aeaeb2;
+        }
+
+        .choice-btn .choice-action {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+
+        /* 剧情信息区域 - 在下面 */
+        .story-section {
+            padding: 16px;
+            background: #1c1c1e;
+            flex: 1;
+        }
+
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .event-time {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .event-type-badge {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .type-n { background: #3a3a3c; color: #8e8e93; }
+        .type-r { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .type-sr { background: rgba(236, 72, 153, 0.2); color: #ec4899; }
+
+        .story-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .story-text {
+            font-size: 13px;
+            color: #aeaeb2;
+            line-height: 1.6;
+        }
+
+        /* 结局显示 - 在视频容器内、视频下方，透明背景 */
+        .ending-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.8) 100%);
+            text-align: center;
+        }
+
+        .ending-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ending-text {
+            font-size: 14px;
+            color: #fff;
+            line-height: 1.7;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        /* 视频容器 - 需要相对定位以容纳结局 */
+        .video-container {
+            position: relative;
+        }
+
+        /* 视频容器 - 用于结局定格 */
+        .video-container.freeze-blur video {
+            filter: blur(8px);
+            transition: filter 1s ease;
+        }
+
+        /* 视频容器用于结局覆盖层 */
+        .video-container.has-ending {
+            position: relative;
+        }
+
+        /* 继续按钮 - 隐藏，自动继续 */
+        .continue-btn {
+            display: none !important;
+        }
+
+        /* 完成页面 */
+        .complete-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .complete-screen .emoji {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .complete-screen h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .final-stats {
+            background: #1c1c1e;
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #2c2c2e;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #8e8e93;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* 进度指示器 - 悬浮透明，在选项下方 */
+        .progress-dots {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            gap: 6px;
+            padding: 8px 16px;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, transparent 100%);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3a3a3c;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .progress-dot.completed {
+            background: #764ba2;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2c2c2e;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 滚动条隐藏 */
+        .content-area::-webkit-scrollbar {
+            width: 0;
+            display: none;
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左上角选择器按钮 -->
+    <button class="selector-toggle-btn" onclick="toggleSelector()">
+        ☰
+    </button>
+
+    <!-- 选择器面板 -->
+    <div class="selector-panel" id="selectorPanel">
+        <button class="selector-close" onclick="toggleSelector()">×</button>
+        <h2 class="selector-title">选择角色和日期</h2>
+
+        <div class="selector-section">
+            <div class="selector-section-title">选择角色</div>
+            <div class="selector-grid" id="characterGrid">
+                <!-- 角色列表将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+
+        <div class="selector-section">
+            <div class="selector-section-title">选择日期</div>
+            <div class="selector-grid" id="dateGrid">
+                <!-- 日期列表将由 JavaScript 动态生成 -->
+            </div>
+        </div>
+
+        <button class="selector-btn" id="confirmBtn" onclick="confirmSelection()" disabled>确认选择</button>
+    </div>
+
+    <!-- 切换按钮 - 右上角 -->
+    <button class="mode-switch-btn" onclick="switchToDebugMode()">
+        &larr; 调试模式
+    </button>
+
+    <!-- 手机尺寸选择按钮 - 右下角 -->
+    <button class="size-menu-btn" onclick="toggleSizeMenu()">
+        📱 尺寸
+    </button>
+
+    <!-- 尺寸选择面板 -->
+    <div class="size-menu-panel" id="sizeMenuPanel">
+        <div class="size-option selected" data-size="video" onclick="selectPhoneSize('video')">
+            <span class="size-option-name">⭐ 视频优先 (无滚动)</span>
+            <span class="size-option-dims">自适应</span>
+        </div>
+        <div class="size-option" data-size="iphone4" onclick="selectPhoneSize('iphone4')">
+            <span class="size-option-name">iPhone 4</span>
+            <span class="size-option-dims">320×480</span>
+        </div>
+        <div class="size-option" data-size="iphone5" onclick="selectPhoneSize('iphone5')">
+            <span class="size-option-name">iPhone 5 / SE</span>
+            <span class="size-option-dims">320×568</span>
+        </div>
+        <div class="size-option" data-size="iphone6" onclick="selectPhoneSize('iphone6')">
+            <span class="size-option-name">iPhone 6 / 7 / 8</span>
+            <span class="size-option-dims">375×667</span>
+        </div>
+        <div class="size-option" data-size="iphone6plus" onclick="selectPhoneSize('iphone6plus')">
+            <span class="size-option-name">iPhone 6+ / 7+ / 8+</span>
+            <span class="size-option-dims">414×736</span>
+        </div>
+        <div class="size-option" data-size="iphonex" onclick="selectPhoneSize('iphonex')">
+            <span class="size-option-name">iPhone X / XS / 11 Pro</span>
+            <span class="size-option-dims">375×812</span>
+        </div>
+        <div class="size-option" data-size="iphonexr" onclick="selectPhoneSize('iphonexr')">
+            <span class="size-option-name">iPhone XR / 11</span>
+            <span class="size-option-dims">414×896</span>
+        </div>
+        <div class="size-option" data-size="iphone12" onclick="selectPhoneSize('iphone12')">
+            <span class="size-option-name">iPhone 12 / 13 / 14</span>
+            <span class="size-option-dims">390×844</span>
+        </div>
+        <div class="size-option" data-size="iphone12pm" onclick="selectPhoneSize('iphone12pm')">
+            <span class="size-option-name">iPhone 12 Pro Max</span>
+            <span class="size-option-dims">428×926</span>
+        </div>
+        <div class="size-option" data-size="iphone14pro" onclick="selectPhoneSize('iphone14pro')">
+            <span class="size-option-name">iPhone 14 Pro / 15 Pro</span>
+            <span class="size-option-dims">393×852</span>
+        </div>
+        <div class="size-option" data-size="iphone15pm" onclick="selectPhoneSize('iphone15pm')">
+            <span class="size-option-name">iPhone 15 Pro Max</span>
+            <span class="size-option-dims">430×932</span>
+        </div>
+        <div class="size-option" data-size="android" onclick="selectPhoneSize('android')">
+            <span class="size-option-name">Android 标准</span>
+            <span class="size-option-dims">360×640</span>
+        </div>
+        <div class="size-option" data-size="full" onclick="selectPhoneSize('full')">
+            <span class="size-option-name">全屏显示</span>
+            <span class="size-option-dims">100%</span>
+        </div>
+    </div>
+
+    <div class="fullscreen-container">
+        <div class="phone-frame size-video">
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <div class="status-left">
+                    <span class="character-name" id="statusCharacter">{{ character }}</span>
+                    <span class="mood-badge" id="statusMoodBadge">{{ mood }}</span>
+                </div>
+                <div class="status-right">
+                    <div class="status-item">
+                        <span class="status-label">⚡</span>
+                        <span class="status-value" id="statusEnergy">{{ energy }}</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">❤️</span>
+                        <span class="status-value" id="statusIntimacy">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容区域 -->
+            <div class="content-area" id="contentArea">
+                <!-- 开始界面 -->
+                <div class="start-screen" id="startScreen">
+                    <h1>Zooo Daily Agent</h1>
+                    <p class="subtitle">沉浸式影游体验</p>
+
+                    <div class="character-info">
+                        <div class="label">角色</div>
+                        <div class="value" id="startCharacter">{{ character }}</div>
+                    </div>
+
+                    <div class="character-info">
+                        <div class="label">日期</div>
+                        <div class="value" id="startDate">{{ date }}</div>
+                    </div>
+
+                    <div class="character-info">
+                        <div class="label">今日事件</div>
+                        <div class="value" id="startEvents">加载中...</div>
+                    </div>
+
+                    <button class="start-btn" id="startBtn" onclick="startExperience()">
+                        开始体验
+                    </button>
+                </div>
+
+                <!-- 视频区域 -->
+                <div class="video-container" id="videoContainer" style="display: none;">
+                    <video id="videoPlayer" playsinline webkit-playsinline></video>
+                    <!-- 结局字幕 - 在视频容器内、视频下方 -->
+                    <div class="ending-section" id="endingSection" style="display: none;">
+                        <h2 class="ending-title" id="endingTitle">结局标题</h2>
+                        <p class="ending-text" id="endingText">结局描述...</p>
+                    </div>
+                </div>
+
+                <!-- 选项区域 - 在上面 -->
+                <div class="choices-section" id="choicesSection" style="display: none;">
+                    <!-- 选项按钮将由 JavaScript 生成 -->
+                </div>
+
+                <!-- 进度指示器 - 悬浮透明，在选项下方 -->
+                <div class="progress-dots" id="progressDots" style="display: none;">
+                    <!-- 进度点将由 JavaScript 生成 -->
+                </div>
+
+                <!-- 剧情信息 - 在最下面 -->
+                <div class="story-section" id="storySection" style="display: none;">
+                    <div class="story-header">
+                        <span class="event-time" id="eventTime">--:--</span>
+                        <span class="event-type-badge" id="eventTypeBadge">N</span>
+                    </div>
+                    <h2 class="story-title" id="storyTitle">事件名称</h2>
+                    <p class="story-text" id="storyText">事件描述...</p>
+                </div>
+
+                <!-- 继续按钮 - 已隐藏 -->
+                <button class="continue-btn" id="continueBtn">
+                    继续
+                </button>
+
+                <!-- 完成界面 -->
+                <div class="complete-screen" id="completeScreen" style="display: none;">
+                    <div class="emoji">🎉</div>
+                    <h2>体验完成</h2>
+                    <div class="final-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">最终能量</span>
+                            <span class="stat-value" id="finalEnergy">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">最终心情</span>
+                            <span class="stat-value" id="finalMood">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">亲密度</span>
+                            <span class="stat-value" id="finalIntimacy">--</span>
+                        </div>
+                    </div>
+                    <button class="start-btn" onclick="location.reload()">
+                        重新开始
+                    </button>
+                </div>
+
+                <!-- 加载界面 -->
+                <div class="loading" id="loadingScreen" style="display: none;">
+                    <div class="spinner"></div>
+                    <p style="color: #8e8e93;">加载中...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentVideos = [];
+        let currentVideoIndex = 0;
+        let currentEvent = null;
+        let currentEventIndex = 0;
+        let totalEvents = 0;
+        let userData = null;
+        let availableCharacters = [];
+        let availableDates = [];       // 日期列表（完整数据，包含dir_name等）
+        let selectedCharacter = null;
+        let selectedDate = null;        // 选中的日期目录名
+        let characterDateMap = {};      // 角色-日期映射关系
+        let currentPhoneSize = 'video'; // 当前手机尺寸（默认视频优先）
+
+        // ==================== 手机尺寸选择功能 ====================
+
+        function toggleSizeMenu() {
+            const panel = document.getElementById('sizeMenuPanel');
+            panel.classList.toggle('active');
+        }
+
+        function selectPhoneSize(size) {
+            currentPhoneSize = size;
+            const phoneFrame = document.querySelector('.phone-frame');
+
+            // 移除所有尺寸类
+            phoneFrame.classList.remove(
+                'size-iphone4', 'size-iphone5', 'size-iphone6', 'size-iphone6plus',
+                'size-iphonex', 'size-iphonexr', 'size-iphone12', 'size-iphone12pm',
+                'size-iphone14pro', 'size-iphone15pm', 'size-android', 'size-video', 'size-full'
+            );
+
+            // 添加新尺寸类
+            phoneFrame.classList.add('size-' + size);
+
+            // 更新选中状态
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+                if (option.dataset.size === size) {
+                    option.classList.add('selected');
+                }
+            });
+
+            // 关闭菜单
+            document.getElementById('sizeMenuPanel').classList.remove('active');
+        }
+
+        // 点击其他地方关闭尺寸菜单
+        document.addEventListener('click', function(e) {
+            const menuBtn = document.querySelector('.size-menu-btn');
+            const menuPanel = document.getElementById('sizeMenuPanel');
+
+            if (!menuBtn.contains(e.target) && !menuPanel.contains(e.target)) {
+                menuPanel.classList.remove('active');
+            }
+        });
+
+        // ==================== 选择器功能 ====================
+
+        function toggleSelector() {
+            const panel = document.getElementById('selectorPanel');
+            const isActive = panel.classList.toggle('active');
+            // 打开面板时重置所有过滤状态
+            if (isActive) {
+                resetFilters();
+            }
+        }
+
+        async function loadSelectorData() {
+            try {
+                const response = await fetch('/api/selector-data');
+                const data = await response.json();
+                availableCharacters = data.characters || [];
+                availableDates = data.dates || [];
+                characterDateMap = data.character_date_map || {};
+
+                // 渲染角色列表
+                const characterGrid = document.getElementById('characterGrid');
+                characterGrid.innerHTML = '';
+                availableCharacters.forEach(char => {
+                    const item = document.createElement('div');
+                    item.className = 'selector-item' + (selectedCharacter === char.id ? ' selected' : '');
+                    item.dataset.charId = char.id;
+                    item.innerHTML = `
+                        <div class="selector-item-name">${char.name}</div>
+                        <div class="selector-item-date">${char.id}</div>
+                    `;
+                    item.onclick = () => selectCharacter(char);
+                    characterGrid.appendChild(item);
+                });
+
+                // 渲染日期列表
+                const dateGrid = document.getElementById('dateGrid');
+                dateGrid.innerHTML = '';
+                availableDates.forEach(date => {
+                    const item = document.createElement('div');
+                    item.className = 'selector-item' + (selectedDate === date.dir_name ? ' selected' : '');
+                    item.dataset.dirName = date.dir_name;
+                    item.dataset.charId = date.char_id || '';
+                    item.innerHTML = `<div class="selector-item-name">${date.date}</div>`;
+                    item.onclick = () => selectDate(date);
+                    dateGrid.appendChild(item);
+                });
+
+                // 初始状态下，所有日期都是灰色的
+                initFilters();
+            } catch (error) {
+                console.error('加载选择数据失败:', error);
+            }
+        }
+
+        function selectCharacter(char) {
+            selectedCharacter = char.id;
+            // 清除日期选择（因为选择的角色可能没有当前选中的日期）
+            selectedDate = null;
+            renderSelectorItems();
+            // 根据选择的角色过滤日期
+            filterDatesByCharacter(char.id);
+            updateConfirmButton();
+        }
+
+        function selectDate(date) {
+            // 只有在已选择角色的情况下才能选择日期
+            if (!selectedCharacter) {
+                return;
+            }
+            selectedDate = date.dir_name;
+            renderSelectorItems();
+            updateConfirmButton();
+        }
+
+        // 根据选择的角色过滤日期列表
+        function filterDatesByCharacter(charId) {
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                const itemCharId = item.dataset.charId;
+                if (!itemCharId || itemCharId !== charId) {
+                    item.classList.add('disabled');
+                    item.style.opacity = '0.3';
+                    item.style.pointerEvents = 'none';
+                } else {
+                    item.classList.remove('disabled');
+                    item.style.opacity = '';
+                    item.style.pointerEvents = '';
+                }
+            });
+        }
+
+        // 重置所有过滤状态
+        // 初始状态下，所有日期都是灰色的
+        function resetFilters() {
+            const characterItems = document.querySelectorAll('#characterGrid .selector-item');
+            characterItems.forEach(item => {
+                item.classList.remove('disabled');
+                item.style.opacity = '';
+                item.style.pointerEvents = '';
+            });
+
+            // 所有日期初始都是灰色的
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                item.classList.add('disabled');
+                item.style.opacity = '0.3';
+                item.style.pointerEvents = 'none';
+            });
+        }
+
+        // 初始加载时，所有日期都是灰色的
+        function initFilters() {
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                item.classList.add('disabled');
+                item.style.opacity = '0.3';
+                item.style.pointerEvents = 'none';
+            });
+        }
+
+        function renderSelectorItems() {
+            const characterItems = document.querySelectorAll('#characterGrid .selector-item');
+            characterItems.forEach(item => {
+                const itemCharId = item.dataset.charId;
+                if (itemCharId === selectedCharacter) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                const itemDirName = item.dataset.dirName;
+                if (itemDirName === selectedDate) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        function updateConfirmButton() {
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = !(selectedCharacter && selectedDate);
+        }
+
+        async function confirmSelection() {
+            if (!selectedCharacter || !selectedDate) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/load-data', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        character_id: selectedCharacter,
+                        date: selectedDate
+                    })
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    alert('数据加载失败: ' + data.error);
+                    return;
+                }
+
+                // 关闭选择器
+                document.getElementById('selectorPanel').classList.remove('active');
+
+                // 重置状态
+                resetAllState();
+
+                // 重新初始化
+                await init();
+
+            } catch (error) {
+                console.error('加载失败:', error);
+            }
+        }
+
+        function resetAllState() {
+            currentVideos = [];
+            currentVideoIndex = 0;
+            currentEvent = null;
+            currentEventIndex = 0;
+            totalEvents = 0;
+            userData = null;
+            showingEnding = false;
+            pendingEnding = null;
+            if (endingTimer) {
+                clearTimeout(endingTimer);
+                endingTimer = null;
+            }
+            // 移除视频模糊效果
+            document.getElementById('videoContainer').classList.remove('freeze-blur');
+        }
+
+        // ==================== 用户模式功能 ====================
+
+        function switchToDebugMode() {
+            window.location.href = '/';
+        }
+
+        function showLoading() {
+            document.getElementById('loadingScreen').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }
+
+        function hideAllSections() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('videoContainer').style.display = 'none';
+            document.getElementById('storySection').style.display = 'none';
+            document.getElementById('choicesSection').style.display = 'none';
+            document.getElementById('continueBtn').style.display = 'none';
+            document.getElementById('endingSection').style.display = 'none';
+            document.getElementById('completeScreen').style.display = 'none';
+            document.getElementById('progressDots').style.display = 'none';
+            // 移除视频模糊效果
+            document.getElementById('videoContainer').classList.remove('freeze-blur');
+        }
+
+        let showingEnding = false;  // 标记是否正在显示结局
+        let endingTimer = null;  // 结局显示计时器
+        let pendingEnding = null;  // 等待显示的结局
+
+        // ==================== 状态更新功能 ====================
+
+        async function updateStatusBar() {
+            try {
+                const response = await fetch('/api/state');
+                const data = await response.json();
+
+                if (data.error) return;
+
+                // 更新角色名
+                document.getElementById('statusCharacter').textContent = data.character || '未知';
+
+                // 更新心情
+                const moodMap = {
+                    'Happy': '😊 开心',
+                    'Neutral': '😐 平静',
+                    'Sad': '😢 难过',
+                    'Excited': '🤩 兴奋',
+                    'Angry': '😠 生气',
+                    'Worried': '😟 担心',
+                    'Relaxed': '😌 放松',
+                    'Tired': '😴 疲惫'
+                };
+                const moodDisplay = moodMap[data.mood] || data.mood || '平静';
+                document.getElementById('statusMoodBadge').textContent = moodDisplay;
+
+                // 更新能量
+                document.getElementById('statusEnergy').textContent = data.energy || 100;
+
+                // 更新亲密度
+                document.getElementById('statusIntimacy').textContent = data.intimacy || 0;
+
+            } catch (error) {
+                console.error('更新状态失败:', error);
+            }
+        }
+
+        // ==================== 用户模式功能 ====================
+
+        async function init() {
+            showLoading();
+            try {
+                const response = await fetch('/api/user/init');
+                const data = await response.json();
+
+                if (data.error) {
+                    hideLoading();
+                    return;
+                }
+
+                userData = data;
+                totalEvents = data.total_events;
+
+                document.getElementById('startCharacter').textContent = data.character;
+                document.getElementById('startDate').textContent = data.date;
+                document.getElementById('startEvents').textContent = `${data.total_events} 个事件`;
+
+                // 更新状态栏
+                await updateStatusBar();
+
+                hideLoading();
+            } catch (error) {
+                console.error('初始化失败:', error);
+                hideLoading();
+            }
+        }
+
+        async function startExperience() {
+            hideAllSections();
+            showLoading();
+            await loadNextEvent();
+        }
+
+        async function loadNextEvent() {
+            try {
+                const response = await fetch('/api/user/next-event');
+                const data = await response.json();
+
+                if (data.completed) {
+                    showComplete();
+                    return;
+                }
+
+                currentEvent = data;
+                currentEventIndex = data.index;
+
+                displayEvent(data);
+                updateProgressDots();
+
+            } catch (error) {
+                console.error('加载事件失败:', error);
+            }
+        }
+
+        function displayEvent(data) {
+            hideAllSections();
+
+            // 清除结局计时器和状态
+            if (endingTimer) {
+                clearTimeout(endingTimer);
+                endingTimer = null;
+            }
+            showingEnding = false;
+            pendingEnding = null;
+
+            // 更新状态栏（获取最新属性）
+            updateStatusBar();
+
+            // 移除视频模糊效果
+            document.getElementById('videoContainer').classList.remove('freeze-blur');
+
+            // 先显示剧情信息
+            document.getElementById('storySection').style.display = 'block';
+            document.getElementById('eventTime').textContent = data.time_slot;
+            document.getElementById('storyTitle').textContent = data.event_name;
+            document.getElementById('storyText').textContent = data.summary || '';
+
+            const badge = document.getElementById('eventTypeBadge');
+            badge.textContent = data.event_type;
+            badge.className = 'event-type-badge type-' + data.event_type.toLowerCase();
+
+            // 显示视频
+            if (data.videos && data.videos.length > 0) {
+                currentVideos = data.videos;
+                currentVideoIndex = 0;
+                document.getElementById('videoContainer').style.display = 'block';
+                playVideo(0);
+            } else {
+                // 没有视频，R/SR事件直接加载选项
+                if (data.event_type === 'R' || data.event_type === 'SR') {
+                    loadChoices();
+                }
+            }
+
+            hideLoading();
+        }
+
+        function playVideo(index) {
+            if (index >= currentVideos.length) {
+                onVideoSequenceComplete();
+                return;
+            }
+
+            currentVideoIndex = index;
+            const player = document.getElementById('videoPlayer');
+            const videoUrl = currentVideos[index];
+            const isLastVideo = (index === currentVideos.length - 1);
+
+            player.onended = () => {
+                if (index + 1 < currentVideos.length) {
+                    playVideo(index + 1);
+                } else {
+                    // 最后一个视频播放完毕
+                    if (pendingEnding) {
+                        // 有待显示的结局
+                        displayEnding(pendingEnding);
+                        pendingEnding = null;
+                    } else {
+                        onVideoSequenceComplete();
+                    }
+                }
+            };
+
+            player.onerror = () => {
+                if (index + 1 < currentVideos.length) {
+                    playVideo(index + 1);
+                } else {
+                    if (pendingEnding) {
+                        displayEnding(pendingEnding);
+                        pendingEnding = null;
+                    } else {
+                        onVideoSequenceComplete();
+                    }
+                }
+            };
+
+            player.src = videoUrl;
+            player.load();
+            player.play().catch(e => console.log('播放失败:', e));
+        }
+
+        async function onVideoSequenceComplete() {
+            document.getElementById('videoContainer').style.display = 'none';
+
+            if (!currentEvent) return;
+
+            if (currentEvent.event_type === 'N') {
+                // N事件：自动跳转到下一个事件
+                await continueToNext();
+            } else {
+                // R/SR事件：加载选项
+                await loadChoices();
+            }
+        }
+
+        async function loadChoices() {
+            try {
+                const response = await fetch('/api/user/choices');
+                const data = await response.json();
+
+                if (data.completed) {
+                    // 所有阶段完成，自动跳转下一个事件
+                    await continueToNext();
+                    return;
+                }
+
+                if (data.narrative_video) {
+                    // 有叙事视频，播放它
+                    document.getElementById('videoContainer').style.display = 'block';
+                    const player = document.getElementById('videoPlayer');
+
+                    // 保存选项数据，等叙事视频播放完毕后再显示
+                    const choicesData = data.choices || [];
+
+                    player.onended = () => {
+                        document.getElementById('videoContainer').style.display = 'none';
+                        // 叙事视频播放完毕，显示选项
+                        if (choicesData.length > 0) {
+                            displayChoices(choicesData);
+                        } else {
+                            // 没有选项，继续加载下一阶段
+                            loadChoices();
+                        }
+                    };
+
+                    player.src = data.narrative_video;
+                    player.load();
+                    player.play().catch(e => console.log('播放失败:', e));
+                } else {
+                    // 没有叙事视频，直接显示选项
+                    if (data.choices && data.choices.length > 0) {
+                        displayChoices(data.choices);
+                    }
+                }
+
+            } catch (error) {
+                console.error('加载选项失败:', error);
+            }
+        }
+
+        function displayChoices(choices) {
+            const container = document.getElementById('choicesSection');
+            container.innerHTML = '';
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn fade-in';
+                btn.innerHTML = `
+                    <div class="choice-id">${choice.id}</div>
+                    <div class="choice-tag">${choice.tag}</div>
+                    <div class="choice-action">${choice.action}</div>
+                `;
+                btn.onclick = () => makeChoice(choice.id);
+                container.appendChild(btn);
+            });
+
+            container.style.display = 'block';
+        }
+
+        async function makeChoice(choiceId) {
+            document.getElementById('choicesSection').style.display = 'none';
+            showLoading();
+
+            try {
+                const response = await fetch('/api/user/choice', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({choice_id: choiceId})
+                });
+                const data = await response.json();
+
+                hideLoading();
+
+                if (data.branch_videos && data.branch_videos.length > 0) {
+                    document.getElementById('videoContainer').style.display = 'block';
+                    currentVideos = data.branch_videos;
+
+                    // 设置待显示的结局（如果有）
+                    pendingEnding = data.ending || null;
+                    playVideo(0);
+                } else if (data.ending) {
+                    // 没有视频但有结局，直接显示结局
+                    displayEnding(data.ending);
+                }
+
+            } catch (error) {
+                console.error('选择失败:', error);
+                hideLoading();
+            }
+        }
+
+        function displayEnding(ending) {
+            showingEnding = true;
+
+            // 获取视频容器和播放器
+            const videoContainer = document.getElementById('videoContainer');
+            const player = document.getElementById('videoPlayer');
+
+            // 添加模糊效果到视频（定格在最后一帧）
+            videoContainer.classList.add('freeze-blur');
+            player.pause(); // 暂停视频以定格
+
+            // 确保视频容器可见
+            videoContainer.style.display = 'block';
+
+            // 显示结局字幕（在视频下方）
+            document.getElementById('endingSection').style.display = 'block';
+            document.getElementById('endingTitle').textContent = ending.title;
+            document.getElementById('endingText').textContent = ending.plot_closing;
+
+            // 更新状态栏（显示属性变化后的状态）
+            updateStatusBar();
+
+            // 4秒后自动跳转到下一个事件
+            if (endingTimer) clearTimeout(endingTimer);
+            endingTimer = setTimeout(() => {
+                showingEnding = false;
+                // 移除模糊效果
+                videoContainer.classList.remove('freeze-blur');
+                continueToNext();
+            }, 4000);
+        }
+
+        async function continueToNext() {
+            // 清除结局计时器和状态
+            if (endingTimer) {
+                clearTimeout(endingTimer);
+                endingTimer = null;
+            }
+            showingEnding = false;
+            pendingEnding = null;
+
+            showLoading();
+
+            try {
+                const response = await fetch('/api/user/continue');
+                const data = await response.json();
+
+                if (data.completed) {
+                    showComplete();
+                    return;
+                }
+
+                currentEvent = data;
+                currentEventIndex = data.index;
+                displayEvent(data);
+                updateProgressDots();
+
+            } catch (error) {
+                console.error('继续失败:', error);
+                hideLoading();
+            }
+        }
+
+        async function showComplete() {
+            hideAllSections();
+
+            // 获取最新状态
+            try {
+                const response = await fetch('/api/state');
+                const data = await response.json();
+
+                if (!data.error) {
+                    document.getElementById('finalEnergy').textContent = data.energy || 100;
+                    document.getElementById('finalMood').textContent = data.mood || 'Neutral';
+                    document.getElementById('finalIntimacy').textContent = data.intimacy || 0;
+                } else {
+                    document.getElementById('finalEnergy').textContent = userData?.energy || 100;
+                    document.getElementById('finalMood').textContent = userData?.mood || 'Neutral';
+                    document.getElementById('finalIntimacy').textContent = 0;
+                }
+            } catch (error) {
+                document.getElementById('finalEnergy').textContent = userData?.energy || 100;
+                document.getElementById('finalMood').textContent = userData?.mood || 'Neutral';
+                document.getElementById('finalIntimacy').textContent = 0;
+            }
+
+            document.getElementById('completeScreen').style.display = 'flex';
+            hideLoading();
+        }
+
+        function updateProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            container.style.display = 'flex';
+
+            for (let i = 0; i < totalEvents; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < currentEventIndex) {
+                    dot.classList.add('completed');
+                } else if (i === currentEventIndex) {
+                    dot.classList.add('active');
+                }
+                container.appendChild(dot);
+            }
+        }
+
+        // 页面加载时初始化
+        init();
+        loadSelectorData();
+    </script>
+</body>
+</html>

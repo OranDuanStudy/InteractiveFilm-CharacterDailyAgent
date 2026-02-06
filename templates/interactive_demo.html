@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zooo Daily Agent - 视频剧情播放器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 8px 0 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #86868b;
+            margin-top: 4px;
+        }
+
+        /* 角色状态栏 - 横跨两栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #fff;
+            padding: 16px 20px;
+            border-radius: 12px;
+            width: 100%;
+            border: 1px solid #e5e5e7;
+        }
+
+        /* 时间线 - 横跨两栏 */
+        .timeline-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            border: 1px solid #e5e5e7;
+        }
+
+        /* 第二行：视频 + 控制信息 */
+        .main-content {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        /* 左侧视频区域 */
+        .video-section {
+            flex: 0 0 auto;
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 右侧信息区域 */
+        .info-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        /* 底部log区域 - 横跨两栏 */
+        .log-section {
+            width: 100%;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #86868b;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-value {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+
+        .timeline-title {
+            font-size: 13px;
+            margin-bottom: 16px;
+            color: #86868b;
+            font-weight: 500;
+        }
+
+        .timeline {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 0;
+            overflow-x: auto;
+            padding: 12px 0;
+        }
+
+        .timeline-event {
+            flex: 1;
+            min-width: 60px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .timeline-event:hover {
+            transform: translateY(-2px);
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            transition: all 0.2s ease;
+            background: #e5e5e7;
+        }
+
+        .timeline-event.completed .timeline-dot {
+            background: #c7c7cc;
+        }
+
+        .timeline-event.current .timeline-dot {
+            background: #1d1d1f;
+            box-shadow: 0 0 0 4px rgba(29, 29, 31, 0.1);
+        }
+
+        .timeline-event.future .timeline-dot {
+            background: #f2f2f7;
+        }
+
+        .timeline-event.type-r .timeline-dot {
+            background: #f59e0b;
+        }
+
+        .timeline-event.type-r.completed .timeline-dot {
+            background: #d97706;
+        }
+
+        .timeline-event.type-sr .timeline-dot {
+            background: #ec4899;
+        }
+
+        .timeline-event.type-sr.completed .timeline-dot {
+            background: #db2777;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #86868b;
+        }
+
+        .timeline-event.current .timeline-time {
+            color: #1d1d1f;
+            font-weight: 500;
+        }
+
+        .video-container {
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            /* 9:16 竖屏比例 */
+            aspect-ratio: 9 / 16;
+            width: 100%;
+            border: 1px solid #e5e5e7;
+        }
+
+        #videoPlayer {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f7;
+            color: #86868b;
+            font-size: 14px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-primary {
+            background: #1d1d1f;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #1d1d1f;
+            border: 1px solid #e5e5e7;
+        }
+
+        .btn-secondary:hover {
+            background: #f5f5f7;
+        }
+
+        .btn-replay {
+            background: #fff;
+            color: #1d1d1f;
+            border: 1px solid #e5e5e7;
+        }
+
+        .btn-replay:hover {
+            background: #f5f5f7;
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: #f5f5f7;
+            border-color: #e5e5e7;
+        }
+
+        .event-info {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e7;
+        }
+
+        .event-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+
+        .event-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .type-n { background: #f5f5f7; color: #86868b; }
+        .type-r { background: #fef3c7; color: #d97706; }
+        .type-sr { background: #fce7f3; color: #db2777; }
+
+        .event-summary {
+            color: #86868b;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .choices-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e5e7;
+        }
+
+        .choices-container h3 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #86868b;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 6px 0;
+            border: 1px solid #e5e5e7;
+            border-radius: 8px;
+            background: transparent;
+            color: #1d1d1f;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 14px;
+        }
+
+        .choice-btn:hover {
+            background: #f5f5f7;
+            border-color: #d1d1d6;
+        }
+
+        .choice-id {
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 10px;
+            color: #1d1d1f;
+        }
+
+        .ending-display {
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e5e5e7;
+        }
+
+        .ending-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+
+        .ending-plot {
+            color: #86868b;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 2px;
+            background: #e5e5e7;
+            margin-top: 8px;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1d1d1f;
+            transition: width 0.2s ease;
+        }
+
+        .log-container {
+            background: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 13px;
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid #e5e5e7;
+        }
+
+        /* 角色和日期选择器 - 左上角 */
+        .selector-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: auto;
+            width: 100%;
+            max-width: 340px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #1d1d1f;
+            padding: 20px;
+            border-radius: 0 0 16px 16px 0;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .selector-panel.active {
+            display: block;
+        }
+
+        .selector-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .selector-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0 8px;
+        }
+
+        .selector-close:hover {
+            color: #f5f5f7;
+        }
+
+        .selector-section {
+            margin-bottom: 24px;
+        }
+
+        .selector-section-title {
+            font-size: 14px;
+            color: #c7c7cc;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .selector-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+        }
+
+        .selector-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .selector-item.selected {
+            background: #f5f5f7;
+            border-color: #f5f5f7;
+        }
+
+        .selector-item.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .selector-item-name {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .selector-item-date {
+            font-size: 12px;
+            color: #c7c7cc;
+        }
+
+        .selector-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: #fff;
+            color: #1d1d1f;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .selector-btn:hover {
+            background: #e5e5e7;
+        }
+
+        .selector-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .log-entry {
+            padding: 6px 0;
+            border-bottom: 1px solid #f2f2f7;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-time {
+            color: #86868b;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .rewind-mode .timeline-event {
+            cursor: pointer;
+        }
+
+        .rewind-mode .timeline-event:hover .timeline-dot {
+            transform: scale(1.2);
+        }
+
+        .rewind-hint {
+            text-align: center;
+            color: #86868b;
+            padding: 8px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .rewind-mode .rewind-hint {
+            display: block;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d1d6;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c7c7cc;
+        }
+
+        /* 小提示样式优化 */
+        small {
+            color: #86868b;
+            font-size: 12px;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d1d1d6;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c7c7cc;
+        }
+
+        /* 用户模式切换按钮 - 右上角 */
+        .user-mode-switch-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 999;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .user-mode-switch-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 选择器面板 -->
+        <div class="selector-panel" id="selectorPanel">
+            <button class="selector-close" onclick="toggleSelector()">×</button>
+            <h2 class="selector-title">选择角色和日期</h2>
+
+            <div class="selector-section">
+                <div class="selector-section-title">选择角色</div>
+                <div class="selector-grid" id="characterGrid">
+                    <!-- 角色列表将由 JavaScript 动态生成 -->
+                </div>
+            </div>
+
+            <div class="selector-section">
+                <div class="selector-section-title">选择日期</div>
+                <div class="selector-grid" id="dateGrid">
+                    <!-- 日期列表将由 JavaScript 动态生成 -->
+                </div>
+            </div>
+
+            <button class="selector-btn" id="confirmBtn" onclick="confirmSelection()" disabled>确认选择</button>
+        </div>
+
+        <!-- 打开选择器按钮 - 左上角 -->
+        <div style="position: fixed; top: 16px; left: 16px; z-index: 999;">
+            <button class="btn btn-secondary" onclick="toggleSelector()" style="padding: 8px 16px; font-size: 18px;">
+                ☰
+            </button>
+        </div>
+
+        <!-- 用户模式切换按钮 - 右上角 -->
+        <button class="user-mode-switch-btn" onclick="switchToUserMode()">
+            📱 用户模式
+        </button>
+
+        <div class="header">
+            <h1>Zooo Daily Agent</h1>
+        </div>
+
+        <!-- 角色状态栏 - 横跨两栏 -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-label">角色</div>
+                <div class="status-value" id="characterName">{{ character }}</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">日期</div>
+                <div class="status-value" id="currentDate">{{ date }}</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">能量</div>
+                <div class="status-value" id="energyLevel">{{ energy }}</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">心情</div>
+                <div class="status-value" id="moodLevel">{{ mood }}</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">进度</div>
+                <div class="status-value"><span id="currentEventNum">0</span> / <span id="totalEvents">0</span></div>
+            </div>
+        </div>
+
+        <!-- 时间线 - 横跨两栏 -->
+        <div class="timeline-container">
+            <div class="timeline-title">时间线</div>
+            <div class="rewind-hint">点击可回溯到该事件</div>
+            <div class="timeline" id="timeline">
+                <!-- 时间线事件将由JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 视频与控制信息 - 左右两栏 -->
+        <div class="main-content">
+            <!-- 左侧：视频区域 -->
+            <div class="video-section">
+                <div class="video-container">
+                    <div id="videoPlaceholder" class="video-placeholder">
+                        点击"开始演示"按钮开始观看视频剧情
+                    </div>
+                    <video id="videoPlayer" style="display:none;" controls>
+                        <source src="" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                </div>
+            </div>
+
+            <!-- 右侧：信息区域 -->
+            <div class="info-section">
+                <div class="controls">
+                    <button class="btn btn-primary" id="startBtn" onclick="startDemo()">开始演示</button>
+                    <button class="btn btn-secondary" id="continueBtn" onclick="continueEvent()" style="display:none;">继续</button>
+                    <button class="btn btn-replay" id="replayBtn" onclick="replayVideos()" style="display:none;">重播</button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+
+                <div class="event-info" id="eventInfo" style="display:none;">
+                    <h2 class="event-title">
+                        <span id="eventTimeSlot"></span> - <span id="eventName"></span>
+                    </h2>
+                    <div>
+                        <span class="event-type" id="eventTypeBadge"></span>
+                    </div>
+                    <p class="event-summary" id="eventSummary" style="margin-top: 12px;"></p>
+                </div>
+
+                <div class="choices-container" id="choicesContainer" style="display:none;">
+                    <h3 style="margin-bottom: 12px; font-size: 1.1em;">剧情选择</h3>
+                    <div id="choicesList"></div>
+                </div>
+
+                <div class="ending-display" id="endingDisplay" style="display:none;">
+                    <h2 class="ending-title" id="endingTitle"></h2>
+                    <p class="ending-plot" id="endingPlot"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 日志区域 - 横跨两栏 -->
+        <div class="log-section">
+            <div class="log-container" id="logContainer">
+                <div class="log-entry">
+                    <span class="log-time">[系统]</span>
+                    <span>欢迎使用 Zooo Daily Agent 视频剧情交互演示</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentVideos = [];
+        let currentVideoIndex = 0;
+        let eventInProgress = false;
+        let allEvents = [];
+        let isRewindMode = false;
+        let choicesDisplayed = false;  // 标记当前事件的选项是否已显示
+        let endingDisplayed = false;   // 标记当前事件的结局是否已显示
+        let expandedEventIndex = null; // 当前展开的事件索引
+        let eventDetailsCache = {};    // 缓存事件详情
+        let availableCharacters = [];   // 可用角色列表
+        let availableDates = [];       // 可用日期列表（完整数据，包含dir_name等）
+        let selectedCharacter = null;   // 选中的角色
+        let selectedDate = null;        // 选中的日期
+        let expectedNarrativeVideo = null;  // 当前应该播放的叙事视频URL
+        let characterDateMap = {};      // 角色-日期映射关系
+        let availableDateDirs = [];     // 日期目录名列表（用于确认选择时传递给后端）
+
+        function addLog(message) {
+            const logContainer = document.getElementById('logContainer');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">[${time}]</span><span>${message}</span>`;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+        }
+
+        async function startDemo() {
+            document.getElementById('startBtn').style.display = 'none';
+            await loadState();
+            await loadCurrentEvent();
+        }
+
+        async function loadState() {
+            try {
+                console.log('🔄 loadState: 开始加载状态');
+                const response = await fetch('/api/state');
+                const data = await response.json();
+
+                // 先清空时间线
+                allEvents = [];
+                const timeline = document.getElementById('timeline');
+                if (timeline) {
+                    timeline.innerHTML = '';
+                }
+
+                // 初始化时间线
+                updateTimeline(data);
+
+                // 记录初始状态
+                addLog(`📅 加载状态: ${data.date} - ${data.character}`);
+                addLog(`   能量: ${data.energy}, 心情: ${data.mood}, 进度: ${data.current_event_index}/${data.total_events}`);
+
+                console.log('🔄 loadState: 状态加载完成，事件数量:', allEvents.length);
+            } catch (error) {
+                addLog('❌ 加载状态失败: ' + error.message);
+                console.error('加载状态失败:', error);
+            }
+        }
+
+        function updateTimeline(stateData) {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = '';
+
+            const timelineData = stateData.timeline || [];
+            const currentIndex = stateData.current_event_index || 0;
+
+            timelineData.forEach((eventData, index) => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'timeline-event';
+                eventDiv.dataset.index = index;
+
+                if (index < currentIndex) {
+                    eventDiv.classList.add('completed');
+                } else if (index === currentIndex) {
+                    eventDiv.classList.add('current');
+                } else {
+                    eventDiv.classList.add('future');
+                }
+
+                // 添加事件类型样式
+                if (eventData.event_type === 'R') {
+                    eventDiv.classList.add('type-r');
+                } else if (eventData.event_type === 'SR') {
+                    eventDiv.classList.add('type-sr');
+                }
+
+                // 使用真实的时间槽
+                const timeSlot = eventData.time_slot;
+
+                eventDiv.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-time">${timeSlot}</div>
+                `;
+
+                timeline.appendChild(eventDiv);
+
+                // 所有事件点击都直接跳转
+                eventDiv.onclick = () => jumpToEvent(index);
+
+                allEvents.push({
+                    index: index,
+                    timeSlot: timeSlot,
+                    eventType: eventData.event_type
+                });
+            });
+
+            // 添加回溯模式
+            document.body.classList.add('rewind-mode');
+        }
+
+
+        // 跳转到指定事件
+        async function jumpToEvent(eventIndex) {
+            await rewindToEvent(eventIndex);
+        }
+
+        // 应用选择
+        async function applyChoice(choiceId) {
+            try {
+                const response = await fetch('/api/choice', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({choice_id: choiceId})
+                });
+                const data = await response.json();
+
+                if (data.branch_videos && data.branch_videos.length > 0) {
+                    data.branch_videos.forEach(video => {
+                        if (!currentVideos.includes(video)) {
+                            currentVideos.push(video);
+                        }
+                    });
+                }
+            } catch (error) {
+                addLog('应用选择失败: ' + error.message);
+            }
+        }
+
+        async function rewindToEvent(eventIndex) {
+            // 移除"已经是当前事件"的检查，允许用户重新观看当前事件
+            const targetEvent = allEvents[eventIndex];
+            addLog(`⏪  回溯到事件 ${eventIndex + 1}: ${targetEvent?.timeSlot || ''}`);
+
+            try {
+                const response = await fetch('/api/rewind/' + eventIndex, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    addLog('❌ 回溯失败: ' + data.error);
+                    return;
+                }
+
+                // 清除当前视频
+                currentVideos = [];
+                currentVideoIndex = 0;
+
+                // 更新显示
+                displayEvent(data);
+                updateTimelineState(eventIndex);
+
+            } catch (error) {
+                addLog('回溯错误: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        function getCurrentEventIndex() {
+            const num = document.getElementById('currentEventNum').textContent;
+            return parseInt(num) - 1;
+        }
+
+        function updateTimelineState(currentIndex) {
+            const events = document.querySelectorAll('.timeline-event');
+            events.forEach((event, index) => {
+                event.classList.remove('completed', 'current', 'future', 'type-r', 'type-sr');
+                if (index < currentIndex) {
+                    event.classList.add('completed');
+                    // 保留事件类型样式
+                    if (allEvents[index]?.eventType === 'R') event.classList.add('type-r');
+                    if (allEvents[index]?.eventType === 'SR') event.classList.add('type-sr');
+                } else if (index === currentIndex) {
+                    event.classList.add('current');
+                    if (allEvents[index]?.eventType === 'R') event.classList.add('type-r');
+                    if (allEvents[index]?.eventType === 'SR') event.classList.add('type-sr');
+                } else {
+                    event.classList.add('future');
+                    if (allEvents[index]?.eventType === 'R') event.classList.add('type-r');
+                    if (allEvents[index]?.eventType === 'SR') event.classList.add('type-sr');
+                }
+            });
+        }
+
+        async function loadCurrentEvent() {
+            try {
+                const response = await fetch('/api/current_event');
+                const data = await response.json();
+
+                if (data.completed) {
+                    showCompleted(data);
+                    return;
+                }
+
+                displayEvent(data);
+            } catch (error) {
+                addLog('错误: ' + error.message);
+            }
+        }
+
+        function displayEvent(data) {
+            console.log('🔄 displayEvent: 开始显示事件', data);
+
+            currentVideos = data.videos || [];
+            currentVideoIndex = 0;
+            // 重置标志
+            choicesDisplayed = false;
+            endingDisplayed = false;
+            expectedNarrativeVideo = null;
+
+            // 更新事件信息
+            const eventInfoEl = document.getElementById('eventInfo');
+            if (eventInfoEl) {
+                eventInfoEl.style.display = 'block';
+                document.getElementById('eventTimeSlot').textContent = data.time_slot;
+                document.getElementById('eventName').textContent = data.event_name;
+
+                const typeBadge = document.getElementById('eventTypeBadge');
+                typeBadge.textContent = data.event_type === 'N' ? '普通事件' :
+                                       data.event_type === 'R' ? 'R事件（剧情分支）' : 'SR事件（重要剧情）';
+                typeBadge.className = 'event-type type-' + data.event_type.toLowerCase();
+
+                document.getElementById('eventSummary').textContent = data.summary || '';
+            }
+
+            // 隐藏之前的内容
+            document.getElementById('choicesContainer').style.display = 'none';
+            document.getElementById('endingDisplay').style.display = 'none';
+            document.getElementById('continueBtn').style.display = 'none';
+            document.getElementById('replayBtn').style.display = 'none';
+
+            // 显示选项（如果有）
+            // 对于R和SR事件，不在初始加载时显示选项，而是等视频播放完毕后再显示
+            if (data.choices && data.choices.length > 0 && data.event_type !== 'R' && data.event_type !== 'SR') {
+                displayChoices(data.choices);
+                choicesDisplayed = true;
+            }
+
+            // 播放视频
+            if (currentVideos.length > 0) {
+                playVideo(0);
+                // 显示重播按钮
+                document.getElementById('replayBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('videoPlaceholder').style.display = 'flex';
+                document.getElementById('videoPlayer').style.display = 'none';
+
+                // 没有视频时，根据事件类型决定下一步
+                if (data.event_type === 'N') {
+                    document.getElementById('continueBtn').style.display = 'inline-block';
+                }
+            }
+
+            addLog(`⏰ 事件: ${data.event_name} (${data.event_type})`);
+            addLog(`   时间: ${data.time_slot}`);
+            if (data.summary) {
+                addLog(`   简介: ${data.summary.substring(0, 50)}...`);
+            }
+
+            console.log('🔄 displayEvent: 事件显示完成，视频数量:', currentVideos.length);
+            updateProgress();
+        }
+
+        function displayChoices(choices) {
+            const container = document.getElementById('choicesContainer');
+            const list = document.getElementById('choicesList');
+            list.innerHTML = '';
+
+            addLog(`📋 显示选项: 共 ${choices.length} 个`);
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.innerHTML = `<span class="choice-id">${choice.id}</span>${choice.tag}<br><small>${choice.action}</small>`;
+                btn.onclick = () => makeChoice(choice.id);
+                list.appendChild(btn);
+                addLog(`   [${choice.id}] ${choice.tag}: ${choice.action.substring(0, 40)}...`);
+            });
+
+            container.style.display = 'block';
+        }
+
+        async function makeChoice(choiceId) {
+            try {
+                addLog(`🔘 用户选择: ${choiceId}`);
+                choicesDisplayed = true;  // 标记选项已显示
+                const response = await fetch('/api/choice', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({choice_id: choiceId})
+                });
+                const data = await response.json();
+
+                // 如果有警告信息，在日志中显示
+                if (data.warning) {
+                    addLog('⚠️ ' + data.warning);
+                }
+
+                document.getElementById('choicesContainer').style.display = 'none';
+
+                if (data.branch_videos && data.branch_videos.length > 0) {
+                    // 追加新视频到现有列表，而不是替换
+                    // 这样可以保证视频连续播放，不会从头开始
+                    const previousCount = currentVideos.length;
+                    data.branch_videos.forEach(video => {
+                        // 避免重复添加相同的视频
+                        if (!currentVideos.includes(video)) {
+                            currentVideos.push(video);
+                        }
+                    });
+
+                    // 如果有新视频被添加，继续播放
+                    if (currentVideos.length > previousCount) {
+                        // 从之前的下一个视频开始播放
+                        playVideo(previousCount);
+                        addLog(`📹 追加 ${currentVideos.length - previousCount} 个新视频`);
+                        document.getElementById('replayBtn').style.display = 'inline-block';
+
+                        // 如果有新视频追加，且没有返回结局（说明还有下一阶段），重置choicesDisplayed
+                        // 这样下一阶段视频播放完毕后会调用/api/choices获取下一阶段选项
+                        if (!data.ending) {
+                            choicesDisplayed = false;
+                            addLog(`➡️  继续下一阶段`);
+                        }
+                    } else {
+                        addLog('⚠️ 没有新视频需要播放');
+                        // 如果没有新视频，检查是否有结局
+                        if (data.ending) {
+                            displayEnding(data.ending);
+                            endingDisplayed = true;
+                            document.getElementById('continueBtn').style.display = 'inline-block';
+                        }
+                    }
+                }
+
+                if (data.ending) {
+                    displayEnding(data.ending);
+                    endingDisplayed = true;
+                    document.getElementById('continueBtn').style.display = 'inline-block';
+                }
+            } catch (error) {
+                addLog('❌ 错误: ' + error.message);
+            }
+        }
+
+        function displayEnding(ending) {
+            document.getElementById('endingDisplay').style.display = 'block';
+            document.getElementById('endingTitle').textContent = ending.title;
+            document.getElementById('endingPlot').textContent = ending.plot_closing;
+            addLog(`🎬 结局: ${ending.title}`);
+            if (ending.type) {
+                addLog(`   类型: ${ending.type}`);
+            }
+
+            // 显示属性变化
+            if (ending.attribute_change) {
+                const energy = ending.attribute_change.energy_change || 0;
+                const mood = ending.attribute_change.mood_change;
+                const intimacy = ending.attribute_change.intimacy_change || 0;
+                const newStatus = ending.attribute_change.new_status;
+
+                if (energy !== 0) {
+                    addLog(`   ⚡ 能量变化: ${energy > 0 ? '+' : ''}${energy}`);
+                }
+                if (mood) {
+                    addLog(`   😊 心情变化: ${mood}`);
+                }
+                if (intimacy !== 0) {
+                    addLog(`   ❤️ 亲密度变化: ${intimacy > 0 ? '+' : ''}${intimacy}`);
+                }
+                if (newStatus) {
+                    addLog(`   🏷️ 新状态: ${newStatus}`);
+                }
+            }
+
+            addLog(`   剧情: ${ending.plot_closing.substring(0, 80)}...`);
+        }
+
+        function playVideo(index) {
+            addLog(`🔍 [DEBUG] playVideo called: index=${index}, url=${currentVideos[index]}`);
+            if (index >= currentVideos.length) {
+                addLog(`🔍 [DEBUG] index >= currentVideos.length, calling onAllVideosFinished()`);
+                onAllVideosFinished();
+                return;
+            }
+
+            currentVideoIndex = index;
+            const videoUrl = currentVideos[index];
+
+            document.getElementById('videoPlaceholder').style.display = 'none';
+            const player = document.getElementById('videoPlayer');
+            player.style.display = 'block';
+
+            // 移除旧的事件监听器
+            player.onended = null;
+            player.onerror = null;
+            player.oncanplay = null;
+            player.onloadeddata = null;
+            player.onloadedmetadata = null;
+
+            // 添加新的事件监听器
+            player.onended = () => {
+                addLog(`✅ 视频播放完毕 (${index + 1}/${currentVideos.length})`);
+                // 检查是否应该自动播放下一个视频
+                if (index + 1 < currentVideos.length) {
+                    setTimeout(() => {
+                        playVideo(index + 1);
+                    }, 500); // 延迟500ms再播放下一个
+                } else {
+                    onAllVideosFinished();
+                }
+            };
+
+            player.onerror = (e) => {
+                addLog('❌ 视频加载失败: ' + videoUrl);
+                console.error('Video error:', e);
+                // 尝试播放下一个视频
+                if (index + 1 < currentVideos.length) {
+                    setTimeout(() => {
+                        playVideo(index + 1);
+                    }, 500);
+                } else {
+                    onAllVideosFinished();
+                }
+            };
+
+            // 当视频数据加载完成时触发play()（确保新数据已加载）
+            player.onloadeddata = () => {
+                addLog('📹 loadeddata事件触发');
+                console.log('loadeddata event fired');
+                // 延迟一小段时间确保视频准备好
+                setTimeout(() => {
+                    player.play().catch(playError => {
+                        addLog('❌ 视频播放失败: ' + playError.message);
+                        console.error('Play error:', playError);
+                    });
+                }, 100);
+            };
+
+            // 当元数据加载完成时也尝试播放（作为后备）
+            player.onloadedmetadata = () => {
+                addLog('📹 loadedmetadata事件触发');
+                console.log('loadedmetadata event fired');
+                // 检查视频是否已经在播放中
+                if (player.paused || player.ended) {
+                    addLog('📹 通过loadedmetadata尝试播放视频');
+                    setTimeout(() => {
+                        player.play().catch(playError => {
+                            addLog('❌ 视频播放失败: ' + playError.message);
+                            console.error('Play error:', playError);
+                        });
+                    }, 50);
+                }
+            };
+
+            // 设置新视频
+            player.src = videoUrl;
+
+            // 加载视频
+            player.load();
+
+            // 从视频URL中提取场景信息
+            const videoName = videoUrl.split('/').pop();
+            addLog(`▶️  播放视频: ${videoName}`);
+        }
+
+        function replayVideos() {
+            addLog('🔄 重播当前事件的所有视频');
+            currentVideoIndex = 0;
+            if (currentVideos.length > 0) {
+                playVideo(0);
+            }
+        }
+
+        async function onAllVideosFinished() {
+            addLog('当前事件的所有视频播放完毕');
+            document.getElementById('videoPlayer').style.display = 'none';
+            document.getElementById('videoPlaceholder').style.display = 'flex';
+            document.getElementById('videoPlaceholder').textContent = '视频播放完毕';
+
+            // 确保重播按钮可见
+            if (currentVideos.length > 0) {
+                document.getElementById('replayBtn').style.display = 'inline-block';
+            }
+
+            // 如果已经显示过结局，直接显示继续按钮
+            if (endingDisplayed) {
+                document.getElementById('continueBtn').style.display = 'inline-block';
+                return;
+            }
+
+            // N事件：自动显示"继续"按钮
+            // R/SR事件：获取选项（如果还没显示过）
+            const eventType = document.getElementById('eventTypeBadge').textContent;
+            if (eventType.includes('普通事件')) {
+                document.getElementById('continueBtn').style.display = 'inline-block';
+            } else if (eventType.startsWith('R事件')) {
+                // R事件：如果还没显示过选项，获取选项
+                if (!choicesDisplayed) {
+                    try {
+                        const response = await fetch('/api/choices');
+                        const data = await response.json();
+
+                        if (data.choices && data.choices.length > 0) {
+                            addLog('📋 显示R事件选项');
+                            displayChoices(data.choices);
+                            choicesDisplayed = true;
+                        }
+                    } catch (error) {
+                        addLog('❌ 获取R事件选项失败: ' + error.message);
+                    }
+                } else {
+                    // 已经选择过，显示继续按钮
+                    document.getElementById('continueBtn').style.display = 'inline-block';
+                    addLog('✅ 已完成选择，点击继续进入下一个事件');
+                }
+            } else if (eventType.includes('SR事件')) {
+                // SR事件：检查是否有下一阶段选项和叙事视频
+                // 注意：叙事视频需要总是播放，即使在回溯时
+                addLog(`🔍 [DEBUG] SR事件被触发, eventType=${eventType}`);
+                try {
+                    const response = await fetch('/api/choices');
+                    const data = await response.json();
+
+                    if (data.completed) {
+                        // 所有阶段已完成，显示继续按钮
+                        addLog('✅ 所有阶段已完成');
+                        document.getElementById('continueBtn').style.display = 'inline-block';
+                    } else {
+                        // 处理叙事视频（如果有）
+                        if (data.narrative_video) {
+                            const videoName = data.narrative_video.split('/').pop();
+                            addLog(`📹 叙事视频: ${videoName}`);
+
+                            // 检查叙事视频是否刚刚播放过
+                            // 如果是，说明叙事视频已经完成，显示选项
+                            const lastPlayedVideo = currentVideos.length > 0 ? currentVideos[currentVideos.length - 1] : null;
+                            const narrativeJustFinished = lastPlayedVideo === data.narrative_video;
+
+                            if (narrativeJustFinished) {
+                                // 叙事视频刚刚播放完毕，显示选项
+                                if (data.choices && data.choices.length > 0) {
+                                    addLog(`➡️  进入第 ${data.phase} 阶段选择`);
+                                    displayChoices(data.choices);
+                                    choicesDisplayed = true;
+                                }
+                            } else {
+                                // 叙事视频还没播放，添加并播放它
+                                const isAlreadyInList = currentVideos.includes(data.narrative_video);
+                                if (!isAlreadyInList) {
+                                    // 将叙事视频URL添加到播放列表
+                                    currentVideos.push(data.narrative_video);
+                                    expectedNarrativeVideo = data.narrative_video;
+                                    addLog(`📹 添加叙事视频到播放列表`);
+                                    // 播放新添加的叙事视频
+                                    playVideo(currentVideos.length - 1);
+                                } else {
+                                    // 叙事视频在列表中但还没播放，找到它的索引并播放
+                                    const narrativeIndex = currentVideos.indexOf(data.narrative_video);
+                                    if (narrativeIndex >= 0 && narrativeIndex > currentVideoIndex) {
+                                        expectedNarrativeVideo = data.narrative_video;
+                                        playVideo(narrativeIndex);
+                                    } else {
+                                        // 叙事视频已经播放过，显示选项
+                                        if (data.choices && data.choices.length > 0) {
+                                            addLog(`➡️  进入第 ${data.phase} 阶段选择`);
+                                            displayChoices(data.choices);
+                                            choicesDisplayed = true;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            // 没有叙事视频，直接显示选项
+                            if (data.choices && data.choices.length > 0) {
+                                addLog(`➡️  进入第 ${data.phase} 阶段选择`);
+                                displayChoices(data.choices);
+                                choicesDisplayed = true;
+                            }
+                        }
+                    }
+                } catch (error) {
+                    addLog('❌ 获取SR事件选项失败: ' + error.message);
+                }
+            }
+            
+        }
+
+        async function continueEvent() {
+            document.getElementById('continueBtn').style.display = 'none';
+
+            try {
+                addLog('⏭️  继续下一个事件');
+                // 先调用 /api/continue 推进事件索引
+                const continueResponse = await fetch('/api/continue');
+                const continueData = await continueResponse.json();
+
+                if (continueData.completed) {
+                    showCompleted(continueData);
+                    return;
+                }
+
+                // /api/continue 已经返回了下一个事件的数据
+                displayEvent(continueData);
+                // displayEvent 会通过 updateProgress 自动更新时间线状态
+
+            } catch (error) {
+                addLog('❌ 错误: ' + error.message);
+                // 如果出错，回退到原来的方式
+                await loadCurrentEvent();
+            }
+        }
+
+        function showCompleted(data) {
+            document.getElementById('eventInfo').style.display = 'none';
+            document.getElementById('videoPlaceholder').style.display = 'flex';
+            document.getElementById('videoPlaceholder').innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #1d1d1f; font-size: 20px; font-weight: 600; margin-bottom: 16px;">🎉 演示完成！</h2>
+                    <p style="color: #86868b; margin: 8px 0;">⚡ 最终能量: ${data.final_state?.energy || 100}</p>
+                    <p style="color: #86868b; margin: 8px 0;">😊 最终心情: ${data.final_state?.mood || 'Neutral'}</p>
+                    <p style="color: #86868b; margin: 8px 0;">❤️ 最终亲密度: ${data.final_state?.intimacy || 0}</p>
+                </div>
+            `;
+            addLog('🎉 演示完成！');
+            addLog(`   最终状态: 能量=${data.final_state?.energy || 100}, 心情=${data.final_state?.mood || 'Neutral'}, 亲密度=${data.final_state?.intimacy || 0}`);
+            document.getElementById('progressFill').style.width = '100%';
+        }
+
+        // ==================== 选择器功能 ====================
+
+        // 打开/关闭选择器面板
+        function toggleSelector() {
+            try {
+                const panel = document.getElementById('selectorPanel');
+                const isActive = panel.classList.toggle('active');
+                // 打开面板时重置所有过滤状态
+                if (isActive) {
+                    resetFilters();
+                }
+            } catch (error) {
+                console.error('Toggle selector error:', error);
+                alert('无法打开选择器：' + error.message);
+            }
+        }
+
+        // 加载可用角色和日期列表
+        async function loadSelectorData() {
+            try {
+                const response = await fetch('/api/selector-data');
+                const data = await response.json();
+                availableCharacters = data.characters || [];
+                availableDates = data.dates || [];
+                characterDateMap = data.character_date_map || {};
+
+                // 渲染角色列表
+                const characterGrid = document.getElementById('characterGrid');
+                characterGrid.innerHTML = '';
+                availableCharacters.forEach(char => {
+                    const item = document.createElement('div');
+                    item.className = 'selector-item' + (selectedCharacter === char.id ? ' selected' : '');
+                    item.dataset.charId = char.id;
+                    item.innerHTML = `
+                        <div class="selector-item-name">${char.name}</div>
+                        <div class="selector-item-date">${char.id}</div>
+                    `;
+                    item.onclick = () => selectCharacter(char);
+                    characterGrid.appendChild(item);
+                });
+
+                // 渲染日期列表
+                const dateGrid = document.getElementById('dateGrid');
+                dateGrid.innerHTML = '';
+                availableDates.forEach(date => {
+                    const item = document.createElement('div');
+                    item.className = 'selector-item' + (selectedDate === date.dir_name ? ' selected' : '');
+                    item.dataset.dirName = date.dir_name;
+                    item.dataset.charId = date.char_id || '';
+                    item.innerHTML = `<div class="selector-item-name">${date.date}</div>`;
+                    item.onclick = () => selectDate(date);
+                    dateGrid.appendChild(item);
+                });
+
+                addLog(`📋 加载了 ${availableCharacters.length} 个角色，${availableDates.length} 个日期`);
+
+                // 初始状态下，所有日期都是灰色的
+                initFilters();
+            } catch (error) {
+                addLog('❌ 加载选择数据失败: ' + error.message);
+            }
+        }
+
+        // 选择角色
+        function selectCharacter(char) {
+            selectedCharacter = char.id;
+            // 清除日期选择（因为选择的角色可能没有当前选中的日期）
+            selectedDate = null;
+            renderSelectorItems();
+            // 根据选择的角色过滤日期
+            filterDatesByCharacter(char.id);
+            updateConfirmButton();
+        }
+
+        // 选择日期
+        function selectDate(date) {
+            // 只有在已选择角色的情况下才能选择日期
+            if (!selectedCharacter) {
+                return;
+            }
+            selectedDate = date.dir_name;
+            renderSelectorItems();
+            updateConfirmButton();
+        }
+
+        // 根据选择的角色过滤日期列表
+        function filterDatesByCharacter(charId) {
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                const itemCharId = item.dataset.charId;
+                if (!itemCharId || itemCharId !== charId) {
+                    item.classList.add('disabled');
+                    item.style.opacity = '0.3';
+                    item.style.pointerEvents = 'none';
+                } else {
+                    item.classList.remove('disabled');
+                    item.style.opacity = '';
+                    item.style.pointerEvents = '';
+                }
+            });
+        }
+
+        // 重置所有过滤状态
+        // 初始状态下，所有日期都是灰色的
+        function resetFilters() {
+            const characterItems = document.querySelectorAll('#characterGrid .selector-item');
+            characterItems.forEach(item => {
+                item.classList.remove('disabled');
+                item.style.opacity = '';
+                item.style.pointerEvents = '';
+            });
+
+            // 所有日期初始都是灰色的
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                item.classList.add('disabled');
+                item.style.opacity = '0.3';
+                item.style.pointerEvents = 'none';
+            });
+        }
+
+        // 初始加载时，所有日期都是灰色的
+        function initFilters() {
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                item.classList.add('disabled');
+                item.style.opacity = '0.3';
+                item.style.pointerEvents = 'none';
+            });
+        }
+
+        // 重新渲染选择器项目（更新选中状态）
+        function renderSelectorItems() {
+            // 更新角色选中状态
+            const characterItems = document.querySelectorAll('#characterGrid .selector-item');
+            characterItems.forEach(item => {
+                const itemCharId = item.dataset.charId;
+                if (itemCharId === selectedCharacter) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+
+            // 更新日期选中状态
+            const dateItems = document.querySelectorAll('#dateGrid .selector-item');
+            dateItems.forEach(item => {
+                const itemDirName = item.dataset.dirName;
+                if (itemDirName === selectedDate) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+
+        // 更新确认按钮状态
+        function updateConfirmButton() {
+            const confirmBtn = document.getElementById('confirmBtn');
+            // 需要同时选择了角色和日期才能确认
+            confirmBtn.disabled = !(selectedCharacter && selectedDate);
+        }
+
+        // 确认选择并重新加载
+        async function confirmSelection() {
+            if (!selectedCharacter || !selectedDate) {
+                addLog('⚠️ 请先选择角色和日期');
+                return;
+            }
+
+            try {
+                console.log('🔄 confirmSelection: 开始更换档案', selectedCharacter, selectedDate);
+                addLog(`🔄 开始更换档案: ${selectedCharacter} - ${selectedDate}`);
+
+                // 先停止当前播放的视频
+                const player = document.getElementById('videoPlayer');
+                if (player) {
+                    player.pause();
+                    player.src = '';
+                    player.load();
+                    console.log('🔄 视频播放器已停止');
+                }
+
+                // 重置所有前端状态
+                resetAllState();
+
+                // 关闭选择器
+                const panel = document.getElementById('selectorPanel');
+                if (panel) {
+                    panel.classList.remove('active');
+                }
+
+                // 加载新数据
+                console.log('🔄 开始请求 /api/load-data');
+                const response = await fetch('/api/load-data', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        character_id: selectedCharacter,
+                        date: selectedDate
+                    })
+                });
+                const data = await response.json();
+                console.log('🔄 /api/load-data 响应:', data);
+
+                if (data.error) {
+                    addLog('❌ ' + data.error);
+                    return;
+                }
+
+                addLog(`✅ 已选择: ${data.character} - ${data.date}`);
+                addLog(`   正在重新加载状态...`);
+
+                // 等待一下确保后端状态已更新
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                // 重新加载状态
+                console.log('🔄 开始 loadState');
+                await loadState();
+                console.log('🔄 开始 loadCurrentEvent');
+                await loadCurrentEvent();
+
+                // 更新进度
+                console.log('🔄 开始 updateProgress');
+                updateProgress();
+
+                addLog('✅ 档案更换完成');
+            } catch (error) {
+                addLog('❌ 加载失败: ' + error.message);
+                console.error('Load error:', error);
+            }
+        }
+
+        // 重置所有前端状态
+        function resetAllState() {
+            console.log('🔄 开始重置所有前端状态');
+
+            // 重置所有变量
+            currentVideos = [];
+            currentVideoIndex = 0;
+            eventInProgress = false;
+            isRewindMode = false;
+            choicesDisplayed = false;
+            endingDisplayed = false;
+            expandedEventIndex = null;
+            eventDetailsCache = {};
+            expectedNarrativeVideo = null;
+
+            // 停止并清理视频播放器
+            const player = document.getElementById('videoPlayer');
+            if (player) {
+                player.pause();
+                player.src = '';
+                player.load();
+                // 移除所有事件监听器
+                player.onended = null;
+                player.onerror = null;
+                player.oncanplay = null;
+                player.onloadeddata = null;
+                player.onloadedmetadata = null;
+            }
+
+            // 重置时间线
+            const timeline = document.getElementById('timeline');
+            if (timeline) {
+                timeline.innerHTML = '';
+            }
+            allEvents = [];
+
+            // 重置UI状态
+            const elements = {
+                'startBtn': 'none',
+                'continueBtn': 'none',
+                'replayBtn': 'none',
+                'eventInfo': 'none',
+                'choicesContainer': 'none',
+                'endingDisplay': 'none'
+            };
+
+            for (const [id, display] of Object.entries(elements)) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = display;
+                }
+            }
+
+            const placeholder = document.getElementById('videoPlaceholder');
+            if (placeholder) {
+                placeholder.style.display = 'flex';
+                placeholder.textContent = '点击"开始演示"按钮开始观看视频剧情';
+            }
+
+            const videoPlayer = document.getElementById('videoPlayer');
+            if (videoPlayer) {
+                videoPlayer.style.display = 'none';
+            }
+
+            addLog('🔄 前端状态已完全重置');
+        }
+
+        // ==================== 原有功能 ====================
+
+        function updateProgress() {
+            console.log('🔄 updateProgress: 开始更新进度');
+            fetch('/api/state')
+                .then(r => r.json())
+                .then(data => {
+                    // 更新状态栏
+                    const elements = {
+                        'characterName': data.character || '未知',
+                        'currentDate': data.date || '-',
+                        'energyLevel': data.energy || 100,
+                        'moodLevel': data.mood || 'Neutral',
+                        'currentEventNum': data.current_event_index || 0,
+                        'totalEvents': data.total_events || 0
+                    };
+
+                    for (const [id, value] of Object.entries(elements)) {
+                        const el = document.getElementById(id);
+                        if (el) {
+                            el.textContent = value;
+                        }
+                    }
+
+                    const progress = (data.current_event_index / data.total_events) * 100;
+                    const progressFill = document.getElementById('progressFill');
+                    if (progressFill) {
+                        progressFill.style.width = progress + '%';
+                    }
+
+                    // 同时更新时间线状态
+                    updateTimelineState(data.current_event_index);
+
+                    console.log('🔄 updateProgress: 进度更新完成', data);
+                })
+                .catch(error => {
+                    console.error('🔄 updateProgress: 更新失败', error);
+                });
+        }
+
+        // 初始加载状态
+        updateProgress();
+
+        // 初始加载选择器数据
+        loadSelectorData();
+
+        // ==================== 模式切换 ====================
+
+        // 切换到用户模式
+        function switchToUserMode() {
+            window.location.href = '/user-mode';
+        }
+    </script>
+</body>
+</html>
