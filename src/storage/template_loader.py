@@ -72,7 +72,7 @@ class TemplateLoader:
         根据角色英文名加载模板
 
         Args:
-            name_en: 角色英文名 (如 "Leona", "Rick", "Glo")
+            name_en: 角色英文名 (如 "Luna", "Alex", "Maya")
 
         Returns:
             CharacterTemplate 对象，如果未找到返回 None
@@ -106,7 +106,7 @@ class TemplateLoader:
         根据模板ID加载模板
 
         Args:
-            template_id: 模板ID (如 "leona", "rick", "glo")
+            template_id: 模板ID (如 "luna", "alex", "maya")
 
         Returns:
             CharacterTemplate 对象，如果未找到返回 None

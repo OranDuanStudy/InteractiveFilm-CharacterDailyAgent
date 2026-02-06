@@ -58,7 +58,7 @@
         "[Hidden dream] Stories he writes are actually about the people he observes"
       ]
     },
-    "profile_en": "Daniel: A 35-year-old bookstore owner with soft features, kind eyes behind wire-rimmed glasses, wearing comfortable cardigans and button-down shirts. Thoughtful ISFJ who notices everything but speaks when necessary. Reliable presence with a rich inner world. Always carries a book or notepad, creates welcoming spaces, quietly looks out for his community."
+    "profile_en": "Daniel: 35-year-old man with soft features, kind eyes behind wire-rimmed glasses, wears comfortable cardigans and button-down shirts. Voice is soft and gentle with warm, reassuring tone."
   },
   "default_actor_state": {
     "energy": 65,
@@ -91,7 +91,7 @@
       "Bookstore_District": "Local shops and community gathering spots",
       "Quiet_Residential": "Tree-lined streets with apartment buildings",
       "Community_Center": "Public spaces for local events",
-      "Nearby_Cafe: "": "Gathering spot where regulars congregate",
+      "Nearby_Cafe": "Gathering spot where regulars congregate",
       "Parks": "Peaceful green spaces for reflection"
     },
     "character_specific": {

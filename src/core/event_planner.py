@@ -413,10 +413,9 @@ Core Requirements
   - Keywords: grounded, humor, awkward, absurd, imperfect reality
   - Forbidden: irreversible death, extreme gore, heavy body horror
   - Allowed: failure, separation, regret, financial loss, social death
-  - CRITICAL: ALL characters are ANIMAL characters - NO HUMANS appear in this world
-  - When describing scenes, ALWAYS emphasize animal traits: ears, tails, fur patterns, muzzles, paws, species features
-  - Physical descriptions should reflect animal characteristics  (e.g., "ears twitch" not "eyebrows raise", "tail swishes" not "foot taps")
-  - CRITICAL: involved_characters MUST use English names ONLY (e.g., "Leona", "Rick", "Glo") - NEVER use Chinese names in involved_characters field
+  - CRITICAL: ALL characters are REALISTIC HUMAN characters
+  - When describing scenes, describe natural human behavior
+  - CRITICAL: involved_characters MUST use English names ONLY (e.g., "Luna", "Alex", "Maya") - NEVER use Chinese names in involved_characters field
   - CRITICAL: When describing PROPS/ITEMS in prologue, phases, or resolutions: ALWAYS include SPECIFIC details: 具体形状（如长方形、圆形、不规则）、颜色、材质（如木质、金属、塑料、布料）、大小尺寸、表面纹理、特殊标记/图案
   - IMPORTANT: Maintain PROP CONSISTENCY across all phases and resolutions - once a prop's appearance is established, describe it with the SAME details in subsequent mentions
 
@@ -443,7 +442,7 @@ A. Meta Info
   - Type: e.g., "Workplace Comedy", "Realistic Drama", "Absurdist Comedy"
   - Core Conflict: [Character's Desire] vs [Reality's Wall / Character's Flaw]
   - Time/Location: Specific moment and environmental description (NOTE: Use 24-hour format - 01:00 is 1 AM/early morning, NOT noon. 00:00-06:00 = night/early morning, 12:00-13:00 = noon)
-  - Involved Characters: FIRST element MUST be the main character "{character.name_en}", then select {char_count - 1} other characters from the relationships above (MUST use English names only, e.g., "Leona", "Rick", "Glo"). Format: ["{character.name_en}", "OtherCharacter"]
+  - Involved Characters: FIRST element MUST be the main character "{character.name_en}", then select {char_count - 1} other characters from the relationships above (MUST use English names only, e.g., "Luna", "Alex", "Maya"). Format: ["{character.name_en}", "OtherCharacter"]
   - Event Location: Select from available locations above
 
 B. Prologue - Concrete First Act
@@ -513,7 +512,7 @@ Generate JSON format output with the following fields:
     "event_type": "Event type",
     "core_conflict": "Core conflict description",
     "time_location": "Time and location",
-    "involved_characters": ["Leona", "Rick", "Glo"],  # Use English names ONLY
+    "involved_characters": ["Luna", "Alex", "Maya"],  # Use English names ONLY
     "event_location": "Location name from available locations"
   }},
   "prologue": "Concrete prologue description with vivid details",
@@ -686,9 +685,9 @@ Core Requirements
   - Keywords: grounded, relatable, light, choice-driven
   - Forbidden: irreversible consequences
   - Allowed: small failures, awkward moments, temporary setbacks
-  - CRITICAL: ALL characters are ANIMAL characters - NO HUMANS appear in this world
-  - When describing actions/reactions, emphasize animal traits: ears, tails, fur, muzzles, paws, species features
-  - Physical descriptions should reflect animal characteristics
+  - CRITICAL: ALL characters are REALISTIC HUMAN characters
+  - When describing actions/reactions, describe natural human behavior
+  - Physical descriptions should reflect realistic human characteristics
   - CRITICAL: When describing PROPS/ITEMS in prologue, branches, or resolutions: ALWAYS include SPECIFIC details: 具体形状（如长方形、圆形、不规则）、颜色、材质（如木质、金属、塑料、布料）、大小尺寸、表面纹理、特殊标记/图案
   - IMPORTANT: Maintain PROP CONSISTENCY across prologue and both branches - once a prop's appearance is established, describe it with the SAME details in subsequent mentions
 
@@ -699,7 +698,7 @@ A. Meta Info
   - event_type: e.g., "Social Choice", "Personal Decision"
   - core_conflict: [Desire] vs [Fear/Obstacle]
   - time_location: Specific moment and place (NOTE: Use 24-hour format - 01:00 is 1 AM/early morning, NOT noon. 00:00-06:00 = night/early morning, 12:00-13:00 = noon)
-  - involved_characters: FIRST element MUST be the main character "{character.name_en}", then select {char_count - 1} other characters from the relationships above (MUST use English names only, e.g., "Leona", "Rick", "Glo"). Format: ["{character.name_en}", "OtherCharacter"]
+  - involved_characters: FIRST element MUST be the main character "{character.name_en}", then select {char_count - 1} other characters from the relationships above (MUST use English names only, e.g., "Luna", "Alex", "Maya"). Format: ["{character.name_en}", "OtherCharacter"]
   - event_location: Select from available locations above
 
 B. Prologue
@@ -739,7 +738,7 @@ Output the complete R Event Planning Card in JSON format (NO markdown code block
     "event_type": "Personal Decision",
     "core_conflict": "Want to connect vs Fear of rejection",
     "time_location": "Afternoon, Cafe",
-    "involved_characters": ["Leona", "Rick"],  # Use English names ONLY
+    "involved_characters": ["Luna", "Alex"],  # Use English names ONLY
     "event_location": "Cafe"
   }},
   "prologue": "Character walks into the cafe and sees someone interesting. They hesitate at the door, wondering whether to approach or find a seat alone. The warm afternoon light creates a welcoming atmosphere.",

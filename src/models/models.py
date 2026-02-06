@@ -269,220 +269,140 @@ class FullInputContext:
         return "\n".join(lines)
 
 
-def create_judy_context() -> FullInputContext:
-    """创建朱迪的上下文示例"""
+def create_example_context() -> FullInputContext:
+    """创建示例角色上下文（真人世界观 - Luna）"""
     return FullInputContext(
         character_dna=CharacterNarrativeDNA(
-            name="朱迪",
-            name_en="Judy",
+            name="露娜",
+            name_en="Luna",
             gender="Female",
-            species="Rabbit",
-            mbti=MBTIType.ENFP,
-            personality=["Optimistic", "Determined", "Curious", "Justice-seeking"],
-            short_term_goal="Solve the current case",
-            mid_term_goal="Become a respected officer",
-            long_term_goal="Make Zootopia a better place",
-            appearance="Small gray rabbit with purple eyes, police uniform",
-            residence="Apartment in Savannah Central",
-            initial_energy=85,
-            money=500,
-            items=["Police Badge", "Voice Recorder", "Notebook"],
-            current_intent="Patrol the city and investigate",
-            narrative_types={"Crime Adventure": 0.5, "Mystery": 0.3, "Growth": 0.2},
-            skills=["Investigation", "Persuasion", "Combat", "Driving"],
-            alignment=Alignment.CHAOTIC_GOOD,
-            profile_en="Judy: A small but determined rabbit police officer. Optimistic, curious, and justice-seeking ENFP. Wears a police uniform with badge. Purple eyes, gray fur."
+            species="Human (modern urban artist)",
+            mbti=MBTIType.INFP,
+            personality=["Dreamy Creative", "Gentle Soul", "Perfectionist", "Socially Awkward"],
+            short_term_goal="Finish the painting she's been working on for weeks",
+            mid_term_goal="Get her artwork displayed in a local gallery",
+            long_term_goal="Become a recognized artist who inspires others",
+            appearance="Medium-length wavy brown hair, often has paint smudges on cheeks, wears comfortable oversized sweaters and jeans, carries a sketchbook everywhere",
+            residence="Small apartment in the arts district",
+            initial_energy=60,
+            money=80,
+            items=["Sketchbook", "Watercolor set", "Headphones"],
+            current_intent="Find inspiration for her next artwork",
+            narrative_types={"Slice of Life": 0.4, "Artistic": 0.3, "Coming of Age": 0.2, "Romance": 0.1},
+            skills=["Painting", "Observation", "Empathy"],
+            alignment=Alignment.NEUTRAL_GOOD,
+            profile_en="Luna: A 22-year-old aspiring artist with medium-length wavy brown hair often smudged with paint, wearing oversized sweaters and jeans. Soft-spoken, dreamy, deeply emotional and empathetic INFP personality. Always carries a sketchbook and finds beauty in everyday moments."
         ),
         actor_state=ActorDynamicState(
-            character_id="judy_001",
-            energy=85,
-            mood="Motivated and hopeful",
-            location="Police Station",
-            recent_memories=[{"event_id": "evt_023", "outcome": "Success"}],
-            long_term_memory="The user is a reliable partner"
+            character_id="luna_001",
+            energy=60,
+            mood="Contemplative and inspired, sometimes anxious about her work",
+            location="Art studio",
+            recent_memories=[{"event_id": "evt_001", "outcome": "Good painting session"}],
+            long_term_memory="The user is supportive and understands art"
         ),
         user_profile=UserProfile(
             intimacy_points=150,
             intimacy_level="L3-Friend",
-            preference="Balanced",
+            preference="Artistic",
             alignment=Alignment.NEUTRAL_GOOD,
-            inventory=["Police Badge", "Case File"]
+            inventory=["Sketchbook", "Coffee card"]
         ),
         world_context=WorldContext(
             date="2024-06-15",
             time=TimeOfDay.MORNING,
             weather=WeatherType.SUNNY,
-            world_rules=["Anthropomorphic animals coexist"],
+            world_rules=["Contemporary urban world", "Normal physics"],
             locations={
-                "Police Station": "Law/Order",
-                "Central Park": "Leisure/Nature",
-                "Back Alley": "Hidden/Information",
-                "Cafe": "Social/Gossip",
+                "Art studio": "Creative space",
+                "Corner cafe": "Relaxation",
+                "City museum": "Inspiration",
+                "Small apartment": "Rest",
             },
-            public_events=["Summer Festival"]
+            public_events=["Art exhibition"]
         ),
         mutex_lock=MutexLock()
     )
 
 
-def create_leona_context() -> FullInputContext:
-    """创建莱昂娜的上下文示例（基于PDF案例）"""
-    return FullInputContext(
-        character_dna=CharacterNarrativeDNA(
-            name="莱昂娜",
-            name_en="Leona",
-            gender="Female",
-            species="Anthropomorphic Leopard",
-            mbti=MBTIType.ENFP,
-            personality=["Gentle yet fiery", "Sunny", "Enthusiastic", "Upward-looking", "Shy but charming when dancing"],
-            short_term_goal="Improve dance skills",
-            mid_term_goal="Become a professional street dancer",
-            long_term_goal="Inspire others through dance performance",
-            appearance="Pink high school leopard with spotted fur, long tail, expressive eyes",
-            residence="Dormitory in school",
-            initial_energy=75,
-            money=200,
-            items=["Phone", "Dance shoes", "Water bottle"],
-            current_intent="Practice dancing and prepare for upcoming performance",
-            narrative_types={"Slice of Life": 0.4, "Growth": 0.4, "Music": 0.2},
-            secret_quirks=["Tail wags when excited", "Humming when nervous"],
-            secret_flaws=["Sometimes too hard on herself", "Shy around strangers"],
-            secret_past="Was bullied for being small and different",
-            secret_trauma="Almost gave up on dancing after a failed audition",
-            skills=["Hip-hop Dance", "Contemporary", "Choreography"],
-            alignment=Alignment.CHAOTIC_GOOD,
-            profile_en="Leona: A gentle yet fiery street dance girl. Sunny, enthusiastic, and upward-looking, with dreams, persistence, and wishes in her heart. Shy, but radiates charm when dancing. A shy, sensitive, lively, imaginative, enthusiastic, and brave pink high school leopard with spotted fur and a long tail."
-        ),
-        actor_state=ActorDynamicState(
-            character_id="leona_001",
-            energy=75,
-            mood="Determined but slightly nervous",
-            location="Dance Studio",
-            recent_memories=[
-                {"event_id": "evt_001", "outcome": "Successful practice session"},
-                {"event_id": "evt_002", "outcome": "Encouragement from friend Glo"}
-            ],
-            long_term_memory="The user is a supportive friend who believes in my dreams"
-        ),
-        user_profile=UserProfile(
-            intimacy_points=280,
-            intimacy_level="L3-Friend",
-            preference="Heartwarming",
-            alignment=Alignment.NEUTRAL_GOOD,
-            inventory=["Phone", "Energy drink"]
-        ),
-        world_context=WorldContext(
-            date="2024-12-15",
-            time=TimeOfDay.MORNING,
-            weather=WeatherType.SUNNY,
-            world_rules=["Anthropomorphic animals coexist", "School setting"],
-            locations={
-                "Dance Studio": "Practice/Training",
-                "Dormitory": "Rest/Privacy",
-                "Convenience Store": "Social/Snacks",
-                "School Rooftop": "Secret Practice",
-                "Street": "Urban exploration",
-            },
-            public_events=["Upcoming Dance Competition"]
-        ),
-        mutex_lock=MutexLock()
-    )
-
-
-def get_leona_example_schedule():
-    """获取莱昂娜的示例日程（基于PDF，不调用API）"""
+def get_example_schedule():
+    """获取示例日程（真人世界观 - Luna，不调用API）"""
     from .agent import ScheduleOutput, ScheduleEvent
 
     return ScheduleOutput(
-        character_name="莱昂娜",
-        date="2024-12-15",
+        character_name="露娜",
+        date="2024-06-15",
         events=[
             ScheduleEvent(
                 time_slot="07:00-09:00",
-                event_name="笨拙晨起",
-                summary="闹钟响起，莱昂娜猛地坐起，转身下床时尾巴扫翻了水杯。然后她在浴室镜子前给自己打气，对着镜头做出完美的偶像笑容，口型说'今天会是完美的一天'。",
-                image_prompt="Medium shot, Leona (anthropomorphic leopard girl) sitting on the edge of a messy dormitory bunk bed, wearing an oversized pastel t-shirt, looking shocked with wide eyes as her long spotted tail accidentally knocks over a glass of water on the nightstand, water splashing mid-air, morning sunlight filling the cozy room, Animation film style, 3d render",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl. Sunny, enthusiastic, and upward-looking, with dreams, persistence, and wishes in her heart. Shy, but radiates charm when dancing. A shy, sensitive, lively, imaginative, enthusiastic, and brave pink high school leopard.\n\n[Sora Prompt]\n1. [Close-up] An electronic alarm clock on a messy nightstand rings buzzing. A furry paw slams it off.\n2. [Medium Shot] Leona sits up in bed, hair frizzy, yawning widely, showing sharp little teeth. Sunlight filters through the dormitory curtains.\n3. [Wide Shot] She swings her legs out of bed. As she turns her body, her long spotted tail accidentally swipes a glass of water off the table.\n4. [Close-up] The glass shatters on the floor, water splashing on her paws. Her eyes widen in shock, ears flatten.\n5. [Medium Shot] Cut to bathroom. Leona looking at herself in the mirror, forcing a bright, idol-like smile, pointing finger guns at herself. Mouthing line: \"Today will be perfect.\"\nStyle: Animation film style, cinematic storytelling, fine fur texture, natural morning lighting, chaotic but cute atmosphere."
+                event_name="晨间创作",
+                summary="露娜早起在阳台上写生，捕捉清晨的第一缕阳光。",
+                image_prompt="Medium shot, Luna sitting on her apartment balcony with a sketchbook, medium-length wavy brown hair slightly messy, wearing an oversized sweater, soft morning light illuminating her face and the paper, coffee cup nearby, peaceful artistic atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist, INFP, dreamy creative who finds beauty in everyday moments.\n\n[Sora Prompt]\n1. [Wide Shot] Small apartment balcony at sunrise. Luna with sketchbook.\n2. [Medium Shot] Her hand drawing quickly, capturing the light.\n3. [Close-up] Her focused eyes, paint smudge on cheek.\n4. [POV Shot] The sketch taking shape - sunrise over city.\nStyle: Realistic film style, soft natural lighting, intimate atmosphere."
             ),
             ScheduleEvent(
                 time_slot="09:00-11:00",
-                event_name="早餐抉择",
-                summary="用户介入：在便利店冷柜前，想要草莓牛奶 vs 需要创可贴。",
-                image_prompt="Knee-level medium shot, Leona standing inside a bright convenience store, wearing a street-style hoodie and ripped jeans, looking conflicted with brows furrowed, holding a coin purse in one hand, standing directly in front of a glass refrigerator door stocked with strawberry milk bottles, reflection visible on glass, warm artificial lighting, detailed fur texture, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[情景铺设 Prompt]\n1. [Wide Shot] Leona walking down a busy morning street, wearing a hoodie, slightly limping.\n2. [Medium Shot] Inside a convenience store. Leona stands in front of the refrigerated shelf. Cold mist swirls.\n3. [POV Shot] Looking through Leona's eyes at a bottle of premium \"Strawberry Milk\" next to a box of \"Pro Bandages\".\n4. [Close-up] Her paw counting a few crumpled bills and coins. Not enough for both.\n5. [Close-up] Leona biting her lip, eyes darting between the milk and the bandages, expression of intense struggle.\nStyle: Animation film style, vibrant convenience store lighting, detailed fur, emotional nuance.",
-                event_type="R"
+                event_name="咖啡馆寻灵",
+                summary="在常去的咖啡馆观察路人，寻找灵感。",
+                image_prompt="Medium shot, Luna sitting in a cozy corner cafe, observing people through the window, sketchbook open, headphone around her neck, warm cafe lighting, contemplative expression, slice of life atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Medium Shot] Luna in cafe, sketching.\n2. [POV Shot] Her sketchbook - quick character studies.\n3. [Close-up] Her thoughtful face, eyes observing.\n4. [Wide Shot] The cozy cafe atmosphere around her.\nStyle: Realistic slice of life, warm interior lighting.",
+                event_type="N"
             ),
             ScheduleEvent(
                 time_slot="11:00-13:00",
-                event_name="魔鬼特训",
-                summary="高强度舞蹈课。动作过大摔倒，但立刻爬起来。",
-                image_prompt="Full body shot, Leona in a spacious dance studio with floor-to-ceiling mirrors, performing a dynamic hip-hop dance pose with arms extended, wearing loose grey sweatpants and a crop top, sweat glistening on her fur, determined expression, natural sunlight hitting the wooden floor, reflection visible in the mirror, high energy atmosphere, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [Low Angle] Sneakers tying tight laces. Dust particles in the light.\n2. [Wide Shot] A sleek dance studio with floor-to-ceiling mirrors. Leona is in the center, doing a powerful hip-hop routine.\n3. [Medium Shot] She attempts a spin, but her tail throws her off balance. She stumbles.\n4. [Close-up] Sweat dripping down her fur. She looks frustrated for a split second.\n5. [Full Shot] She slaps her cheeks, shouts (mouthing): \"One more time!\", and immediately gets back into stance.\n6. [Tracking Shot] The camera follows her rapid footwork, perfect this time.\nStyle: Animation film style, dynamic camera movement, realistic sweat and fur physics, studio lighting reflections, high energy."
+                event_name="工作室时光",
+                summary="在共享工作室继续她的画作创作。",
+                image_prompt="Medium shot, Luna in shared art studio, working on a canvas, paint-splattered apron over her sweater, focused expression, natural light from large windows, art materials around, creative atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Wide Shot] Bustling art studio, artists working.\n2. [Medium Shot] Luna at her canvas, brush moving.\n3. [Close-up] Paint mixing on palette, her hands.\n4. [Medium Shot] She steps back, tilting head, evaluating.\nStyle: Realistic documentary style, natural lighting.",
+                event_type="N"
             ),
             ScheduleEvent(
                 time_slot="13:00-15:00",
-                event_name="午间充电",
-                summary="躲在楼梯间吃便当。看手机笑出声。",
-                image_prompt="Medium shot, Leona sitting on concrete stairs in a dimly lit stairwell, holding a bento box and chopsticks, looking at her smartphone screen and laughing joyfully, wearing dance practice clothes, dust motes dancing in a shaft of light from a small window, slice of life atmosphere, Animation film style, 3d render",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [High Angle] A quiet, concrete stairwell. Leona sitting alone on a step, bento box on her lap.\n2. [Close-up] Chopsticks picking up a piece of tamagoyaki (egg roll).\n3. [Over-the-shoulder] Phone lights up with a message from \"Glo\": \"YOU ARE THE QUEEN!!\".\n4. [Medium Shot] Leona reading the message, bursts into laughter, food in her mouth.\n5. [Medium Shot] She coughs and chokes slightly, hitting her chest, tail thumping the stairs in amusement.\nStyle: Animation film style, cinematic chiaroscuro lighting, dust motes dancing in light shafts, natural acting, intimate slice-of-life."
+                event_name="午休小憩",
+                summary="在公园里吃三明治，观察自然色彩。",
+                image_prompt="Medium shot, Luna sitting on park bench, eating sandwich, sketchbook on lap, looking at flowers with interest, dappled sunlight through trees, relaxed atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Wide Shot] City park, lunch time.\n2. [Medium Shot] Luna eating, observing.\n3. [Close-up] Her eyes following a butterfly.\n4. [POV Shot] Her quick sketch of the scene.\nStyle: Realistic slice of life, peaceful park atmosphere.",
+                event_type="N"
             ),
             ScheduleEvent(
                 time_slot="15:00-17:00",
-                event_name="瓶颈时刻",
-                summary="自主练习。对着镜子里的自己，从迷茫到坚定。",
-                image_prompt="Medium shot, Leona standing alone in a dance studio during golden hour, long shadows stretching across the floor, heavy breathing posture with hands on knees, looking intensely at her reflection in the mirror, wearing worn-out sneakers and sweat-drenched clothes, sunset orange light illuminating her side profile, emotional atmosphere, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [Time-lapse] Fixed camera in the studio. Leona repeating the same turn move over and over. The sunlight on the floor moves across the room.\n2. [Close-up] Leona looking at herself in the mirror. Flashback effect (glitch): A judge's shadow mouthing \"Too weak.\"\n3. [Medium Shot] She stands still, breathing heavily. Shoulders slumping.\n4. [Close-up] Her pupils dilate. She takes a deep breath. Inner fire reignites.\n5. [Slow Motion] She executes the move with a mix of softness and power. Her hair and tail follow the arc perfectly.\nStyle: Animation film style, emotional storytelling, dramatic lighting (sunset colors), realistic fur movement, rich details."
+                event_name="画廊参观",
+                summary="参观当地画廊的印象派展览。",
+                image_prompt="Medium shot, Luna walking through art gallery, looking at paintings with deep concentration, museum lighting, contemplative mood, artistic atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Wide Shot] Quiet art gallery.\n2. [Tracking Shot] Luna moving between paintings.\n3. [Close-up] Her face reflecting the art's emotions.\n4. [Medium Shot] She takes notes in sketchbook.\nStyle: Museum atmosphere, contemplative pacing.",
+                event_type="N"
             ),
             ScheduleEvent(
                 time_slot="17:00-19:00",
-                event_name="街头诱惑",
-                summary="用户介入：路过街头Battle现场，想参加 vs 乖乖回家。",
-                image_prompt="Medium shot from the side, Leona standing near a chain-link fence at dusk, clutching the fence with one hand, looking longingly at a blurred group of street dancers in the background, wearing a backpack and headphones around her neck, city neon lights starting to glow purple and blue, urban cyberpunk atmosphere, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[情景铺设 Prompt]\n1. [Tracking Shot] Leona walking home with a gym bag, limping slightly.\n2. [Medium Shot] Through a chain-link fence, she sees a crowd cheering and dancers spinning on cardboard.\n3. [Close-up] Her leopard ear swivels towards the beat of the music.\n4. [Medium Shot] She grips the fence, looking longing. The neon lights of the city start to flicker on.\nStyle: Animation film style, urban cyberpunk aesthetic, neon lighting, atmospheric fog, realistic textures.",
+                event_name="艺术选择",
+                summary="用户介入：朋友 Alex 邀请她去商业酒会 vs 留在工作室完成画作。",
+                image_prompt="Medium shot, Luna in her art studio, phone in hand showing message from Alex, looking between the unfinished canvas and her phone, conflicted expression, golden hour light through window, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Scenario Prompt]\n1. [Medium Shot] Luna working on painting.\n2. [Close-up] Phone buzzes with message from Alex.\n3. [POV Shot] Message: 'Gallery opening tonight, join?'\n4. [Medium Shot] Luna looking at unfinished canvas.\n5. [Close-up] Her internal conflict visible.\nStyle: Realistic character drama, golden hour lighting.",
                 event_type="R"
             ),
             ScheduleEvent(
                 time_slot="19:00-21:00",
-                event_name="泡芙山危机",
-                summary="【动态突发事件】在Baa Baa便利店，因进货单小数点错误，店内堆满了'限定奶油泡芙'。莱昂娜需要制定紧急清仓计划或帮忙消化库存。\n\n[等待实时事件触发...]\n(此处将在事件发生时，根据实时情境生成具体的首帧Prompt)",
+                event_name="画廊之夜",
+                summary="【动态事件】决定参加画廊开幕式，遇到意想不到的人或事。",
                 image_prompt="[等待实时事件触发...]",
-                video_prompt="[等待实时事件触发...]\n(此处将在事件发生时，根据莱昂娜的状态和用户决策生成多镜头Sora Prompt)",
+                video_prompt="[等待实时事件触发...]",
                 event_type="SR"
             ),
             ScheduleEvent(
                 time_slot="21:00-23:00",
-                event_name="隐秘疗愈",
-                summary="宿舍床上，拉上帘子处理伤口。",
-                image_prompt="Medium shot, Leona sitting cross-legged inside her bunk bed space, curtains drawn shut, warm reading light illuminating her, applying ointment to her bruised knee/paw with a cotton swab, wearing comfortable pastel nightwear, expression of quiet pain mixed with relief, intimate and private setting, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [Medium Shot] Leona climbs into her bunk bed and zips the privacy curtain shut.\n2. [Close-up] A small clip-on reading light turns on. Illuminating a bottle of ointment.\n3. [Close-up] She peels off the old bandage. The skin is red and blistered. She winces.\n4. [Extreme Close-up] She blows gently on the wound. Lips pursed.\n5. [Medium Shot] She leans back against the pillow, hand over her heart. Mouthing: \"Three, two, one... slow down.\"\nStyle: Animation film style, intimate and cozy lighting, high detail on fur and accessories, emotional vulnerability, realistic visuals."
+                event_name="深夜创作",
+                summary="回到工作室继续画画，灵感迸发。",
+                image_prompt="Medium shot, Luna painting at night, studio lamps on, intense creative flow, paint on hands and face, focused expression, dramatic lighting, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Wide Shot] Studio at night, only lamps on.\n2. [Medium Shot] Luna painting with energy.\n3. [Close-up] Her face, lost in creation.\n4. [Medium Shot] Stepping back, seeing the work.\nStyle: Realistic artistic drama, intimate night lighting.",
+                event_type="N"
             ),
             ScheduleEvent(
                 time_slot="23:00-01:00",
-                event_name="补给睡眠",
-                summary="抱着玩偶沉睡，梦里她在舞台中央。",
-                image_prompt="High angle medium shot, Leona sleeping soundly on her bed, hugging a worn-out plush toy tight, soft blue moonlight filtering through the window, peaceful expression, fluffy tail resting off the edge of the bed, dreamlike night atmosphere, Animation film style, 3d render",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [High Angle] Leona curled up in a ball under the blanket, hugging a worn-out plush toy.\n2. [Close-up] Rhythmic breathing. Her whiskers twitch slightly.\n3. [Dissolve Transition] The bed sheet morphs into a stage floor.\n4. [Wide Shot] Leona standing in a spotlight, wearing a sparkling outfit. A massive crowd of glowsticks in the darkness.\n5. [Close-up] Dream Leona smiles confidently. Fade to black.\nStyle: Animation film style, dreamlike atmosphere, soft glowing effects, magical transition, peaceful."
-            ),
-            ScheduleEvent(
-                time_slot="01:00-03:00",
-                event_name="深度睡眠",
-                summary="莱昂娜处于深度睡眠状态，在梦中继续她的舞蹈之旅。",
-                image_prompt="Medium shot, Leona sleeping peacefully in her bed, moonlight through window, Animation film style, quiet atmosphere",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\n1. [Wide Shot] Quiet bedroom at 01:00-03:00.\n2. [Medium Shot] Leona sleeping soundly.\n3. [Close-up] Peaceful expression.\nStyle: Animation film style, peaceful, quiet."
-            ),
-            ScheduleEvent(
-                time_slot="03:00-05:00",
-                event_name="深度睡眠",
-                summary="莱昂娜处于深度睡眠状态。",
-                image_prompt="Medium shot, Leona sleeping peacefully in bed, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\nStyle: Animation film style, peaceful sleep."
-            ),
-            ScheduleEvent(
-                time_slot="05:00-07:00",
-                event_name="深度睡眠",
-                summary="莱昂娜处于深度睡眠状态。",
-                image_prompt="Medium shot, Leona sleeping peacefully in bed, Animation film style",
-                video_prompt="[Character Profile]: Leona: A gentle yet fiery street dance girl...\n\n[Sora Prompt]\nStyle: Animation film style, peaceful sleep."
+                event_name="安眠",
+                summary="露娜入睡，梦见新的创作灵感。",
+                image_prompt="Medium shot, Luna sleeping peacefully in bed, moonlight through window, sketchbook on nightstand, serene atmosphere, realistic style",
+                video_prompt="[Character Profile]: Luna: A 22-year-old aspiring artist...\n\n[Sora Prompt]\n1. [Wide Shot] Quiet bedroom at night.\n2. [Medium Shot] Luna sleeping peacefully.\n3. [Close-up] Peaceful expression.\n4. [Dissolve] Dreamlike artistic images.\nStyle: Realistic peaceful atmosphere.",
+                event_type="N"
             ),
         ]
     )

@@ -16,6 +16,48 @@
 
 ---
 
+<div align="center">
+
+**事件编排**
+</div>
+
+```json
+{
+  "time_slot": "01:00-03:00",
+  "event_name": "Restless Visions",
+  "summary": "Unable to sleep, Luna gets up to sketch a fleeting idea, working by the dim light of her desk lamp.",
+  "event_type": "N",
+  "event_location": "Small apartment",
+  "involved_characters": ["Luna"],
+  "attribute_change": {
+    "energy_change": 5,
+    "mood_change": "Peaceful and rested"
+  }
+}
+```
+
+<div align="center">
+
+**故事演绎**
+<br/>
+<img src="assets/story0.png" width="15%" alt="Story Screenshot 1" />
+<img src="assets/story1.png" width="15%" alt="Story Screenshot 2" />
+<img src="assets/story2.png" width="15%" alt="Story Screenshot 3" />
+<img src="assets/story3.png" width="15%" alt="Story Screenshot 4" />
+<img src="assets/story4.png" width="15%" alt="Story Screenshot 5" />
+<img src="assets/story5.png" width="15%" alt="Story Screenshot 6" />
+<br/>
+
+**可交互WebUI**
+<table>
+<tr>
+<td><img src="assets/0.png" width="100%" alt="WebUI Screenshot 1" /></td>
+<td><img src="assets/1.png" width="100%" alt="WebUI Screenshot 2" /></td>
+</tr>
+</table>
+
+</div>
+
 ## 项目简介
 
 Interactive Film Character Daily Agent 是一个 AI 驱动的角色内容生成系统，实现了从角色创建、日程规划、事件策划、导演输出到视频表演生成的完整工作流。系统支持多种图片和视频生成模型，提供 CLI 和 Web 两种交互模式。

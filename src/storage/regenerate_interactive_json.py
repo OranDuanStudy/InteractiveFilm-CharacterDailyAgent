@@ -18,7 +18,7 @@ def main():
     parser.add_argument(
         "--character", "-c",
         required=True,
-        help="角色ID (如: auntie_005)"
+        help="角色ID (如: luna_001)"
     )
     parser.add_argument(
         "--date", "-d",

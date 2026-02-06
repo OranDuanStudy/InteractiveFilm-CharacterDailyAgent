@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """
-角色档案创建脚本
+角色档案创建脚本 Character Profile Creator
 
 用法:
-    # 从模板创建角色
-
     # 列出所有可用模板
     python create_character.py --list-templates
 
@@ -12,13 +10,16 @@
     python create_character.py --list-characters
 
     # 查看角色详情
-    python create_character.py --show leona_001
-    
-    # 创建角色
-    python create_character.py leon_001 --template leona
+    python create_character.py --show <character_id>
+
+    # 从模板创建角色
+    python create_character.py <character_id> --template <template_id>
+
+示例:
+    python create_character.py luna_001 --template luna
+    python create_character.py alex_001 --template alex
 """
 import argparse
-import json
 import sys
 from pathlib import Path
 
@@ -33,19 +34,11 @@ from src.storage.template_loader import TemplateLoader
 # 所有可用的角色模板ID
 # 注意：这些ID必须与 assets/templates/*.json 文件中的 template_id 字段匹配
 AVAILABLE_TEMPLATES = [
-    "leona",      # 1 - 出道练习生 Leona
-    "rick",       # 2 - 神秘教父 Rick
-    "auntie",     # 3 - 便利店老板 Auntie Baa Baa
-    "glo",        # 4 - 时尚情感博主 GLO
-    "link",       # 5 - 嘴臭锐评网红 Link
-    "poto",       # 6 - 抽象薯饼人 Poto
-    "rank",       # 7 - 暴躁汽修老哥 Rank
-    "tos",        # 8 - 吐司打工人 Tos
-    "mac",        # 9 - 游戏高手 Mac
-    "wolly",      # 10 - 悲伤醉酒蛙 Wolly
-    "ham",        # 11 - 汉堡大王 Ham
-    "chip",       # 12 - 零食小宝 Chip
-    "blink",      # 13 - 弹唱星星 Blink
+    "example_character",  # 示例模板 Example Template
+    "luna",               # 1 - 露娜 Luna (追梦艺术家, INFP)
+    "alex",               # 2 - 亚历克斯 Alex (科技创业者, ENTJ)
+    "maya",               # 3 - 玛雅 Maya (自由音乐人, ESFP)
+    "daniel",             # 4 - 丹尼尔 Daniel (书店店主, ISFJ)
 ]
 
 
@@ -60,19 +53,11 @@ def list_templates():
 
     # 模板信息映射
     template_info = {
-        "leona": ("莱昂娜", "出道练习生，街舞女孩，ENFJ"),
-        "rick": ("Rick", "神秘教父，ENTJ，冷峻/毒舌"),
-        "auntie": ("Auntie Baa Baa", "便利店老板，ESFJ，智慧/冷静"),
-        "glo": ("GLO", "时尚博主，ESFP，戏剧/情感"),
-        "link": ("Link", "锐评网红，ENFP，混乱/能量"),
-        "poto": ("Poto", "薯饼人，ISFP，抽象/进化"),
-        "rank": ("Rank", "汽修老哥，ISTP，暴躁/技术"),
-        "tos": ("Tos", "吐司打工人，ISTJ，死板/幽默"),
-        "mac": ("Mac", "游戏高手，ESTP，游戏/速通"),
-        "wolly": ("Wolly", "醉酒蛙，INFP，悲伤/哲学"),
-        "ham": ("Ham", "汉堡大王，ENTJ，自恋/喜剧"),
-        "chip": ("Chip", "零食小宝，ISFP，温柔/分享"),
-        "blink": ("Blink", "弹唱星星，INFP，治愈/笨拙"),
+        "example_character": ("示例角色", "示例模板，ENFJ，友好/乐观"),
+        "luna": ("露娜 Luna", "追梦艺术家，INFP，梦幻/共情"),
+        "alex": ("亚历克斯 Alex", "科技创业者，ENTJ，领导/策略"),
+        "maya": ("玛雅 Maya", "自由音乐人，ESFP，自发/表演"),
+        "daniel": ("丹尼尔 Daniel", "书店店主，ISFJ，可靠/温暖"),
     }
 
     for template_id in template_ids:
@@ -239,19 +224,11 @@ def main():
   python create_character.py --show leona_001
 
 可用模板 Available Templates:
-  leona          - 莱昂娜（街舞女孩，ENFJ，成长/音乐类型）
-  rick           - Rick（神秘教父，ENTJ，冷峻/毒舌）
-  auntie         - Auntie Baa Baa（便利店老板，ESFJ，智慧/冷静）
-  glo            - GLO（时尚博主，ESFP，戏剧/情感）
-  link           - Link（锐评网红，ENFP，混乱/能量）
-  poto           - Poto（薯饼人，ISFP，抽象/进化）
-  rank           - Rank（汽修老哥，ISTP，暴躁/技术）
-  tos            - Tos（吐司打工人，ISTJ，死板/幽默）
-  mac            - Mac（游戏高手，ESTP，游戏/速通）
-  wolly          - Wolly（醉酒蛙，INFP，悲伤/哲学）
-  ham            - Ham（汉堡大王，ENTJ，自恋/喜剧）
-  chip           - Chip（零食小宝，ISFP，温柔/分享）
-  blink          - Blink（弹唱星星，INFP，治愈/笨拙）
+  example_character - 示例角色（ENFJ，友好/乐观）
+  luna             - 露娜 Luna（追梦艺术家，INFP，梦幻/共情）
+  alex             - 亚历克斯 Alex（科技创业者，ENTJ，领导/策略）
+  maya             - 玛雅 Maya（自由音乐人，ESFP，自发/表演）
+  daniel           - 丹尼尔 Daniel（书店店主，ISFJ，可靠/温暖）
         """
     )
 

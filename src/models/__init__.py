@@ -17,9 +17,8 @@ from .models import (
     MutexLock,
     FullInputContext,
     # 工厂函数
-    create_judy_context,
-    create_leona_context,
-    get_leona_example_schedule,
+    create_example_context,
+    get_example_schedule,
 )
 
 __all__ = [
@@ -36,7 +35,6 @@ __all__ = [
     "MutexLock",
     "FullInputContext",
     # 工厂函数
-    "create_judy_context",
-    "create_leona_context",
-    "get_leona_example_schedule",
+    "create_example_context",
+    "get_example_schedule",
 ]

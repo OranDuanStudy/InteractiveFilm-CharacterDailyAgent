@@ -17,38 +17,22 @@ from src.storage.context_manager import CharacterContextManager
 def main():
     """从模板创建所有角色的context文件"""
 
-    # 模板ID列表（对应13个角色）
+    # 模板ID列表（真人世界观角色）
     templates = [
-        "leona",
-        "rick",
-        "auntie_baa_baa",
-        "glo",
-        "link",
-        "poto",
-        "rank",
-        "tos",
-        "mac",
-        "wolly",
-        "ham",
-        "chip",
-        "blink",
+        "example_character",
+        "luna",
+        "alex",
+        "maya",
+        "daniel",
     ]
 
     # 角色ID映射
     character_ids = [
-        "leona_001",
-        "rick_001",
-        "baabaa_001",
-        "glo_001",
-        "link_001",
-        "poto_001",
-        "rank_001",
-        "tos_001",
-        "mac_001",
-        "wolly_001",
-        "ham_001",
-        "chip_001",
-        "blink_001",
+        "example_001",
+        "luna_001",
+        "alex_001",
+        "maya_001",
+        "daniel_001",
     ]
 
     # 初始化context manager

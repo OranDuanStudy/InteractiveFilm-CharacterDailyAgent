@@ -55,28 +55,28 @@ def main():
 示例用法:
 
   # 使用默认模型
-  python generate_performance.py -c leona_002 -t 2026-01-16
+  python generate_performance.py -c luna_001 -t 2026-01-16
 
   # 指定图片和视频模型
-  python generate_performance.py -c leona_002 -t 2026-01-16 -im seedream -vm kling
+  python generate_performance.py -c luna_001 -t 2026-01-16 -im seedream -vm kling
 
   # 只生成特定时间段（单个时间段）
-  python generate_performance.py -c leona_002 -t 2026-01-16 --time-slot "09:00-11:00"
+  python generate_performance.py -c alex_001 -t 2026-01-16 --time-slot "09:00-11:00"
 
   # 只生成特定时间段（多个时间段）
-  python generate_performance.py -c leona_002 -t 2026-01-16 --time-slot "09:00-11:00,14:00-16:00"
+  python generate_performance.py -c maya_001 -t 2026-01-16 --time-slot "09:00-11:00,14:00-16:00"
 
   # 模型选择
     图片模型: nano_banana (无引科技) | seedream (火山引擎)
     视频模型: sora2 (无引科技) | kling (可灵AI)
 
   # 自由组合
-  python generate_performance.py -c leona_002 -t 2026-01-16 -im seedream -vm kling
-  python generate_performance.py -c leona_002 -t 2026-01-16 -im nano_banana -vm sora2
-  python generate_performance.py -c leona_002 -t 2026-01-16 -im nano_banana -vm kling
+  python generate_performance.py -c daniel_001 -t 2026-01-16 -im seedream -vm kling
+  python generate_performance.py -c luna_001 -t 2026-01-16 -im nano_banana -vm sora2
+  python generate_performance.py -c alex_001 -t 2026-01-16 -im nano_banana -vm kling
 
-  python generate_performance.py -c leona_002 -t 2026-01-16 -im seedream -vm sora2
-  python generate_performance.py -c leona_002 -t 2026-01-16 --time-slot "09:00-11:00" -im seedream -vm kling
+  python generate_performance.py -c maya_001 -t 2026-01-16 -im seedream -vm sora2
+  python generate_performance.py -c daniel_001 -t 2026-01-16 --time-slot "09:00-11:00" -im seedream -vm kling
         """
     )
 
@@ -91,7 +91,7 @@ def main():
     parser.add_argument(
         "--character", "-c",
         required=True,
-        help="角色ID (如: leona_002)"
+        help="角色ID (如: luna_001)"
     )
     parser.add_argument(
         "--date", "-t",

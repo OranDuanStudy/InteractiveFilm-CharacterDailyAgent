@@ -24,9 +24,8 @@ from .models import (
     WorldContext,
     MutexLock,
     FullInputContext,
-    create_judy_context,
-    create_leona_context,
-    get_leona_example_schedule,
+    create_example_context,
+    get_example_schedule,
 )
 
 from .core import (
@@ -61,9 +60,8 @@ __all__ = [
     "WorldContext",
     "MutexLock",
     "FullInputContext",
-    "create_judy_context",
-    "create_leona_context",
-    "get_leona_example_schedule",
+    "create_example_context",
+    "get_example_schedule",
     # Core
     "ScheduleAgent",
     "ScheduleEvent",

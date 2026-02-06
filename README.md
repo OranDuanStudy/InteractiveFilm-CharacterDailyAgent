@@ -16,6 +16,48 @@ Complete Character Director System
 
 ---
 
+<div align="center">
+
+**Events Scripts**
+</div>
+
+```json
+{
+  "time_slot": "01:00-03:00",
+  "event_name": "Restless Visions",
+  "summary": "Unable to sleep, Luna gets up to sketch a fleeting idea, working by the dim light of her desk lamp.",
+  "event_type": "N",
+  "event_location": "Small apartment",
+  "involved_characters": ["Luna"],
+  "attribute_change": {
+    "energy_change": 5,
+    "mood_change": "Peaceful and rested"
+  }
+}
+```
+
+<div align="center">
+
+**Story Performances**
+<br/>
+<img src="assets/story0.png" width="15%" alt="Story Screenshot 1" />
+<img src="assets/story1.png" width="15%" alt="Story Screenshot 2" />
+<img src="assets/story2.png" width="15%" alt="Story Screenshot 3" />
+<img src="assets/story3.png" width="15%" alt="Story Screenshot 4" />
+<img src="assets/story4.png" width="15%" alt="Story Screenshot 5" />
+<img src="assets/story5.png" width="15%" alt="Story Screenshot 6" />
+<br/>
+
+**Interactive WebUI**
+<table>
+<tr>
+<td><img src="assets/0.png" width="100%" alt="WebUI Screenshot 1" /></td>
+<td><img src="assets/1.png" width="100%" alt="WebUI Screenshot 2" /></td>
+</tr>
+</table>
+
+</div>
+
 ## Project Overview
 
 Interactive Film Character Daily Agent is an AI-driven character content generation system that implements a complete workflow from character creation, schedule planning, event planning, director output to video performance generation. The system supports multiple image and video generation models, providing both CLI and Web interaction modes.

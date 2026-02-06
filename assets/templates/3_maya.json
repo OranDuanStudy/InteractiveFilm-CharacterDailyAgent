@@ -33,7 +33,7 @@
     "relationships": {
       "Luna": "Fellow artist she jammed with once at an open mic",
       "Alex": "Former classmate, admires his drive but worries he's missing out on life",
-      "Barista_Jake": "Works at the cafe where she often performs"
+      "Daniel": "Works at the cafe where she often performs"
     },
     "skills": [
       "Musical Performance: Talented singer and guitarist",
@@ -58,7 +58,7 @@
         "[Dream] Wants to be truly seen and accepted for who she is, flaws and all"
       ]
     },
-    "profile_en": "Maya: A 24-year-old street musician and performer with ever-changing colorful hair and eclectic vintage-modern fashion. Always carrying her guitar and a notebook of lyrics. Charismatic ESFP performer who lives in the moment, values freedom, and processes emotions through music. Spontaneous, energetic, and deeply feeling."
+    "profile_en": "Maya: 24-year-old woman with colorful dyed hair (changes regularly), eclectic fashion mixing vintage and modern, always wearing musical accessories. Voice is energetic and expressive with enthusiastic, warm tone."
   },
   "default_actor_state": {
     "energy": 80,

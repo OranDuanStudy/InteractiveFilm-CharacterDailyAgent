@@ -9,9 +9,9 @@
 #   ./run_pipeline.sh <character_id> <date> [options]
 #
 # 示例：
-#   ./run_pipeline.sh leona_001 2026-01-26
-#   ./run_pipeline.sh auntie_005 2026-01-26 --template auntie
-#   ./run_pipeline.sh rick_001 2026-01-26 --use-existing
+#   ./run_pipeline.sh luna_001 2026-01-26
+#   ./run_pipeline.sh alex_005 2026-01-26 --template alex
+#   ./run_pipeline.sh maya_001 2026-01-26 --use-existing
 #
 ###############################################################################
 
@@ -75,12 +75,11 @@ show_help() {
 用法: $0 <character_id> <date> [options]
 
 参数:
-  character_id          角色ID (如: leona_001, auntie_005, rick_001)
+  character_id          角色ID (如: luna_001, alex_005, maya_001)
   date                  日期 (如: 2026-01-26)
 
 选项:
-  --template TEMPLATE    使用角色模板创建 (可选: leona, rick, auntie, glo, link, poto,
-                        rank, tos, mac, wolly, ham, chip, blink)
+  --template TEMPLATE    使用角色模板创建 (可选: example_character, luna, alex, maya, daniel)
   --force, -f            强制覆盖已存在的角色
   --use-existing, -e     仅使用已存在的角色
   --schedule-only        只运行日程规划 + 导演生成，跳过视频生成
@@ -94,16 +93,16 @@ show_help() {
 
 示例:
   # 完整流程（新角色）
-  $0 leona_001 2026-01-26 --template leona
+  $0 luna_001 2026-01-26 --template luna
 
   # 完整流程（已存在角色）
-  $0 auntie_005 2026-01-26 --use-existing
+  $0 alex_005 2026-01-26 --use-existing
 
   # 只生成日程和导演脚本，不生成视频
-  $0 rick_001 2026-01-26 --use-existing --schedule-only
+  $0 maya_001 2026-01-26 --use-existing --schedule-only
 
   # 指定图片和视频模型
-  $0 leona_001 2026-01-26 --use-existing --image-model seedream --video-model kling
+  $0 daniel_001 2026-01-26 --use-existing --image-model seedream --video-model kling
 
 EOF
 }

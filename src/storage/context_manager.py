@@ -68,7 +68,7 @@ class CharacterContextManager:
         检查角色上下文是否存在
 
         Args:
-            character_id: 角色ID（如 "judy_001", "leona_001"）
+            character_id: 角色ID（如 "luna_001", "alex_001"）
 
         Returns:
             True 如果上下文文件存在
@@ -87,7 +87,7 @@ class CharacterContextManager:
         Args:
             character_id: 角色ID
             default_context: 默认上下文（如果不存在且未提供，会尝试从模板创建）
-            template_id: 模板ID，用于从模板创建上下文（如 "leona", "rick"）
+            template_id: 模板ID，用于从模板创建上下文（如 "luna", "alex"）
 
         Returns:
             FullInputContext 对象
@@ -205,7 +205,7 @@ class CharacterContextManager:
         加载指定角色的档案信息（profile_en）
 
         Args:
-            character_id: 角色ID（如 "rick_001", "glo_001"）
+            character_id: 角色ID（如 "alex_001", "maya_001"）
 
         Returns:
             dict: 包含角色信息的字典，格式为 {"name": str, "name_en": str, "profile_en": str}
@@ -452,8 +452,8 @@ class CharacterContextManager:
         从模板文件创建角色上下文
 
         Args:
-            character_id: 角色ID（如 "leona_001"）
-            template_id: 模板ID（如 "leona", "rick", "glo"）
+            character_id: 角色ID（如 "luna_001"）
+            template_id: 模板ID（如 "luna", "alex", "maya"）
 
         Returns:
             FullInputContext 对象

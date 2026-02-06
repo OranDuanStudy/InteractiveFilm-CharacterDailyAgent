@@ -61,23 +61,13 @@ class SceneProcessor:
         self.pending_tasks: Dict[str, str] = {}
 
         # 角色名到目录名的映射（英文名 -> 小写目录名）
-        # 用于处理 "Auntie Baa Baa" -> "auntie" 等情况
+        # 用于处理真人世界观角色映射
         self._character_name_mapping = {
-            "Auntie Baa Baa": "auntie",
-            "Auntie": "auntie",
-            "Baa Baa": "auntie",
-            "Leona": "leona",
-            "Rick": "rick",
-            "Glo": "glo",
-            "Link": "link",
-            "Poto": "poto",
-            "Rank": "rank",
-            "Tos": "tos",
-            "Mac": "mac",
-            "Wolly": "wolly",
-            "Ham": "ham",
-            "Chip": "chip",
-            "Blink": "blink",
+            "Luna": "luna",
+            "Alex": "alex",
+            "Maya": "maya",
+            "Daniel": "daniel",
+            "Example Character": "example_character",
         }
 
     def _get_character_dir_name(self, character_name: str) -> str:
@@ -85,10 +75,10 @@ class SceneProcessor:
         将角色英文名转换为图片目录名（小写）
 
         Args:
-            character_name: 角色英文名（如 "Auntie Baa Baa", "Leona", "Rick"）
+            character_name: 角色英文名（如 "Luna", "Alex", "Maya"）
 
         Returns:
-            对应的图片目录名（小写，如 "auntie", "leona", "rick"）
+            对应的图片目录名（小写，如 "luna", "alex", "maya"）
         """
         # 先检查映射表
         if character_name in self._character_name_mapping:
@@ -139,7 +129,7 @@ class SceneProcessor:
         流程: 从 assets/pics/images_mapping.json 读取预上传的图片URL
 
         Args:
-            involved_characters: 涉及的角色名列表（英文名），如 ["Rick", "Glo", "Leona"]
+            involved_characters: 涉及的角色名列表（英文名），如 ["Luna", "Alex", "Maya"]
                               如果为None，则使用原有的单一角色逻辑（从character_assets_dir加载）
 
         Returns:
@@ -157,7 +147,7 @@ class SceneProcessor:
             cloud_urls = []
 
             for character_name in involved_characters:
-                # 使用映射函数获取目录名（处理 "Auntie Baa Baa" -> "auntie"）
+                # 使用映射函数获取目录名（处理英文名到小写目录名的映射）
                 char_dir_name = self._get_character_dir_name(character_name)
 
                 # 从映射中获取该角色的front图片URL
@@ -186,7 +176,7 @@ class SceneProcessor:
             return None
 
         # 从目录路径提取角色名（目录名就是角色名）
-        # 例如: /path/to/assets/pics/leona -> leona
+        # 例如: /path/to/assets/pics/luna -> luna
         character_name = os.path.basename(self.character_assets_dir.rstrip('/'))
 
         # 检查映射中是否有该角色
@@ -221,7 +211,7 @@ class SceneProcessor:
             scene_name: 场景名称（用作任务ID）
             image_prompt: 图片生成提示词
             event_type: 事件类型 (N/R/SR)
-            involved_characters: 涉及的角色名列表（英文名），如 ["Rick", "Glo", "Leona"]
+            involved_characters: 涉及的角色名列表（英文名），如 ["Luna", "Alex", "Maya"]
             character_profile: 角色档案描述
             style_tags: 风格标签
 
@@ -302,7 +292,7 @@ class SceneProcessor:
             video_prompt: 视频生成提示词 (sora_prompt)
             image_prompt: 首帧图提示词（用于生成首帧图作为参考）
             event_type: 事件类型 (N/R/SR)
-            involved_characters: 涉及的角色名列表（英文名），如 ["Rick", "Glo", "Leona"]
+            involved_characters: 涉及的角色名列表（英文名），如 ["Luna", "Alex", "Maya"]
             character_profile: 角色档案描述
             style_tags: 风格标签
 
@@ -847,7 +837,7 @@ class SceneProcessor:
             event_type: 事件类型 (R/SR)
             event_index: 事件索引（第几个区间）
             time_slot: 时间段
-            involved_characters: 涉及的角色名列表（英文名），如 ["Rick", "Glo", "Leona"]
+            involved_characters: 涉及的角色名列表（英文名），如 ["Luna", "Alex", "Maya"]
 
         Returns:
             包含生成结果的字典

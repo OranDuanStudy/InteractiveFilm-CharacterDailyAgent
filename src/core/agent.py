@@ -24,7 +24,7 @@ class ScheduleEvent:
     image_prompt: str  # 首帧生图Prompt
     sora_prompt: str  # Sora视频生成Prompt（仅Shot部分，不含角色档案）
     character_profile: str = ""  # 角色档案Profile（从context.profile_en提取）
-    style_tags: str = ""  # 风格标签（英文，逗号分隔，如：Animation film style, cinematic storytelling, detailed texture）
+    style_tags: str = ""  # 风格标签（英文，逗号分隔，如：realistic film, cinematic, natural lighting）
     event_type: Literal["N", "R", "SR"] = "N"  # 事件类型: N=漫游, R=交互, SR=动态
     involved_characters: list = None  # 涉及角色列表，从角色关系网中选择
     event_location: str = ""  # 事件地点，从角色常用地点中选择
@@ -257,10 +257,9 @@ class ScheduleAgent:
 - CRITICAL: Camera angle MUST be frontal/eye-level - NO high angles, low angles, Dutch angles, or oblique shots
 - Describe character action, outfit, props, location, lighting, atmosphere
 - 50-100 words, ALL IN ENGLISH
-- CRITICAL: Emphasize ANIMAL FEATURES (ears, tail, fur patterns, snout/muzzle shape, species-specific traits)
-- CRITICAL: NO HUMANS - all characters are ANIMAL characters with distinct animal traits
-- End with "Animation film style, 3d render, cinematic storytelling"
-- Example: "Medium shot, [Character1] and [Character2] standing side by side facing forward in [location], [action], [lighting/atmosphere], Animation film style, 3d render, cinematic storytelling"
+- Describe realistic human characters with natural features
+- End with "realistic film style, cinematic"
+- Example: "Medium shot, [Character1] and [Character2] standing side by side facing forward in [location], [action], [lighting/atmosphere], realistic film style, cinematic"
 
 **Sora Prompt (sora_prompt)**:
 - Start directly with Shot 1, NO character profiles inside
@@ -269,31 +268,29 @@ class ScheduleAgent:
 - Include ALL dialogue with character names
 - 4-10 shots total, each shot detailed
 - ALL IN ENGLISH
-- CRITICAL: In EVERY shot description, mention visible animal features (ears, tail, fur, paws, muzzle, etc.)
-- CRITICAL: NO HUMANS - emphasize these are ANIMAL characters throughout
-- Example: "Shot 1: [Wide Shot] Leona the leopard girl stands in center of dance studio, her spotted tail visible behind her. [Cut to] Shot 2: [Medium Shot] Leona begins stretching arms overhead, her leopard ears twitching slightly. [Cut to] Shot 3: [Close-up] Her focused feline face with soft leopard markings around eyes. [Cut to] Shot 4: [Full Shot] She flows into dance sequence, tail moving gracefully with her movements."
+- Describe realistic human characters with natural features and expressions
+- Example: "Shot 1: [Wide Shot] Luna sits in her art studio, sunlight streaming through large windows. [Cut to] Shot 2: [Medium Shot] She picks up a paintbrush, hair tied back casually. [Cut to] Shot 3: [Close-up] Her focused eyes studying the canvas. [Cut to] Shot 4: [Full Shot] She steps back to view the painting, hands stained with paint."
 
 **Character Profile (character_profile)**:
 - List ALL characters appearing in this scene with FULL descriptions ONLY
 - For the main character, use: {character.name_en}: {character.profile_en}
 - For other characters, create brief but accurate descriptions based on their relationship context
 - Format: "Name: Description Name2: Description2" (use space to separate on ONE line)
-- Example: "Leona: A 17-year-old leopard girl, soft leopard markings on face, big eyes, oversized street dance hoodie, ripped jeans Rick: A sharp-tongued little chicken with toxic mouth but kind heart"
+- Example: "Luna: A 22-year-old aspiring artist with wavy brown hair, paint smudges on cheeks, oversized sweater Alex: A 28-year-old tech startup founder, tall with dark hair and stylish glasses, wearing smart casual business attire"
 - CRITICAL: ALL content must be on ONE LINE - use space (NOT newline) between characters
 - DO NOT include style tags, animation style, or rendering techniques here (put those in Style Tags column instead)
 
 **Style Tags (style_tags)**:
 - Comma-separated STYLE keywords for visual presentation (3-5 tags)
-- ONLY visual/artistic style: lighting, animation style, rendering, color palette, mood
-- CRITICAL: MUST start with "3D animation" - this is a 3D animated world
-- CRITICAL: MUST include "animal characters only" - ALL characters MUST be animals
-- CRITICAL: MUST include "anthropomorphic animals" - characters are animal-people, not humans
-- FORBIDDEN keywords (NEVER use): "2D", "hand-drawn", "anime-style", "human", "people"
+- ONLY visual/artistic style: lighting, visual style, rendering, color palette, mood
+- CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
+- CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
+- FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime"
 - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-- Examples: "3D animation, animal characters only, anthropomorphic animals, slice of life, warm lighting, cinematic, colorful, character identification features and artistic style matching the reference image."
-- Examples: "3D animation, animal characters only, anthropomorphic animals, soft focus, pastel colors, cozy atmosphere, character identification features and artistic style matching the reference image."
-- Examples: "3D animation, animal characters only, anthropomorphic animals, detailed textures, vibrant colors, morning sunlight, character identification features and artistic style matching the reference image."
-- CRITICAL: NEVER include character names, species, or descriptions in Style Tags
+- Examples: "realistic film, slice of life, warm lighting, cinematic, natural colors, character identification features and artistic style matching the reference image."
+- Examples: "realistic film, soft focus, contemporary setting, cozy atmosphere, natural lighting, character identification features and artistic style matching the reference image."
+- Examples: "realistic film, detailed textures, vibrant colors, morning sunlight, urban atmosphere, character identification features and artistic style matching the reference image."
+- CRITICAL: NEVER include character names or detailed descriptions in Style Tags
 
 ### R-Type (Interactive) Events - BASIC INFO ONLY
 **Name prefix**: "**[Interactive]**"
@@ -348,10 +345,10 @@ EVENT TYPES:
 - SR-Type (Dynamic): Basic info only (3-4 characters)
 
 CRITICAL CONTENT RULES:
-- ALL characters are ANIMAL characters - NO HUMANS in generated content
-- When describing scenes, ALWAYS emphasize visible animal traits: ears, tails, fur patterns, muzzles/snouts, paws/claws, species-specific features
-- In image/sora prompts, explicitly mention animal features in EVERY shot/description
-- Avoid ambiguous descriptions that could result in human-like characters
+- ALL characters are REALISTIC HUMAN characters
+- When describing scenes, describe natural human features: hair, face, hands, clothing, expressions
+- In image/sora prompts, describe realistic human appearance
+- This is a contemporary realistic world setting
 
 CRITICAL: For the Character Profile column, you MUST copy the EXACT profiles from above - do NOT create or modify them."""
 
@@ -455,8 +452,7 @@ First Frame Prompt (50-100 words):
 - Describe KEY MOMENT with vivid details
 - Include ALL visible characters, positions, actions, outfits
 - DO NOT include character profiles or style tags
-- CRITICAL: Emphasize ANIMAL FEATURES (ears, tail, fur patterns, snout/muzzle, species traits)
-- CRITICAL: NO HUMANS - all characters are ANIMAL characters with visible animal traits
+- Describe realistic human characters with natural features
 
 Sora Prompt (4-10 shots):
 - CRITICAL: Match the time of day - {lighting_desc}
@@ -466,8 +462,7 @@ Sora Prompt (4-10 shots):
 - Use [Cut to] between shots
 - Include ALL dialogue with character names
 - DO NOT include character profiles
-- CRITICAL: In EVERY shot, describe visible animal features (ears, tail, fur, paws, muzzle, etc.)
-- CRITICAL: NO HUMANS - emphasize these are ANIMAL characters throughout all shots
+- Describe realistic human characters and natural features
 
 Character Profile:
 - CRITICAL: List EXACTLY {n_char_count} character(s) - no more, no less!
@@ -482,12 +477,10 @@ Character Profile:
 
 Style Tags:
 - ONLY visual/artistic style keywords for presentation (3-5 tags)
-- CRITICAL: MUST start with "3D animation" - this is a 3D animated world
-- CRITICAL: MUST include "animal characters only" - ALL characters MUST be animals
-- CRITICAL: MUST include "anthropomorphic animals" - characters are animal-people, not humans
-- FORBIDDEN keywords (NEVER use): "2D", "hand-drawn", "anime-style", "human", "people"
+- CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
+- CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
 - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-- Examples: "3D animation, animal characters only, anthropomorphic animals, slice of life, warm lighting, cinematic, colorful, character identification features and artistic style matching the reference image."
+- Examples: "realistic film, slice of life, warm lighting, cinematic, natural colors, character identification features and artistic style matching the reference image."
 - CRITICAL: NEVER include character names, descriptions, or relationships in Style Tags
 
 - Type column: "N"
@@ -858,10 +851,10 @@ Remember:
                     time_slot=slot,
                     event_name=f"{prefix}Activity",
                     summary=f"Character activity during {slot}",
-                    image_prompt=f"Medium shot, {context.character_dna.name_en} standing in complete frontal view facing forward, 3D animation style",
+                    image_prompt=f"Medium shot, {context.character_dna.name_en} standing in complete frontal view facing forward, realistic film style",
                     sora_prompt=f"1. [Medium Shot] Scene during {slot}.\n2. [Close-up] Character expression.\n3. [Wide Shot] Environment.\n4. [Detail Shot] Action details.",
                     character_profile=context.character_dna.profile_en,
-                    style_tags="Animation film style, cinematic storytelling, detailed texture",
+                    style_tags="realistic film, cinematic, natural lighting",
                     event_type=event_type,
                 ))
             else:
@@ -989,7 +982,7 @@ Remember:
             elif event_type == "N":
                 # N 型事件必须有实际的 prompt 内容
                 if not image_prompt or image_prompt.startswith("[To be generated"):
-                    image_prompt = f"Medium shot, character in complete frontal view facing forward, Animation film style"
+                    image_prompt = f"Medium shot, character in complete frontal view facing forward, realistic film style"
                 # 新格式字段保持为空（由 LLM 生成）
                 if not sora_prompt:
                     sora_prompt = ""
@@ -1286,10 +1279,10 @@ Remember:
                 time_slot=time_slot,
                 event_name=f"{prefix}Activity",
                 summary=f"Character activity during {time_slot}",
-                image_prompt=f"Medium shot, {context.character_dna.profile_en}, Animation film style",
+                image_prompt=f"Medium shot, {context.character_dna.profile_en}, realistic film style",
                 sora_prompt=f"1. [Medium Shot] Scene during {time_slot}.\n2. [Close-up] Character expression.\n3. [Wide Shot] Environment.\n4. [Detail Shot] Action details.",
                 character_profile=context.character_dna.profile_en,
-                style_tags="Animation film style, cinematic storytelling, detailed texture",
+                style_tags="realistic film, cinematic, natural lighting",
                 event_type=event_type,
             )
         else:

@@ -1,22 +1,22 @@
 {
   "_comment": "图片映射文件 - Interactive Film Character Daily Agent 示例角色图片映射",
   "luna": {
-    "front": "YOUR_IMAGE_URL_LUNA_FRONT",
+    "front": "https://i.ibb.co/6J1SgH4K/luna.png",
     "side": "YOUR_IMAGE_URL_LUNA_SIDE",
     "back": "YOUR_IMAGE_URL_LUNA_BACK"
   },
   "alex": {
-    "front": "YOUR_IMAGE_URL_ALEX_FRONT",
+    "front": "https://i.ibb.co/nswh5Y5F/alex.png",
     "side": "YOUR_IMAGE_URL_ALEX_SIDE",
     "back": "YOUR_IMAGE_URL_ALEX_BACK"
   },
   "maya": {
-    "front": "YOUR_IMAGE_URL_MAYA_FRONT",
+    "front": "https://i.ibb.co/tRh4zzV/maya.png",
     "side": "YOUR_IMAGE_URL_MAYA_SIDE",
     "back": "YOUR_IMAGE_URL_MAYA_BACK"
   },
   "daniel": {
-    "front": "YOUR_IMAGE_URL_DANIEL_FRONT",
+    "front": "https://i.ibb.co/LdtpShRC/daniel.png",
     "side": "YOUR_IMAGE_URL_DANIEL_SIDE",
     "back": "YOUR_IMAGE_URL_DANIEL_BACK"
   },

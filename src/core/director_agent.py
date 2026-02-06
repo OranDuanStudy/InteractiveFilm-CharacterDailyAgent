@@ -148,7 +148,7 @@ class DirectorAgent:
         从data/characters目录加载角色档案
 
         Args:
-            character_id: 角色ID (如 "leona_001")
+            character_id: 角色ID (如 "luna_001")
 
         Returns:
             dict: 角色档案数据，包含character_id, name, name_en, profile_en等字段
@@ -512,23 +512,23 @@ FIELD-BY-FIELD INSTRUCTIONS
 3. image_prompt (string - English):
    - CRITICAL: MUST be a MEDIUM SHOT or LONG SHOT showing ALL characters in the scene together - this ensures character consistency for Sora video generation
    - Use ONLY "medium shot" or "long shot" - NO close-ups or extreme close-ups
-   - Include ONLY character names - NO appearance descriptions (no hair color, clothing, accessories, species traits)
+   - Include ONLY character names - NO appearance descriptions (no hair color, clothing, accessories)
    - DO NOT describe any physical features - rely on character_profile and reference images
-   - CRITICAL: This is an ANIMAL world - NO HUMANS, NO human-like features
+   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
    - CRITICAL: Lighting MUST match the time of day from Time/Location context
    - CRITICAL: For NIGHT/late evening (21:00-06:00): use ONLY artificial lighting (indoor lights, streetlamps, moonlight) - NO sunlight
    - CRITICAL: For DAY/morning/afternoon (07:00-18:00): use natural sunlight appropriate for the time
    - Describe positions, actions, environment, lighting, atmosphere only
    - CRITICAL: For props/items: If a prop was described in previous scenes or narrative's 关键道具 section, you MUST describe it with the SAME appearance details (shape, color, material, size, texture, patterns) - NEVER change or contradict established prop descriptions
    - 30-50 words, ONE line only
-   - Example: "In a convenience store at night, medium shot showing Leona and Auntie Baa Baa visible under indoor fluorescent lights, evening atmosphere"
+   - Example: "In a coffee shop at night, medium shot showing Luna and Daniel visible under indoor warm lights, evening atmosphere"
 
 4. character_profile (string - English):
    - List ALL characters appearing in this scene with FULL descriptions
    - Format: Name: Description (separated by space)
-   - Each character must have complete, detailed description including species, animal features, and appearance
+   - Each character must have complete, detailed description including appearance and personality
    - DO NOT include in image_prompt or sora_prompt
-   - Example: "Leona: A 17-year-old pink leopard girl with gradient pink-purple hair, soft leopard markings on face and snout, expressive feline eyes, leopard ears on top of head, long spotted tail, wearing an oversized street dance hoodie and ripped jeans, shy but enthusiastic personality Shopkeeper: An elderly sheep character with fluffy white wool, sheep ears and hooves visible, wearing glasses and apron, looking concerned"
+   - Example: "Luna: A 22-year-old aspiring artist with medium-length wavy brown hair, paint smudges on cheeks, wearing comfortable oversized sweater and jeans, soft-spoken but deeply emotional Daniel: A 35-year-old bookstore owner with soft features and kind eyes behind wire-rimmed glasses, wearing comfortable cardigans and button-down shirts, thoughtful observer"
 
 5. sora_prompt (string - English):
    - Start directly with Shot 1, NO [Character Profile] section
@@ -540,21 +540,20 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: ALL shots must match the time of day - check Time/Location context
    - CRITICAL: For NIGHT/late evening: EVERY shot must show artificial lighting (lamps, indoor lights) - NO sunlight in any shot
    - CRITICAL: For DAY/morning/afternoon: Use natural sunlight consistent with the time
-   - CRITICAL: This is an ANIMAL world - NO HUMANS, NO human-like features in any shot
+   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
    - CRITICAL: For props/items: If a prop was described in previous scenes or narrative's 关键道具 section, you MUST describe it with the SAME appearance details (shape, color, material, size, texture, patterns) - NEVER change or contradict established prop descriptions across shots
    - Use character names ONLY - NO appearance descriptions (no hair color, clothing, accessories)
    - Focus on actions, positions, camera movements
-   - Example: "Shot 1: [Wide Shot] In a dimly lit convenience store at night, Leona and Auntie Baa Baa are visible under fluorescent lights. [Cut to] Shot 2: [Medium Shot] Leona reaches for a product. Leona says: \\"This one looks good!\\" [Cut to] Shot 3: [Close-up] Focus on the item in artificial light. [Cut to] Shot 4: [Full Shot] Movement causes items to fall. [Cut to] Shot 5: [Medium Close-up] Leona looks shocked. Leona says: \\"Ah! I'm so sorry!\\""
+   - Example: "Shot 1: [Wide Shot] In a dimly lit coffee shop at night, Luna and Daniel are visible under warm lights. [Cut to] Shot 2: [Medium Shot] Luna reaches for her sketchbook. Luna says: \\"This light is perfect.\\" [Cut to] Shot 3: [Close-up] Focus on the sketchbook. [Cut to] Shot 4: [Full Shot] They both look at a painting. [Cut to] Shot 5: [Medium Close-up] Luna smiles. Luna says: \\"Thanks for showing me this.\\""
 
 6. style_tags (string - English):
-   - CRITICAL: MUST start with "3D animation" - this is a 3D animated world
-   - CRITICAL: MUST include "animal characters only" - ALL characters MUST be animals
-   - CRITICAL: MUST include "anthropomorphic animals" - characters are animal-people, not humans
-   - FORBIDDEN keywords (NEVER use): "2D", "hand-drawn", "Ghibli-inspired", "anime-style", "cel-shaded", "flat", "illustration", "human", "people"
-   - REQUIRED tags (in order): "3D animation", "animal characters only", "anthropomorphic animals"
-   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "volumetric lighting"
+   - CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
+   - CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
+   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime", "2D", "hand-drawn", "Ghibli-inspired", "cel-shaded", "flat", "illustration"
+   - REQUIRED tags (in order): "realistic film"
+   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "natural lighting", "contemporary setting"
    - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-   - Example: "3D animation, animal characters only, anthropomorphic animals, slice of life, warm lighting, cinematic, colorful, character identification features and artistic style matching the reference image."
+   - Example: "realistic film, slice of life, warm lighting, cinematic, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
 
 7. bgm_prompt (string - English):
    - Describe mood, atmosphere, instruments/style with details
@@ -897,8 +896,8 @@ CRITICAL OUTPUT RULES - READ CAREFULLY
 6. Output ENDS immediately after the closing brace }}
 7. Use IDENTICAL profile text for each character across scenes (copy exact text from ALL CHARACTER PROFILES section)
 8. Each scene's character_profile must ONLY include characters in that scene - do NOT add characters not present
-9. CRITICAL: ALL characters are ANIMAL characters - NO HUMANS in generated content
-10. In image_prompt and sora_prompt, use character name + species ONLY - do NOT describe detailed appearance (no fur patterns, ear details, tail spots, etc.)
+8. CRITICAL: ALL characters are REALISTIC HUMAN characters
+9. In image_prompt and sora_prompt, describe realistic human appearance
 
 ═══════════════════════════════════════════════════
 SCENE CONTINUITY - CRITICAL FOR NARRATIVE FLOW
@@ -949,7 +948,7 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: MUST be a MEDIUM SHOT or LONG SHOT showing ALL characters in the scene together - this ensures character consistency for Sora video generation
    - Use ONLY "medium shot" or "long shot" - NO close-ups or extreme close-ups
    - Include ONLY character names - NO appearance descriptions (no hair color, clothing, accessories, species traits)
-   - CRITICAL: This is an ANIMAL world - NO HUMANS, NO human-like features
+   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
    - CRITICAL: Lighting MUST match the Time/Location context - check if it's day/evening/night
    - CRITICAL: For NIGHT events: use ONLY artificial lighting (indoor lights, streetlamps) - NO sunlight
    - CRITICAL: For DAY events: use natural sunlight appropriate for the time
@@ -962,10 +961,10 @@ FIELD-BY-FIELD INSTRUCTIONS
    - ONLY include characters who ACTUALLY APPEAR in this specific scene (visible or speaking)
    - Check the scene content/narrative - if a character is not mentioned/visible, do NOT include their profile
    - CRITICAL: Copy the EXACT profiles from the "ALL CHARACTER PROFILES" section above - DO NOT create or modify descriptions
-   - Use FULL detailed description for EACH character as provided (includes species and animal features)
+   - Use FULL detailed description for EACH character as provided
    - Format: Name: Description (separated by space)
    - NEVER include profiles for characters not in this scene
-   - Example: If only Leona and Glo are in this scene, character_profile should be: "Leona: [exact profile] Glo: [exact profile]"
+   - Example: If only Luna and Alex are in this scene, character_profile should be: "Luna: [exact profile] Alex: [exact profile]"
 
 5. sora_prompt (English):
    - Start directly with Shot 1, NO [Character Profile] section
@@ -977,20 +976,19 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: ALL shots must match the Time/Location context (day/evening/night)
    - CRITICAL: For NIGHT events: EVERY shot shows artificial lighting - NO sunlight in any shot
    - CRITICAL: For DAY events: Use natural sunlight consistent with the time
-   - CRITICAL: This is an ANIMAL world - NO HUMANS, NO human-like features in any shot
+   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
    - CRITICAL: For props/items: If a prop was described in previous scenes or narrative's 关键道具 section, you MUST describe it with the SAME appearance details (shape, color, material, size, texture, patterns) - NEVER change or contradict established prop descriptions across shots
    - Use character names ONLY - NO appearance descriptions
    - Focus on actions, positions, camera movements
 
 6. style_tags (English):
-   - CRITICAL: MUST start with "3D animation" - this is a 3D animated world
-   - CRITICAL: MUST include "animal characters only" - ALL characters MUST be animals
-   - CRITICAL: MUST include "anthropomorphic animals" - characters are animal-people, not humans
-   - FORBIDDEN keywords (NEVER use): "2D", "hand-drawn", "Ghibli-inspired", "anime-style", "cel-shaded", "flat", "illustration", "human", "people"
-   - REQUIRED tags (in order): "3D animation", "animal characters only", "anthropomorphic animals"
-   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "volumetric lighting"
+   - CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
+   - CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
+   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime", "2D", "hand-drawn", "Ghibli-inspired", "cel-shaded", "flat", "illustration"
+   - REQUIRED tags (in order): "realistic film"
+   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "natural lighting", "contemporary setting"
    - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-   - Example: "3D animation, animal characters only, anthropomorphic animals, slice of life, warm lighting, cinematic, colorful, character identification features and artistic style matching the reference image."
+   - Example: "realistic film, slice of life, warm lighting, cinematic, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
 
 7. bgm_prompt (English):
    - Describe mood, atmosphere, instruments
