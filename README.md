@@ -1,6 +1,6 @@
-# Interactive Film Character Daily Agent
-
 <div align="center">
+
+# Interactive Film Character Daily Agent
 
 **Character Schedule Planning & Video Performance Generation System**
 
