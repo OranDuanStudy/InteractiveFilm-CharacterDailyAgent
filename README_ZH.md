@@ -46,13 +46,6 @@
 <img src="assets/09-00-11-00_N_02.png" width="23%" alt="故事4" />
 <br/>
 
-[![故事1](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/03-00-05-00_N_09.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/03-00-05-00_N_09.mp4)
-[![故事2](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/05-00-07-00_N_10.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/05-00-07-00_N_10.mp4)
-[![故事3](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/07-00-09-00_N_01.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/07-00-09-00_N_01.mp4)
-[![故事4](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/09-00-11-00_N_02.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/09-00-11-00_N_02.mp4)
-
-<br/>
-
 **可交互WebUI**
 <table>
 <tr>
