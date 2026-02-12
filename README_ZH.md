@@ -20,11 +20,11 @@
 
 <table>
 <tr>
-<td width="35%" valign="top">
+<td width="25%" valign="top">
 
 **事件编排**
 
-<pre style="width: 320px; overflow-x: auto; font-size: 12px;">{
+<pre style="width: 100%; overflow: auto; max-height: 600px; font-size: 11px;">{
   "time_slot": "07:00-09:00",
   "event_name": "Morning Coffee Visit",
   "summary": "Alex drops by Luna's apartment with coffee while she stretches, sharing a quiet moment before his work.",
@@ -43,7 +43,7 @@
 </pre>
 
 </td>
-<td width="65%" valign="top">
+<td width="75%" valign="top">
 
 **故事演绎**
 
