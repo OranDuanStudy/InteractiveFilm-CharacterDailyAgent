@@ -16,12 +16,6 @@
 
 ---
 
-**事件编排 & 故事演绎**
-
-<table>
-<tr>
-<td width="25%" valign="top">
-
 **事件编排**
 
 <pre style="width: 100%; overflow: auto; max-height: 600px; font-size: 11px;">{
@@ -42,18 +36,29 @@
 }
 </pre>
 
-</td>
-<td width="75%" valign="top">
-
 **故事演绎**
 
-<img src="assets/03-00-05-00_N_09.png" width="48%" alt="故事1" />
-<img src="assets/05-00-07-00_N_10.png" width="48%" alt="故事2" />
-<br/><br/>
-<img src="assets/07-00-09-00_N_01.png" width="48%" alt="故事3" />
-<img src="assets/09-00-11-00_N_02.png" width="48%" alt="故事4" />
-
-</td>
+<table>
+<tr>
+<td align="center" width="20%"><b>时间段 & 事件名称</b></td>
+<td align="center" width="20%"><b>03:00-05:00</b><br/>宁静的疲惫</td>
+<td align="center" width="20%"><b>05:00-07:00</b><br/>速写回顾</td>
+<td align="center" width="20%"><b>07:00-09:00</b><br/>咖啡拜访</td>
+<td align="center" width="20%"><b>09:00-11:00</b><br/>画布学习</td>
+</tr>
+<tr>
+<td align="center"><b>首帧参考</b></td>
+<td align="center"><img src="assets/03-00-05-00_N_09.png" width="100%" alt="宁静的疲惫" /></td>
+<td align="center"><img src="assets/05-00-07-00_N_10.png" width="100%" alt="黎明速写回顾" /></td>
+<td align="center"><img src="assets/07-00-09-00_N_01.png" width="100%" alt="早晨咖啡拜访" /></td>
+<td align="center"><img src="assets/09-00-11-00_N_02.png" width="100%" alt="独立画布学习" /></td>
+</tr>
+<tr>
+<td align="center"><b>完整视频</b></td>
+<td align="center"><img src="assets/03-00-05-00_N_09.gif" width="100%" alt="演示1" /></td>
+<td align="center"><img src="assets/05-00-07-00_N_10.gif" width="100%" alt="演示2" /></td>
+<td align="center"><img src="assets/07-00-09-00_N_01.gif" width="100%" alt="演示3" /></td>
+<td align="center"><img src="assets/09-00-11-00_N_02.gif" width="100%" alt="演示4" /></td>
 </tr>
 </table>
 

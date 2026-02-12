@@ -15,12 +15,6 @@ Complete Character Director System
 </div>
 
 ---
-**Events Scripts & Story Performances**
-
-<table>
-<tr>
-<td width="25%" valign="top">
-
 **Events Scripts**
 
 <pre style="width: 100%; overflow: auto; max-height: 600px; font-size: 11px;">{
@@ -41,18 +35,29 @@ Complete Character Director System
 }
 </pre>
 
-</td>
-<td width="75%" valign="top">
-
 **Story Performances**
 
-<img src="assets/03-00-05-00_N_09.png" width="48%" alt="Story 1" />
-<img src="assets/05-00-07-00_N_10.png" width="48%" alt="Story 2" />
-<br/><br/>
-<img src="assets/07-00-09-00_N_01.png" width="48%" alt="Story 3" />
-<img src="assets/09-00-11-00_N_02.png" width="48%" alt="Story 4" />
-
-</td>
+<table>
+<tr>
+<td align="center" width="20%"><b>Time Slot & Event Name</b></td>
+<td align="center" width="20%"><b>03:00-05:00</b><br/>Peaceful Exhaustion</td>
+<td align="center" width="20%"><b>05:00-07:00</b><br/>Dawn Sketch Review</td>
+<td align="center" width="20%"><b>07:00-09:00</b><br/>Morning Coffee Visit</td>
+<td align="center" width="20%"><b>09:00-11:00</b><br/>Solo Canvas Study</td>
+</tr>
+<tr>
+<td align="center"><b>First Frame</b></td>
+<td align="center"><img src="assets/03-00-05-00_N_09.png" width="100%" alt="Peaceful Exhaustion" /></td>
+<td align="center"><img src="assets/05-00-07-00_N_10.png" width="100%" alt="Dawn Sketch Review" /></td>
+<td align="center"><img src="assets/07-00-09-00_N_01.png" width="100%" alt="Morning Coffee Visit" /></td>
+<td align="center"><img src="assets/09-00-11-00_N_02.png" width="100%" alt="Solo Canvas Study" /></td>
+</tr>
+<tr>
+<td align="center"><b>Full Video</b></td>
+<td align="center"><img src="assets/03-00-05-00_N_09.gif" width="100%" alt="Demo 1" /></td>
+<td align="center"><img src="assets/05-00-07-00_N_10.gif" width="100%" alt="Demo 2" /></td>
+<td align="center"><img src="assets/07-00-09-00_N_01.gif" width="100%" alt="Demo 3" /></td>
+<td align="center"><img src="assets/09-00-11-00_N_02.gif" width="100%" alt="Demo 4" /></td>
 </tr>
 </table>
 
