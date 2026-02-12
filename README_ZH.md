@@ -68,11 +68,11 @@
 
 **故事演绎**
 
-<img src="assets/03-00-05-00_N_09.png" width="48%" height="230" alt="故事1" />
-<img src="assets/05-00-07-00_N_10.png" width="48%" height="230" alt="故事2" />
+<img src="assets/03-00-05-00_N_09.png" width="48%" alt="故事1" />
+<img src="assets/05-00-07-00_N_10.png" width="48%" alt="故事2" />
 <br/><br/>
-<img src="assets/07-00-09-00_N_01.png" width="48%" height="230" alt="故事3" />
-<img src="assets/09-00-11-00_N_02.png" width="48%" height="230" alt="故事4" />
+<img src="assets/07-00-09-00_N_01.png" width="48%" alt="故事3" />
+<img src="assets/09-00-11-00_N_02.png" width="48%" alt="故事4" />
 
 </td>
 </tr>
