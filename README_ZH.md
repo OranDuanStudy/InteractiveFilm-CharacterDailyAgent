@@ -45,11 +45,12 @@
 <img src="assets/07-00-09-00_N_01.png" width="23%" alt="故事3" />
 <img src="assets/09-00-11-00_N_02.png" width="23%" alt="故事4" />
 <br/>
-<br/>
-<video src="assets/03-00-05-00_N_09.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/05-00-07-00_N_10.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/07-00-09-00_N_01.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/09-00-11-00_N_02.mp4" width="23%" muted loop autoplay></video>
+
+[![故事1](assets/03-00-05-00_N_09.mp4)](assets/03-00-05-00_N_09.mp4)
+[![故事2](assets/05-00-07-00_N_10.mp4)](assets/05-00-07-00_N_10.mp4)
+[![故事3](assets/07-00-09-00_N_01.mp4)](assets/07-00-09-00_N_01.mp4)
+[![故事4](assets/09-00-11-00_N_02.mp4)](assets/09-00-11-00_N_02.mp4)
+
 <br/>
 
 **可交互WebUI**

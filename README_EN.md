@@ -45,11 +45,12 @@ Complete Character Director System
 <img src="assets/07-00-09-00_N_01.png" width="23%" alt="Story 3" />
 <img src="assets/09-00-11-00_N_02.png" width="23%" alt="Story 4" />
 <br/>
-<br/>
-<video src="assets/03-00-05-00_N_09.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/05-00-07-00_N_10.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/07-00-09-00_N_01.mp4" width="23%" muted loop autoplay></video>
-<video src="assets/09-00-11-00_N_02.mp4" width="23%" muted loop autoplay></video>
+
+[![Story 1](assets/03-00-05-00_N_09.mp4)](assets/03-00-05-00_N_09.mp4)
+[![Story 2](assets/05-00-07-00_N_10.mp4)](assets/05-00-07-00_N_10.mp4)
+[![Story 3](assets/07-00-09-00_N_01.mp4)](assets/07-00-09-00_N_01.mp4)
+[![Story 4](assets/09-00-11-00_N_02.mp4)](assets/09-00-11-00_N_02.mp4)
+
 <br/>
 
 **Interactive WebUI**
