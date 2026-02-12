@@ -46,10 +46,10 @@ Complete Character Director System
 <img src="assets/09-00-11-00_N_02.png" width="23%" alt="Story 4" />
 <br/>
 
-[![Story 1](assets/03-00-05-00_N_09.mp4)](assets/03-00-05-00_N_09.mp4)
-[![Story 2](assets/05-00-07-00_N_10.mp4)](assets/05-00-07-00_N_10.mp4)
-[![Story 3](assets/07-00-09-00_N_01.mp4)](assets/07-00-09-00_N_01.mp4)
-[![Story 4](assets/09-00-11-00_N_02.mp4)](assets/09-00-11-00_N_02.mp4)
+[![Story 1](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/03-00-05-00_N_09.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/03-00-05-00_N_09.mp4)
+[![Story 2](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/05-00-07-00_N_10.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/05-00-07-00_N_10.mp4)
+[![Story 3](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/07-00-09-00_N_01.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/07-00-09-00_N_01.mp4)
+[![Story 4](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/09-00-11-00_N_02.mp4)](https://github.com/OranDuanStudy/InteractiveFilm-CharacterDailyAgent/releases/download/v1.0-assets/09-00-11-00_N_02.mp4)
 
 <br/>
 
