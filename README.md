@@ -15,17 +15,13 @@ Complete Character Director System
 </div>
 
 ---
-
-**Events Scripts & Story Performances**
-
 <table>
 <tr>
 <td width="35%" valign="top">
 
 **Events Scripts**
 
-```json
-{
+<pre style="width: 320px; overflow-x: auto; font-size: 12px;">{
   "time_slot": "07:00-09:00",
   "event_name": "Morning Coffee Visit",
   "summary": "Alex drops by Luna's apartment with coffee while she stretches, sharing a quiet moment before his work.",
@@ -41,7 +37,7 @@ Complete Character Director System
     "mood_change": "Focused and productive"
   }
 }
-```
+</pre>
 
 </td>
 <td width="65%" valign="top">

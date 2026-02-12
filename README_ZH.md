@@ -16,26 +16,6 @@
 
 ---
 
-<div align="center">
-
-**事件编排**
-</div>
-
-```json
-{
-  "time_slot": "01:00-03:00",
-  "event_name": "Restless Visions",
-  "summary": "Unable to sleep, Luna gets up to sketch a fleeting idea, working by the dim light of her desk lamp.",
-  "event_type": "N",
-  "event_location": "Small apartment",
-  "involved_characters": ["Luna"],
-  "attribute_change": {
-    "energy_change": 5,
-    "mood_change": "Peaceful and rested"
-  }
-}
-```
-
 **事件编排 & 故事演绎**
 
 <table>
@@ -44,8 +24,7 @@
 
 **事件编排**
 
-```json
-{
+<pre style="width: 320px; overflow-x: auto; font-size: 12px;">{
   "time_slot": "07:00-09:00",
   "event_name": "Morning Coffee Visit",
   "summary": "Alex drops by Luna's apartment with coffee while she stretches, sharing a quiet moment before his work.",
@@ -61,7 +40,7 @@
     "mood_change": "Focused and productive"
   }
 }
-```
+</pre>
 
 </td>
 <td width="65%" valign="top">
