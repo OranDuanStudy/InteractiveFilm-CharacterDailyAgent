@@ -40,19 +40,23 @@ Complete Character Director System
 
 **Story Performances**
 <br/>
-<img src="assets/story0.png" width="15%" alt="Story Screenshot 1" />
-<img src="assets/story1.png" width="15%" alt="Story Screenshot 2" />
-<img src="assets/story2.png" width="15%" alt="Story Screenshot 3" />
-<img src="assets/story3.png" width="15%" alt="Story Screenshot 4" />
-<img src="assets/story4.png" width="15%" alt="Story Screenshot 5" />
-<img src="assets/story5.png" width="15%" alt="Story Screenshot 6" />
+<img src="assets/03-00-05-00_N_09.png" width="23%" alt="Story 1" />
+<img src="assets/05-00-07-00_N_10.png" width="23%" alt="Story 2" />
+<img src="assets/07-00-09-00_N_01.png" width="23%" alt="Story 3" />
+<img src="assets/09-00-11-00_N_02.png" width="23%" alt="Story 4" />
+<br/>
+<br/>
+<video src="assets/03-00-05-00_N_09.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/05-00-07-00_N_10.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/07-00-09-00_N_01.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/09-00-11-00_N_02.mp4" width="23%" muted loop autoplay></video>
 <br/>
 
 **Interactive WebUI**
 <table>
 <tr>
-<td><img src="assets/0.png" width="100%" alt="WebUI Screenshot 1" /></td>
-<td><img src="assets/1.png" width="100%" alt="WebUI Screenshot 2" /></td>
+<td><img src="assets/webui-1.gif" width="100%" alt="WebUI Demo 1" /></td>
+<td><img src="assets/webui-2.gif" width="100%" alt="WebUI Demo 2" /></td>
 </tr>
 </table>
 
@@ -249,7 +253,26 @@ max_retry_on_timeout = 3
 timeout_retry_enabled = true
 ```
 
-### 3. Run Complete Workflow
+### 3. (Optional) Download Demo Data
+
+Download example character schedules and performance data to try the WebUI immediately:
+
+[**Download Demo Data**](https://drive.google.com/drive/folders/1jBIoYJRGgOwfAJfNKK0B42bAcojVCMd_?usp=sharing)
+
+The demo data includes:
+- Complete character schedules
+- Event planning data
+- Director scripts
+- Generated performance videos
+
+After downloading, extract to the `data/` directory, then run the WebUI:
+
+```bash
+# Start WebUI with demo data
+python web_interactive_demo.py
+```
+
+### 4. Run Complete Workflow
 
 ```bash
 # Method 1: Using shell script (recommended)

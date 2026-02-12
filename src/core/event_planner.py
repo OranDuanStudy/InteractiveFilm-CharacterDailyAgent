@@ -353,7 +353,7 @@ class EventPlanner:
         else:
             locations_text = "- Various locations"
 
-        return f"""You are a professional animated series screenwriter, specializing in realistic slice-of-life comedy.
+        return f"""You are a professional 2D manga/comic series screenwriter, specializing in slice-of-life comedy in 2D manga/anime style.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHARACTER INFORMATION
@@ -413,8 +413,8 @@ Core Requirements
   - Keywords: grounded, humor, awkward, absurd, imperfect reality
   - Forbidden: irreversible death, extreme gore, heavy body horror
   - Allowed: failure, separation, regret, financial loss, social death
-  - CRITICAL: ALL characters are REALISTIC HUMAN characters
-  - When describing scenes, describe natural human behavior
+  - CRITICAL: ALL characters are HUMAN characters in 2D manga/comic style (no animal features like ears, tails, or fur)
+  - When describing scenes, describe natural human behavior in 2D anime/manga style
   - CRITICAL: involved_characters MUST use English names ONLY (e.g., "Luna", "Alex", "Maya") - NEVER use Chinese names in involved_characters field
   - CRITICAL: When describing PROPS/ITEMS in prologue, phases, or resolutions: ALWAYS include SPECIFIC details: 具体形状（如长方形、圆形、不规则）、颜色、材质（如木质、金属、塑料、布料）、大小尺寸、表面纹理、特殊标记/图案
   - IMPORTANT: Maintain PROP CONSISTENCY across all phases and resolutions - once a prop's appearance is established, describe it with the SAME details in subsequent mentions
@@ -624,7 +624,7 @@ Generate the SR Event Planning Card JSON now:"""
         else:
             locations_text = "- Various locations"
 
-        return f"""You are a professional animated series screenwriter, specializing in realistic slice-of-life interactive events.
+        return f"""You are a professional 2D manga/comic series screenwriter, specializing in slice-of-life interactive events in 2D manga/anime style.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 CHARACTER INFORMATION
@@ -681,13 +681,13 @@ Core Requirements
   - Branch A: Complete story narrative + ending resolution combined
   - Branch B: Complete story narrative + ending resolution combined
 
-• Tone: Realistic Sitcom
-  - Keywords: grounded, relatable, light, choice-driven
+• Tone: Slice-of-Life Sitcom in 2D Manga/Anime Style
+  - Keywords: grounded, relatable, light, choice-driven, 2D manga style
   - Forbidden: irreversible consequences
   - Allowed: small failures, awkward moments, temporary setbacks
-  - CRITICAL: ALL characters are REALISTIC HUMAN characters
-  - When describing actions/reactions, describe natural human behavior
-  - Physical descriptions should reflect realistic human characteristics
+  - CRITICAL: ALL characters are HUMAN characters in 2D manga/comic style (no animal features like ears, tails, or fur)
+  - When describing actions/reactions, describe natural human behavior in 2D anime/manga style
+  - Physical descriptions should reflect human characteristics in 2D manga/anime style
   - CRITICAL: When describing PROPS/ITEMS in prologue, branches, or resolutions: ALWAYS include SPECIFIC details: 具体形状（如长方形、圆形、不规则）、颜色、材质（如木质、金属、塑料、布料）、大小尺寸、表面纹理、特殊标记/图案
   - IMPORTANT: Maintain PROP CONSISTENCY across prologue and both branches - once a prop's appearance is established, describe it with the SAME details in subsequent mentions
 
@@ -831,7 +831,7 @@ Generate the R Event Planning Card JSON now:"""
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are a professional animated series screenwriter. Output MUST be pure JSON format without any markdown markers or code blocks."
+                    "content": "You are a professional 2D manga/comic series screenwriter. Output MUST be pure JSON format without any markdown markers or code blocks."
                 },
                 {
                     "role": "user",

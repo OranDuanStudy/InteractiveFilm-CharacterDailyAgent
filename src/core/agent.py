@@ -24,7 +24,7 @@ class ScheduleEvent:
     image_prompt: str  # 首帧生图Prompt
     sora_prompt: str  # Sora视频生成Prompt（仅Shot部分，不含角色档案）
     character_profile: str = ""  # 角色档案Profile（从context.profile_en提取）
-    style_tags: str = ""  # 风格标签（英文，逗号分隔，如：realistic film, cinematic, natural lighting）
+    style_tags: str = ""  # 风格标签（英文，逗号分隔，如：2D manga, cinematic, anime style, natural lighting）
     event_type: Literal["N", "R", "SR"] = "N"  # 事件类型: N=漫游, R=交互, SR=动态
     involved_characters: list = None  # 涉及角色列表，从角色关系网中选择
     event_location: str = ""  # 事件地点，从角色常用地点中选择
@@ -257,9 +257,9 @@ class ScheduleAgent:
 - CRITICAL: Camera angle MUST be frontal/eye-level - NO high angles, low angles, Dutch angles, or oblique shots
 - Describe character action, outfit, props, location, lighting, atmosphere
 - 50-100 words, ALL IN ENGLISH
-- Describe realistic human characters with natural features
-- End with "realistic film style, cinematic"
-- Example: "Medium shot, [Character1] and [Character2] standing side by side facing forward in [location], [action], [lighting/atmosphere], realistic film style, cinematic"
+- Describe characters in 2D manga/anime style, but ALL characters are HUMAN (no animal features like ears, tails, or fur)
+- End with "2D manga style, cinematic"
+- Example: "Medium shot, [Character1] and [Character2] standing side by side facing forward in [location], [action], [lighting/atmosphere], 2D manga style, cinematic"
 
 **Sora Prompt (sora_prompt)**:
 - Start directly with Shot 1, NO character profiles inside
@@ -268,7 +268,7 @@ class ScheduleAgent:
 - Include ALL dialogue with character names
 - 4-10 shots total, each shot detailed
 - ALL IN ENGLISH
-- Describe realistic human characters with natural features and expressions
+- Describe characters in 2D manga/anime style with natural expressions, but ALL characters are HUMAN (no animal features)
 - Example: "Shot 1: [Wide Shot] Luna sits in her art studio, sunlight streaming through large windows. [Cut to] Shot 2: [Medium Shot] She picks up a paintbrush, hair tied back casually. [Cut to] Shot 3: [Close-up] Her focused eyes studying the canvas. [Cut to] Shot 4: [Full Shot] She steps back to view the painting, hands stained with paint."
 
 **Character Profile (character_profile)**:
@@ -283,13 +283,13 @@ class ScheduleAgent:
 **Style Tags (style_tags)**:
 - Comma-separated STYLE keywords for visual presentation (3-5 tags)
 - ONLY visual/artistic style: lighting, visual style, rendering, color palette, mood
-- CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
-- CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
-- FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime"
+- CRITICAL: MUST start with "2D manga" - this is a 2D manga/comic style world
+- CRITICAL: ALL characters are HUMAN characters - no animal ears, tails, or anthropomorphic features
+- FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "animal ears", "animal tail", "furry", "kemonomimi"
 - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-- Examples: "realistic film, slice of life, warm lighting, cinematic, natural colors, character identification features and artistic style matching the reference image."
-- Examples: "realistic film, soft focus, contemporary setting, cozy atmosphere, natural lighting, character identification features and artistic style matching the reference image."
-- Examples: "realistic film, detailed textures, vibrant colors, morning sunlight, urban atmosphere, character identification features and artistic style matching the reference image."
+- Examples: "2D manga, comic style, slice of life, warm lighting, cinematic, anime style, hand-drawn look, cel-shaded, character identification features and artistic style matching the reference image."
+- Examples: "2D manga, soft focus, contemporary setting, cozy atmosphere, natural lighting, manga art, character identification features and artistic style matching the reference image."
+- Examples: "2D manga, detailed textures, vibrant colors, morning sunlight, urban atmosphere, anime style, character identification features and artistic style matching the reference image."
 - CRITICAL: NEVER include character names or detailed descriptions in Style Tags
 
 ### R-Type (Interactive) Events - BASIC INFO ONLY
@@ -345,10 +345,10 @@ EVENT TYPES:
 - SR-Type (Dynamic): Basic info only (3-4 characters)
 
 CRITICAL CONTENT RULES:
-- ALL characters are REALISTIC HUMAN characters
-- When describing scenes, describe natural human features: hair, face, hands, clothing, expressions
-- In image/sora prompts, describe realistic human appearance
-- This is a contemporary realistic world setting
+- ALL characters are HUMAN characters in 2D MANGA/COMIC style (no animal features like ears, tails, or fur)
+- When describing scenes, describe natural human features in 2D manga/anime style: hair, face, hands, clothing, expressions
+- In image/sora prompts, describe characters in 2D manga/anime style
+- This is a contemporary 2D manga/comic world setting
 
 CRITICAL: For the Character Profile column, you MUST copy the EXACT profiles from above - do NOT create or modify them."""
 
@@ -452,7 +452,7 @@ First Frame Prompt (50-100 words):
 - Describe KEY MOMENT with vivid details
 - Include ALL visible characters, positions, actions, outfits
 - DO NOT include character profiles or style tags
-- Describe realistic human characters with natural features
+- Describe characters in 2D manga/anime style, but ALL characters are HUMAN (no animal features)
 
 Sora Prompt (4-10 shots):
 - CRITICAL: Match the time of day - {lighting_desc}
@@ -462,7 +462,7 @@ Sora Prompt (4-10 shots):
 - Use [Cut to] between shots
 - Include ALL dialogue with character names
 - DO NOT include character profiles
-- Describe realistic human characters and natural features
+- Describe characters in 2D manga/anime style with natural features
 
 Character Profile:
 - CRITICAL: List EXACTLY {n_char_count} character(s) - no more, no less!
@@ -477,10 +477,10 @@ Character Profile:
 
 Style Tags:
 - ONLY visual/artistic style keywords for presentation (3-5 tags)
-- CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
-- CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
+- CRITICAL: MUST start with "2D manga" - this is a 2D manga/comic style world
+- CRITICAL: ALL characters are HUMAN characters - no animal ears, tails, or anthropomorphic features
 - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-- Examples: "realistic film, slice of life, warm lighting, cinematic, natural colors, character identification features and artistic style matching the reference image."
+- Examples: "2D manga, comic style, slice of life, warm lighting, cinematic, anime style, hand-drawn look, cel-shaded, character identification features and artistic style matching the reference image."
 - CRITICAL: NEVER include character names, descriptions, or relationships in Style Tags
 
 - Type column: "N"
@@ -851,10 +851,10 @@ Remember:
                     time_slot=slot,
                     event_name=f"{prefix}Activity",
                     summary=f"Character activity during {slot}",
-                    image_prompt=f"Medium shot, {context.character_dna.name_en} standing in complete frontal view facing forward, realistic film style",
+                    image_prompt=f"Medium shot, {context.character_dna.name_en} standing in complete frontal view facing forward, 2D manga style",
                     sora_prompt=f"1. [Medium Shot] Scene during {slot}.\n2. [Close-up] Character expression.\n3. [Wide Shot] Environment.\n4. [Detail Shot] Action details.",
                     character_profile=context.character_dna.profile_en,
-                    style_tags="realistic film, cinematic, natural lighting",
+                    style_tags="2D manga, comic style, cinematic, anime style, natural lighting",
                     event_type=event_type,
                 ))
             else:
@@ -982,7 +982,7 @@ Remember:
             elif event_type == "N":
                 # N 型事件必须有实际的 prompt 内容
                 if not image_prompt or image_prompt.startswith("[To be generated"):
-                    image_prompt = f"Medium shot, character in complete frontal view facing forward, realistic film style"
+                    image_prompt = f"Medium shot, character in complete frontal view facing forward, 2D manga style"
                 # 新格式字段保持为空（由 LLM 生成）
                 if not sora_prompt:
                     sora_prompt = ""
@@ -1279,10 +1279,10 @@ Remember:
                 time_slot=time_slot,
                 event_name=f"{prefix}Activity",
                 summary=f"Character activity during {time_slot}",
-                image_prompt=f"Medium shot, {context.character_dna.profile_en}, realistic film style",
+                image_prompt=f"Medium shot, {context.character_dna.profile_en}, 2D manga style",
                 sora_prompt=f"1. [Medium Shot] Scene during {time_slot}.\n2. [Close-up] Character expression.\n3. [Wide Shot] Environment.\n4. [Detail Shot] Action details.",
                 character_profile=context.character_dna.profile_en,
-                style_tags="realistic film, cinematic, natural lighting",
+                style_tags="2D manga, comic style, cinematic, anime style, natural lighting",
                 event_type=event_type,
             )
         else:

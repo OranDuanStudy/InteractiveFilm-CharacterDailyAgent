@@ -40,19 +40,23 @@
 
 **故事演绎**
 <br/>
-<img src="assets/story0.png" width="15%" alt="Story Screenshot 1" />
-<img src="assets/story1.png" width="15%" alt="Story Screenshot 2" />
-<img src="assets/story2.png" width="15%" alt="Story Screenshot 3" />
-<img src="assets/story3.png" width="15%" alt="Story Screenshot 4" />
-<img src="assets/story4.png" width="15%" alt="Story Screenshot 5" />
-<img src="assets/story5.png" width="15%" alt="Story Screenshot 6" />
+<img src="assets/03-00-05-00_N_09.png" width="23%" alt="故事1" />
+<img src="assets/05-00-07-00_N_10.png" width="23%" alt="故事2" />
+<img src="assets/07-00-09-00_N_01.png" width="23%" alt="故事3" />
+<img src="assets/09-00-11-00_N_02.png" width="23%" alt="故事4" />
+<br/>
+<br/>
+<video src="assets/03-00-05-00_N_09.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/05-00-07-00_N_10.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/07-00-09-00_N_01.mp4" width="23%" muted loop autoplay></video>
+<video src="assets/09-00-11-00_N_02.mp4" width="23%" muted loop autoplay></video>
 <br/>
 
 **可交互WebUI**
 <table>
 <tr>
-<td><img src="assets/0.png" width="100%" alt="WebUI Screenshot 1" /></td>
-<td><img src="assets/1.png" width="100%" alt="WebUI Screenshot 2" /></td>
+<td><img src="assets/webui-1.gif" width="100%" alt="WebUI演示1" /></td>
+<td><img src="assets/webui-2.gif" width="100%" alt="WebUI演示2" /></td>
 </tr>
 </table>
 
@@ -249,7 +253,26 @@ max_retry_on_timeout = 3
 timeout_retry_enabled = true
 ```
 
-### 3. 一键运行完整流程
+### 3. （可选）下载演示数据
+
+下载示例角色日程和表演数据，立即体验 WebUI：
+
+[**下载演示数据**](https://drive.google.com/drive/folders/1jBIoYJRGgOwfAJfNKK0B42bAcojVCMd_?usp=sharing)
+
+演示数据包含：
+- 完整的角色日程
+- 事件策划数据
+- 导演脚本
+- 已生成的表演视频
+
+下载后解压到 `data/` 目录，然后启动 WebUI：
+
+```bash
+# 使用演示数据启动 WebUI
+python web_interactive_demo.py
+```
+
+### 4. 一键运行完整流程
 
 ```bash
 # 方式一：使用 shell 脚本（推荐）

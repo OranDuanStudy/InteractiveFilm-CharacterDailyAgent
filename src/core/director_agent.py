@@ -514,7 +514,7 @@ FIELD-BY-FIELD INSTRUCTIONS
    - Use ONLY "medium shot" or "long shot" - NO close-ups or extreme close-ups
    - Include ONLY character names - NO appearance descriptions (no hair color, clothing, accessories)
    - DO NOT describe any physical features - rely on character_profile and reference images
-   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
+   - CRITICAL: This is a 2D MANGA/COMIC style world - describe characters in 2D manga style, but ALL characters are HUMAN (no animal features like ears, tails, or fur)
    - CRITICAL: Lighting MUST match the time of day from Time/Location context
    - CRITICAL: For NIGHT/late evening (21:00-06:00): use ONLY artificial lighting (indoor lights, streetlamps, moonlight) - NO sunlight
    - CRITICAL: For DAY/morning/afternoon (07:00-18:00): use natural sunlight appropriate for the time
@@ -540,20 +540,20 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: ALL shots must match the time of day - check Time/Location context
    - CRITICAL: For NIGHT/late evening: EVERY shot must show artificial lighting (lamps, indoor lights) - NO sunlight in any shot
    - CRITICAL: For DAY/morning/afternoon: Use natural sunlight consistent with the time
-   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
+   - CRITICAL: This is a 2D MANGA/COMIC style world - describe characters in 2D manga style, but ALL characters are HUMAN (no animal features like ears, tails, or fur)
    - CRITICAL: For props/items: If a prop was described in previous scenes or narrative's 关键道具 section, you MUST describe it with the SAME appearance details (shape, color, material, size, texture, patterns) - NEVER change or contradict established prop descriptions across shots
    - Use character names ONLY - NO appearance descriptions (no hair color, clothing, accessories)
    - Focus on actions, positions, camera movements
    - Example: "Shot 1: [Wide Shot] In a dimly lit coffee shop at night, Luna and Daniel are visible under warm lights. [Cut to] Shot 2: [Medium Shot] Luna reaches for her sketchbook. Luna says: \\"This light is perfect.\\" [Cut to] Shot 3: [Close-up] Focus on the sketchbook. [Cut to] Shot 4: [Full Shot] They both look at a painting. [Cut to] Shot 5: [Medium Close-up] Luna smiles. Luna says: \\"Thanks for showing me this.\\""
 
 6. style_tags (string - English):
-   - CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
-   - CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
-   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime", "2D", "hand-drawn", "Ghibli-inspired", "cel-shaded", "flat", "illustration"
-   - REQUIRED tags (in order): "realistic film"
-   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "natural lighting", "contemporary setting"
+   - CRITICAL: MUST start with "2D manga" - this is a 2D manga/comic style world
+   - CRITICAL: ALL characters are HUMAN characters - no animal ears, tails, or anthropomorphic features
+   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "animal ears", "animal tail", "furry", "kemonomimi"
+   - REQUIRED tags (in order): "2D manga, comic style"
+   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "anime style", "manga art", "hand-drawn look", "cel-shaded", "contemporary setting"
    - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-   - Example: "realistic film, slice of life, warm lighting, cinematic, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
+   - Example: "2D manga, comic style, slice of life, warm lighting, cinematic, anime style, hand-drawn look, cel-shaded, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
 
 7. bgm_prompt (string - English):
    - Describe mood, atmosphere, instruments/style with details
@@ -896,8 +896,8 @@ CRITICAL OUTPUT RULES - READ CAREFULLY
 6. Output ENDS immediately after the closing brace }}
 7. Use IDENTICAL profile text for each character across scenes (copy exact text from ALL CHARACTER PROFILES section)
 8. Each scene's character_profile must ONLY include characters in that scene - do NOT add characters not present
-8. CRITICAL: ALL characters are REALISTIC HUMAN characters
-9. In image_prompt and sora_prompt, describe realistic human appearance
+8. CRITICAL: ALL characters are HUMAN characters in 2D MANGA/COMIC style (no animal features like ears, tails, or fur)
+9. In image_prompt and sora_prompt, describe characters in 2D manga/anime style
 
 ═══════════════════════════════════════════════════
 SCENE CONTINUITY - CRITICAL FOR NARRATIVE FLOW
@@ -948,7 +948,7 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: MUST be a MEDIUM SHOT or LONG SHOT showing ALL characters in the scene together - this ensures character consistency for Sora video generation
    - Use ONLY "medium shot" or "long shot" - NO close-ups or extreme close-ups
    - Include ONLY character names - NO appearance descriptions (no hair color, clothing, accessories, species traits)
-   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
+   - CRITICAL: This is a 2D MANGA/COMIC style world - describe characters in 2D manga style, but ALL characters are HUMAN (no animal features like ears, tails, or fur)
    - CRITICAL: Lighting MUST match the Time/Location context - check if it's day/evening/night
    - CRITICAL: For NIGHT events: use ONLY artificial lighting (indoor lights, streetlamps) - NO sunlight
    - CRITICAL: For DAY events: use natural sunlight appropriate for the time
@@ -976,19 +976,19 @@ FIELD-BY-FIELD INSTRUCTIONS
    - CRITICAL: ALL shots must match the Time/Location context (day/evening/night)
    - CRITICAL: For NIGHT events: EVERY shot shows artificial lighting - NO sunlight in any shot
    - CRITICAL: For DAY events: Use natural sunlight consistent with the time
-   - CRITICAL: This is a REALISTIC HUMAN world - describe realistic human characters
+   - CRITICAL: This is a 2D MANGA/COMIC style world - describe characters in 2D manga style, but ALL characters are HUMAN (no animal features like ears, tails, or fur)
    - CRITICAL: For props/items: If a prop was described in previous scenes or narrative's 关键道具 section, you MUST describe it with the SAME appearance details (shape, color, material, size, texture, patterns) - NEVER change or contradict established prop descriptions across shots
    - Use character names ONLY - NO appearance descriptions
    - Focus on actions, positions, camera movements
 
 6. style_tags (English):
-   - CRITICAL: MUST start with "realistic film" - this is a realistic live-action world
-   - CRITICAL: NEVER include: "3D animation", "animal characters", "anthropomorphic", "cartoon"
-   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "cartoon", "anime", "2D", "hand-drawn", "Ghibli-inspired", "cel-shaded", "flat", "illustration"
-   - REQUIRED tags (in order): "realistic film"
-   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "natural lighting", "contemporary setting"
+   - CRITICAL: MUST start with "2D manga" - this is a 2D manga/comic style world
+   - CRITICAL: ALL characters are HUMAN characters - no animal ears, tails, or anthropomorphic features
+   - FORBIDDEN keywords (NEVER use): "3D animation", "animal", "anthropomorphic", "animal ears", "animal tail", "furry", "kemonomimi"
+   - REQUIRED tags (in order): "2D manga, comic style"
+   - Additional recommended tags: "slice of life", "cinematic", "detailed textures", "anime style", "manga art", "hand-drawn look", "cel-shaded", "contemporary setting"
    - CRITICAL: ALWAYS end with "character identification features and artistic style matching the reference image."
-   - Example: "realistic film, slice of life, warm lighting, cinematic, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
+   - Example: "2D manga, comic style, slice of life, warm lighting, cinematic, anime style, hand-drawn look, cel-shaded, natural colors, contemporary setting, character identification features and artistic style matching the reference image."
 
 7. bgm_prompt (English):
    - Describe mood, atmosphere, instruments
