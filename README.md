@@ -16,35 +16,47 @@ Complete Character Director System
 
 ---
 
-<div align="center">
+**Events Scripts & Story Performances**
+
+<table>
+<tr>
+<td width="35%" valign="top">
 
 **Events Scripts**
-</div>
 
 ```json
 {
-  "time_slot": "01:00-03:00",
-  "event_name": "Restless Visions",
-  "summary": "Unable to sleep, Luna gets up to sketch a fleeting idea, working by the dim light of her desk lamp.",
+  "time_slot": "07:00-09:00",
+  "event_name": "Morning Coffee Visit",
+  "summary": "Alex drops by Luna's apartment with coffee while she stretches, sharing a quiet moment before his work.",
+  "image_prompt": "Medium shot of Luna and Alex in Luna's small, art-filled apartment. It is a rainy morning with soft blue-grey light filtering through the window covered in raindrops. Luna, wearing an oversized sweater and jeans, is sitting on a yoga mat holding a warm paper cup. Alex, dressed in smart casual business attire with stylish glasses, leans against a desk cluttered with paints, smiling down at her. The atmosphere is cozy and peaceful in a 2D manga style.",
+  "sora_prompt": "Shot 1: Medium shot. Luna sits on floor stretching, sound of rain against window. Alex enters frame. Alex: \"Morning, brought you some fuel.\" [Cut to] Shot 2: Medium shot of Alex handing a coffee cup to Luna. Luna: \"Thanks, Alex. Just what I needed.\" [Cut to] Shot 3: Wide shot showing rainy window behind them. Alex: \"Don't work too hard today, okay?\" [Cut to] Shot 4: Luna sipping coffee, smiling softly. Luna: \"I'll try. The rain is actually quite inspiring.\"",
+  "character_profile": "Luna: 22-year-old woman with medium-length wavy brown hair, often has paint smudges on cheeks, wears comfortable oversized sweaters and jeans. Voice is soft-spoken and thoughtful with gentle, dreamy tone. Alex: 28-year-old man, tall with dark hair and stylish glasses, wears smart casual business attire. Voice is confident and articulate with professional, energetic tone.",
+  "style_tags": "2D manga, slice of life, cozy atmosphere, soft lighting, character identification features and artistic style matching the reference image.",
   "event_type": "N",
   "event_location": "Small apartment",
-  "involved_characters": ["Luna"],
+  "involved_characters": ["Luna", "Alex"],
   "attribute_change": {
-    "energy_change": 5,
-    "mood_change": "Peaceful and rested"
+    "energy_change": -1,
+    "mood_change": "Focused and productive"
   }
 }
 ```
 
-<div align="center">
+</td>
+<td width="65%" valign="top">
 
 **Story Performances**
-<br/>
-<img src="assets/03-00-05-00_N_09.png" width="23%" alt="Story 1" />
-<img src="assets/05-00-07-00_N_10.png" width="23%" alt="Story 2" />
-<img src="assets/07-00-09-00_N_01.png" width="23%" alt="Story 3" />
-<img src="assets/09-00-11-00_N_02.png" width="23%" alt="Story 4" />
-<br/>
+
+<img src="assets/03-00-05-00_N_09.png" width="48%" height="230" alt="Story 1" />
+<img src="assets/05-00-07-00_N_10.png" width="48%" height="230" alt="Story 2" />
+<br/><br/>
+<img src="assets/07-00-09-00_N_01.png" width="48%" height="230" alt="Story 3" />
+<img src="assets/09-00-11-00_N_02.png" width="48%" height="230" alt="Story 4" />
+
+</td>
+</tr>
+</table>
 
 **Interactive WebUI**
 <table>
