@@ -14,7 +14,12 @@ Complete Character Director System
 
 </div>
 
+## Project Overview
+
+Interactive Film Character Daily Agent is an AI-driven character content generation system that implements a complete workflow from character creation, schedule planning, event planning, director output to video performance generation. The system supports multiple image and video generation models, providing both CLI and Web interaction modes.
+
 ---
+
 **Events Scripts**
 
 <pre style="width: 100%; overflow: auto; max-height: 600px; font-size: 11px;">{
@@ -69,11 +74,7 @@ Complete Character Director System
 </tr>
 </table>
 
-</div>
-
-## Project Overview
-
-Interactive Film Character Daily Agent is an AI-driven character content generation system that implements a complete workflow from character creation, schedule planning, event planning, director output to video performance generation. The system supports multiple image and video generation models, providing both CLI and Web interaction modes.
+---
 
 **Core Capabilities:**
 - AI-driven character schedule planning (based on Gemini 2.5 Pro model)
