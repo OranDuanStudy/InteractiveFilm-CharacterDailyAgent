@@ -689,7 +689,7 @@ def get_selector_data():
                 char_id_from_dir = None
                 date_value = dir_name
 
-                # 检查是否是 characterID_date 格式（如 rick_005_2026-01-26）
+                # 检查是否是 characterID_date 格式（如 luna_005_2026-01-26）
                 parts = dir_name.split('_')
                 if len(parts) >= 3:
                     # 可能是 characterID_date 格式
@@ -1239,7 +1239,7 @@ def get_current_event():
     relative_videos = []
     for v in videos:
         video_path = Path(v)
-        # 返回相对路径: /performance/leona_002_2026-01-17/xxx.mp4
+        # 返回相对路径: /performance/luna_002_2026-01-17/xxx.mp4
         relative_videos.append(f"/performance/{performance_dir_name}/{video_path.name}")
 
     event_data = {

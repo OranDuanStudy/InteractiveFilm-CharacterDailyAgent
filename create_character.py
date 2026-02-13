@@ -208,11 +208,11 @@ def main():
         epilog="""
 示例 Examples:
   # 从模板创建角色
-  python create_character.py leona_001 --template leona
-  python create_character.py rick_001 --template rick
+  python create_character.py luna_001 --template luna
+  python create_character.py alex_001 --template alex
 
   # 强制覆盖已存在的角色
-  python create_character.py leona_001 --template leona --force
+  python create_character.py luna_001 --template luna --force
 
   # 列出所有可用模板
   python create_character.py --list-templates
@@ -221,7 +221,7 @@ def main():
   python create_character.py --list-characters
 
   # 查看角色详情
-  python create_character.py --show leona_001
+  python create_character.py --show luna_001
 
 可用模板 Available Templates:
   example_character - 示例角色（ENFJ，友好/乐观）
@@ -232,7 +232,7 @@ def main():
         """
     )
 
-    parser.add_argument("character_id", nargs="?", help="角色ID（如 leona_001, rick_001）")
+    parser.add_argument("character_id", nargs="?", help="角色ID（如 luna_001, alex_001）")
     parser.add_argument("--template", "-t", choices=AVAILABLE_TEMPLATES, help="使用角色模板创建")
     parser.add_argument("--force", "-f", action="store_true", help="强制覆盖已存在的角色")
     parser.add_argument("--list-templates", action="store_true", help="列出所有可用模板")

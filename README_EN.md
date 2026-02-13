@@ -286,19 +286,19 @@ python web_interactive_demo.py
 
 ```bash
 # Method 1: Using shell script (recommended)
-./run_pipeline.sh leona_001 2026-01-26 --template leona
+./run_pipeline.sh luna_001 2026-01-26 --template luna
 
 # Method 2: Step-by-step execution
 # Step 1: Generate schedule and director script
-python main.py run leona_001 --template leona
+python main.py run luna_001 --template luna
 
 # Step 2: Generate video performance
-python generate_performance.py -c leona_001 -t 2026-01-26
+python generate_performance.py -c luna_001 -t 2026-01-26
 
 # Step 3: Run interactive system
 
 # CLI mode (command line interaction)
-python interactive_cli.py leona_001 2026-01-26 --gui
+python interactive_cli.py luna_001 2026-01-26 --gui
 
 # Web mode (recommended, supports browser GUI character/date selection)
 python web_interactive_demo.py
@@ -307,7 +307,7 @@ python web_interactive_demo.py
 python web_interactive_demo.py --port 8080 --public-url https://cdn.example.com/videos
 
 # Query and download videos
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
 ```
 
 ---
@@ -390,8 +390,8 @@ Options:
   --config FILE         Config file path
 
 Examples:
-./run_pipeline.sh leona_001 2026-01-26 --template leona
-./run_pipeline.sh auntie_005 2026-01-26 --use-existing --schedule-only
+./run_pipeline.sh luna_001 2026-01-26 --template luna
+./run_pipeline.sh alex_005 2026-01-26 --use-existing --schedule-only
 ```
 
 ### main.py - Complete Workflow
@@ -424,10 +424,10 @@ Options:
   --log-level, -l       Log level
 
 Examples:
-python generate_performance.py -c leona_001 -t 2026-01-26
-python generate_performance.py -c leona_001 -t 2026-01-26 -im seedream -vm kling
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00"
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
+python generate_performance.py -c luna_001 -t 2026-01-26
+python generate_performance.py -c luna_001 -t 2026-01-26 -im seedream -vm kling
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
 ```
 
 ### interactive_cli.py - Interactive System
@@ -443,8 +443,8 @@ Options:
   --no-save             Don't save results to file
 
 Examples:
-python interactive_cli.py leona_001 2026-01-26 --gui
-python interactive_cli.py leona_001 2026-01-26 --preset '{"09:00-11:00": ["A"]}'
+python interactive_cli.py luna_001 2026-01-26 --gui
+python interactive_cli.py luna_001 2026-01-26 --preset '{"09:00-11:00": ["A"]}'
 ```
 
 ### create_character.py - Create Character
@@ -456,7 +456,7 @@ Options:
   --force, -f           Force overwrite existing character
 
 Examples:
-python create_character.py leona_001 --template leona
+python create_character.py luna_001 --template luna
 ```
 
 ### web_interactive_demo.py - Web Interactive Demo
@@ -500,9 +500,9 @@ Options:
   -k, --api-key KEY    Wuyin Tech API key (default: read from config.ini)
 
 Examples:
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json -o videos/
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json -w 10
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json -o videos/
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json -w 10
 ```
 
 ### Deployment Scripts (穿透部署脚本)
@@ -553,19 +553,10 @@ tail -50 /tmp/cloudflared.log | grep 'https://'
 
 | Template ID | Character | MBTI | Type | Description |
 |-------------|-----------|------|------|-------------|
-| leona | Leona | ENFJ | Growth/Music | Debut trainee, street dance girl |
-| rick | Rick | ENTJ | Cold/Sarcastic | Mysterious godfather |
-| auntie | Auntie Baa Baa | ESFJ | Wise/Calm | Convenience store owner |
-| glo | GLO | ESFP | Dramatic/Emotional | Fashion emotional blogger |
-| link | Link | ENFP | Chaotic/Energy | Foul-mouthed critic |
-| poto | Poto | ISFP | Abstract/Evolution | Abstract potato person |
-| rank | Rank | ISTP | Grumpy/Technical | Grumpy mechanic |
-| tos | Tos | ISTJ | Rigid/Humorous | Toast office worker |
-| mac | Mac | ESTP | Game/Speedrun | Game master |
-| wolly | Wolly | INFP | Sad/Philosophical | Sad drunk frog |
-| ham | Ham | ENTJ | Narcissistic/Comedy | Burger king |
-| chip | Chip | ISFP | Gentle/Sharing | Snack treasure |
-| blink | Blink | INFP | Healing/Clumsy | Strumming star |
+| luna | Luna | INFP | Artistic/Dreamy | Aspiring artist, finds beauty in everyday moments |
+| alex | Alex | ENTJ | Leader/Driven | Tech startup founder, ambitious and caring |
+| maya | Maya | ESFP | Free Spirit | Street musician, lives in the moment |
+| daniel | Daniel | ISFJ | Quiet/Observer | Bookstore owner, thoughtful and reliable |
 
 ---
 
@@ -742,7 +733,7 @@ A: Currently supports 4 combinations:
 A: Built-in automatic timeout retry mechanism, no manual handling needed. To check status, use `query_videos.py`:
 
 ```bash
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
 ```
 
 ### Q: How to generate videos only for specific time slots?
@@ -751,10 +742,10 @@ A: Use `--time-slot` parameter to specify time slots:
 
 ```bash
 # Generate single time slot
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00"
 
 # Generate multiple time slots (comma separated)
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
 ```
 
 ### Q: How to generate schedule only without videos?
@@ -762,7 +753,7 @@ python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:
 A: Use `--schedule-only` option:
 
 ```bash
-./run_pipeline.sh leona_001 2026-01-26 --template leona --schedule-only
+./run_pipeline.sh luna_001 2026-01-26 --template luna --schedule-only
 ```
 
 ### Q: How does Web demo load videos from internet?

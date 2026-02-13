@@ -829,7 +829,7 @@ def run_interactive_day(
     运行一天的交互会话
 
     Args:
-        character_id: 角色ID，如 "leona_002"
+        character_id: 角色ID，如 "luna_002"
         date: 日期，如 "2026-01-13"
         data_dir: 数据目录
         user_choices: 可选的预设选择

@@ -683,7 +683,7 @@ class SceneProcessor:
             return result
 
         # 新R事件格式：直接使用 Branch A / Branch B（不需要"分支"前缀）
-        # 例如: "【Branch A - Trust Rick's Analysis】"
+        # 例如: "【Branch A - Trust Alex's Analysis】"
         new_branch_match = re.search(r'branch\s+([A-Z_a-z]+)(?:\s*[-:：]|$)', scene_title, re.I)
         if new_branch_match:
             result["scene_type"] = "branch"

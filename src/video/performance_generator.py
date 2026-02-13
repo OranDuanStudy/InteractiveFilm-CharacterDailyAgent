@@ -127,7 +127,7 @@ class PerformanceGenerator:
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 
         # 获取角色资源目录（提取角色名，去掉数字后缀）
-        # 例如: leona_002 -> leona
+        # 例如: luna_002 -> luna
         character_name = ''.join(c for c in character_id.split('_')[0] if c.isalpha()).lower()
         character_assets_dir = os.path.join(self.assets_base_dir, character_name)
 

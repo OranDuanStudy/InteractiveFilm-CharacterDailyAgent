@@ -30,13 +30,13 @@ def main():
         epilog='''
 示例用法:
   # 使用默认配置查询
-  python query_videos.py data/performance/leona_002_2026-01-16/generation_report.json
+  python query_videos.py data/performance/luna_002_2026-01-16/generation_report.json
 
   # 指定输出目录
-  python query_videos.py data/performance/leona_002_2026-01-16/generation_report.json -o videos/
+  python query_videos.py data/performance/luna_002_2026-01-16/generation_report.json -o videos/
 
   # 指定并发数
-  python query_videos.py data/performance/leona_002_2026-01-16/generation_report.json -w 10
+  python query_videos.py data/performance/luna_002_2026-01-16/generation_report.json -w 10
         '''
     )
 

@@ -58,7 +58,7 @@ class CharacterImageUploader:
         从文件名提取视角信息
 
         Args:
-            filename: 文件名，如 leona_front.png
+            filename: 文件名，如 luna_front.png
 
         Returns:
             视角名称，如 front

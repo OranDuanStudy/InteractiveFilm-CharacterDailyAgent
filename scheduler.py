@@ -6,7 +6,7 @@ Interactive Film Character Daily Agent - 角色日程规划系统
 使用 z.ai 的 GLM-4.7 模型生成角色日程规划（五列表格格式）
 
 用法:
-    python scheduler.py create <character_id> [--template judy|leona|default] [--force]
+    python scheduler.py create <character_id> [--template judy|luna|default] [--force]
     python scheduler.py generate <character_id> [options]
     python scheduler.py characters
 """
@@ -23,7 +23,7 @@ from src import (
     PromptExporter,
     load_config,
     show_config,
-    get_leona_example_schedule,
+    get_luna_example_schedule,
     FullInputContext,
     CharacterContextManager,
 )
@@ -144,7 +144,7 @@ def cmd_characters(args):
 
     if not characters:
         print("No characters found. Create one by running:")
-        print("  python scheduler.py create <character_id> [--template judy|leona]")
+        print("  python scheduler.py create <character_id> [--template judy|luna]")
         return
 
     if args.info:
@@ -194,13 +194,13 @@ def cmd_config(args):
 
 def cmd_example(args):
     """输出示例日程（莱昂娜案例，不调用语言模型）"""
-    print("Loading Leona example schedule from PDF case...")
+    print("Loading Luna example schedule from PDF case...")
     print("(No API call - using pre-built example data)")
     print()
 
     # 获取示例数据
-    output = get_leona_example_schedule()
-    context = create_leona_context()
+    output = get_luna_example_schedule()
+    context = create_luna_context()
 
     # 格式化输出
     formatter = ScheduleOutputFormatter()
@@ -251,21 +251,21 @@ def main():
 
 示例 Examples:
   # 创建角色（使用main.py）
-  python main.py run leona_001 --template leona
-  python main.py run rick_001 --template rick
+  python main.py run luna_001 --template luna
+  python main.py run alex_001 --template alex
 
   # 生成日程
-  python scheduler.py generate leona_001
-  python scheduler.py generate rick_001 --format detailed --output schedule.md
+  python scheduler.py generate luna_001
+  python scheduler.py generate alex_001 --format detailed --output schedule.md
 
   # 查看所有角色
   python scheduler.py characters
 
   # 查看角色详情
-  python scheduler.py characters --info leona_001
+  python scheduler.py characters --info luna_001
 
 可用角色模板 Available Templates:
-  leona, rick, auntie_baa_baa, glo, link, poto, rank, tos, mac, wolly, ham, chip, blink
+  luna, alex, maya, daniel
 
 API Key Configuration:
   配置文件 config.ini (优先级最高):

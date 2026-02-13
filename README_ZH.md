@@ -286,19 +286,19 @@ python web_interactive_demo.py
 
 ```bash
 # 方式一：使用 shell 脚本（推荐）
-./run_pipeline.sh leona_001 2026-01-26 --template leona
+./run_pipeline.sh luna_001 2026-01-26 --template luna
 
 # 方式二：分步执行
 # 步骤1：生成日程和导演脚本
-python main.py run leona_001 --template leona
+python main.py run luna_001 --template luna
 
 # 步骤2：生成视频表演
-python generate_performance.py -c leona_001 -t 2026-01-26
+python generate_performance.py -c luna_001 -t 2026-01-26
 
 # 步骤3：运行交互系统
 
 # CLI模式（命令行交互）
-python interactive_cli.py leona_001 2026-01-26 --gui
+python interactive_cli.py luna_001 2026-01-26 --gui
 
 # Web模式（推荐，支持浏览器GUI选择角色和日期）
 python web_interactive_demo.py
@@ -307,7 +307,7 @@ python web_interactive_demo.py
 python web_interactive_demo.py --port 8080 --public-url https://cdn.example.com/videos
 
 # 查询和下载视频
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
 ```
 
 ---
@@ -390,8 +390,8 @@ Interactive_Film_Character_Agent/
   --config FILE         配置文件路径
 
 示例:
-./run_pipeline.sh leona_001 2026-01-26 --template leona
-./run_pipeline.sh auntie_005 2026-01-26 --use-existing --schedule-only
+./run_pipeline.sh luna_001 2026-01-26 --template luna
+./run_pipeline.sh alex_005 2026-01-26 --use-existing --schedule-only
 ```
 
 ### main.py - 完整流程
@@ -424,10 +424,10 @@ python generate_performance.py --character <id> --date <date> [options]
   --log-level, -l       日志级别
 
 示例:
-python generate_performance.py -c leona_001 -t 2026-01-26
-python generate_performance.py -c leona_001 -t 2026-01-26 -im seedream -vm kling
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00"
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
+python generate_performance.py -c luna_001 -t 2026-01-26
+python generate_performance.py -c luna_001 -t 2026-01-26 -im seedream -vm kling
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
 ```
 
 ### interactive_cli.py - 交互系统
@@ -443,8 +443,8 @@ python interactive_cli.py <character_id> <date> [options]
   --no-save             不保存结果到文件
 
 示例:
-python interactive_cli.py leona_001 2026-01-26 --gui
-python interactive_cli.py leona_001 2026-01-26 --preset '{"09:00-11:00": ["A"]}'
+python interactive_cli.py luna_001 2026-01-26 --gui
+python interactive_cli.py luna_001 2026-01-26 --preset '{"09:00-11:00": ["A"]}'
 ```
 
 ### create_character.py - 创建角色
@@ -456,7 +456,7 @@ python create_character.py <character_id> --template <template>
   --force, -f           强制覆盖已存在的角色
 
 示例:
-python create_character.py leona_001 --template leona
+python create_character.py luna_001 --template luna
 ```
 
 ### web_interactive_demo.py - Web交互演示
@@ -500,9 +500,9 @@ python query_videos.py <report_path> [options]
   -k, --api-key KEY    无引科技API密钥（默认从config.ini读取）
 
 示例:
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json -o videos/
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json -w 10
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json -o videos/
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json -w 10
 ```
 
 ### 穿透部署脚本 (Deployment Scripts)
@@ -733,7 +733,7 @@ A: 目前支持4种组合：
 A: 系统内置超时自动重试机制，无需手动处理。如需查询状态，使用 `query_videos.py`：
 
 ```bash
-python query_videos.py data/performance/leona_001_2026-01-26/generation_report.json
+python query_videos.py data/performance/luna_001_2026-01-26/generation_report.json
 ```
 
 ### Q: 如何只生成特定时间段的视频？
@@ -742,10 +742,10 @@ A: 使用 `--time-slot` 参数指定时间段：
 
 ```bash
 # 生成单个时间段
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00"
 
 # 生成多个时间段（逗号分隔）
-python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
+python generate_performance.py -c luna_001 -t 2026-01-26 --time-slot "09:00-11:00,14:00-16:00"
 ```
 
 ### Q: 如何只生成日程不生成视频？
@@ -753,7 +753,7 @@ python generate_performance.py -c leona_001 -t 2026-01-26 --time-slot "09:00-11:
 A: 使用 `--schedule-only` 选项：
 
 ```bash
-./run_pipeline.sh leona_001 2026-01-26 --template leona --schedule-only
+./run_pipeline.sh luna_001 2026-01-26 --template luna --schedule-only
 ```
 
 ### Q: Web演示如何从公网加载视频？

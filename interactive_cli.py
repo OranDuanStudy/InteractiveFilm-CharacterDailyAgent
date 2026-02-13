@@ -6,16 +6,16 @@
 
 使用方法:
     # 交互式运行（带GUI）
-    python interactive_cli.py leona_002 2026-01-17 --gui
+    python interactive_cli.py luna_002 2026-01-17 --gui
 
     # 使用预设选择运行（带GUI）
-    python interactive_cli.py leona_002 2026-01-17 --gui --preset '{"09:00-11:00": ["A"], "17:00-19:00": ["B"], "19:00-21:00": ["A", "A", "A"]}'
+    python interactive_cli.py luna_002 2026-01-17 --gui --preset '{"09:00-11:00": ["A"], "17:00-19:00": ["B"], "19:00-21:00": ["A", "A", "A"]}'
 
     # 纯CLI模式（不带GUI）
-    python interactive_cli.py leona_002 2026-01-17
+    python interactive_cli.py luna_002 2026-01-17
 
     # 指定数据目录
-    python interactive_cli.py leona_002 2026-01-17 --data-dir ./my_data
+    python interactive_cli.py luna_002 2026-01-17 --data-dir ./my_data
 """
 import argparse
 import json
@@ -69,7 +69,7 @@ class VideoMapper:
         初始化视频映射器
 
         Args:
-            performance_dir: 性能数据目录，如 data/performance/leona_002_2026-01-17
+            performance_dir: 性能数据目录，如 data/performance/luna_002_2026-01-17
         """
         self.performance_dir = Path(performance_dir)
         self.video_map: Dict[str, List[Path]] = {}
@@ -1022,25 +1022,25 @@ def parse_arguments():
         epilog="""
 示例:
   # 交互式运行（带GUI）
-  python interactive_cli.py leona_002 2026-01-17 --gui
+  python interactive_cli.py luna_002 2026-01-17 --gui
 
   # 使用预设选择运行（带GUI）
-  python interactive_cli.py leona_002 2026-01-17 --gui --preset '{"09:00-11:00": ["A"], "17:00-19:00": ["B"], "19:00-21:00": ["A", "A", "A"]}'
+  python interactive_cli.py luna_002 2026-01-17 --gui --preset '{"09:00-11:00": ["A"], "17:00-19:00": ["B"], "19:00-21:00": ["A", "A", "A"]}'
 
   # 纯CLI模式（不带GUI）
-  python interactive_cli.py leona_002 2026-01-17
+  python interactive_cli.py luna_002 2026-01-17
 
   # 指定数据目录
-  python interactive_cli.py leona_002 2026-01-17 --data-dir ./my_data
+  python interactive_cli.py luna_002 2026-01-17 --data-dir ./my_data
 
   # 不保存结果
-  python interactive_cli.py leona_002 2026-01-17 --no-save
+  python interactive_cli.py luna_002 2026-01-17 --no-save
         """
     )
 
     parser.add_argument(
         "character_id",
-        help="角色ID，如 leona_002"
+        help="角色ID，如 luna_002"
     )
 
     parser.add_argument(
