@@ -1,0 +1,66 @@
+[api]
+api_key = YOUR_API_KEY_HERE
+base_url = http://YOUR_SERVER:3000/v1/chat/completions
+model = gemini-2.5-pro
+temperature = 0.7
+max_tokens = 65536
+timeout = 800
+parse_error_retries = 3
+
+[image_models.nano_banana]
+url = https://api.wuyinkeji.com/api/img/nanoBanana-pro
+query_url = https://api.wuyinkeji.com/api/img/drawDetail
+key = YOUR_NANO_BANANA_KEY
+aspect_ratio = 9:16
+image_size = 2K
+
+[video_models.sora2]
+url = https://api.wuyinkeji.com/api/sora2-new/submit
+query_url = https://api.wuyinkeji.com/api/sora2/detail
+key = YOUR_SORA2_KEY
+aspect_ratio = 9:16
+duration = 15
+size = small
+
+[video_models.kling]
+url = https://api-beijing.klingai.com/v1/videos/image2video
+key = YOUR_KLING_KEY
+model = kling-v2-6
+mode = pro
+duration = 10
+cfg_scale = 0.5
+sound = off
+
+[video_generation]
+default_image_model = nano_banana
+default_video_model = sora2
+max_workers = 50
+poll_interval = 10
+video_timeout_seconds = 1800
+image_timeout_seconds = 600
+max_retry_on_timeout = 3
+timeout_retry_enabled = true
+
+[image_upload]
+url = YOUR_UPLOAD_API_URL
+user_id = 2
+authorization = YOUR_TOKEN
+platform = android
+device_id = 1
+app_version = 1.0.4.1
+upload_type = DAILY_AGENT
+
+[daily_event_count]
+daily_r_events = 2
+daily_sr_events = 1
+
+[event_character_count]
+n_min_count = 1
+n_max_count = 2
+n_min_prob = 0.9
+r_min_count = 2
+r_max_count = 3
+r_min_prob = 0.7
+sr_min_count = 3
+sr_max_count = 4
+sr_min_prob = 0.5
